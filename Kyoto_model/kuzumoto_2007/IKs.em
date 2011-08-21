@@ -144,7 +144,7 @@ System System(/CELL/MEMBRANE/IKs)
 			[ y1      :.:gate1                 0 ]
 			[ y2      :.:gate2                 0 ]
 			[ yC2     :.:gateC2                0 ]
-			[ pOpen   :.:POpen                 0 ]
+			[ pOpen   :.:POpen                 1 ]
 			[ i       :.:i                     1 ]
 			[ GX      :../../CYTOPLASM:KCNQ1   0 ]
 			[ Cm      :..:Cm                   0 ]
