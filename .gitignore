@@ -1,3 +1,4 @@
 *.so
+*.eml
 *.pyc
 .DS_Store
