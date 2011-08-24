@@ -1043,7 +1043,7 @@ System System( /CELL/CYTOPLASM )
 	Variable Variable( WaterFlux )
 	{
 		Name "Water Flux";
-		Value -5.30589229565e-21;
+		Value -5.3058761952021085e-21;
 	}
 
 	Process ZeroVariableAsFluxProcess( WaterFlux ) 
