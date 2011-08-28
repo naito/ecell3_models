@@ -3,12 +3,12 @@
 
 USE_LIBECS;
 
-LIBECS_DM_CLASS( IKsAssignmentProcess, Process )
+LIBECS_DM_CLASS( IKsAssignmentHimeno08Process, Process )
 {
 
  public:
 
-	LIBECS_DM_OBJECT( IKsAssignmentProcess, Process )
+	LIBECS_DM_OBJECT( IKsAssignmentHimeno08Process, Process )
 	{
 		INHERIT_PROPERTIES( Process ); 
 
@@ -44,7 +44,7 @@ LIBECS_DM_CLASS( IKsAssignmentProcess, Process )
 		PROPERTYSLOT_SET_GET( Real, kb14 );
 	}
 	
-	IKsAssignmentProcess()
+	IKsAssignmentHimeno08Process()
 		:
 		eps( 10.0 ),
 		kPKA_KCNQ1( 205.2e-3 / 500.0 ),
@@ -147,7 +147,7 @@ LIBECS_DM_CLASS( IKsAssignmentProcess, Process )
 	virtual void fire()
 	{
 
-		_KCNQ1_Yot = (( _KCNQ1tot_mM - 2.0 * kcnq1p->getMolarConc() * 1000.0 + Yottot + Kyotiao ) - pow( pow( _KCNQ1tot_mM - 2.0 * kcnq1p->getMolarConc() * 1000.0 + Yottot + Kyotiao, 2.0 ) - 4.0 * 1.0 * ( _KCNQ1tot_mM - kcnq1p->getMolarConc() * 1000.0 ) * ( Yottot - kcnq1p->getMolarConc() * 1000.0 ), 0.5)) / 2.0;
+		_KCNQ1_Yot = kcnq1->getMolarConc() * 1000.0;
 
 		vkcnq1p->setValue( eps * kPKA_KCNQ1 * ( pka->getMolarConc() * PKAtot_Yot / PKAtot->getMolarConc() ) * _KCNQ1_Yot / ( KmPKA_KCNQ1 + eps * _KCNQ1_Yot ) - eps * kPP1_KCNQ1 * PP1tot_Yot * kcnq1p->getMolarConc() / (KmPP1_KCNQ1 + eps * kcnq1p->getMolarConc() ) );
 
@@ -247,5 +247,5 @@ LIBECS_DM_CLASS( IKsAssignmentProcess, Process )
 	Real _amplitudePKAf;
 };
 
-LIBECS_DM_INIT( IKsAssignmentProcess, Process );
+LIBECS_DM_INIT( IKsAssignmentHimeno08Process, Process );
 

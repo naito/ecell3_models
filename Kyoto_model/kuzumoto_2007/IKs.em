@@ -127,7 +127,7 @@ System System(/CELL/MEMBRANE/IKs)
 		Value -1.2204225186;
 	}
 
-	Process IKsAssignmentProcess( I ) 
+	Process @( IKS_AssignmentProcess_Name )( I ) 
 	{
 		StepperID	PSV;
 		Priority	20;
