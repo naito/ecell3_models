@@ -13,8 +13,6 @@ Contents 内容
 
 * kyoto_model 京都大学が開発した心筋細胞モデル
 
-** kuzumoto_2007: Kuzumoto M et al. Prog Biophys Mol Biol. 2008;96(1-3):171-86. PMID: [17826821].
-
 ### liver
 
 肝臓モデル
