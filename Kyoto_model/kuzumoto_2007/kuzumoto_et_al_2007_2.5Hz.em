@@ -58,6 +58,9 @@ _C2mV = 1.0e-18 / N_A * F
 StepInterval = 0.01  # (msec)
 
 Vt0 = 18553.33902944335e-15
+Cm0 = 211.2
+
+Cytoplasm_SIZE = 15353.339029443347e-15  # (L)
 
 PKA0   = 1.3644055081894695e-7
 amplitudePKAf = 0.0
@@ -65,13 +68,18 @@ amplitudePKAf = 0.0
 IsotonicContraction_X = 0.9567533837638065
 IsotonicContraction_dXdt = 1.1936490127522834E-5
 
+vAK = -1.512384036501122E-8  # (mM/ms)
+vCK = -7.176621333962875E-5  # (mM/ms)
+
 INa_I = -22.37340068433973
 INa_pRP = 0.39171609519888434
 INa_pAP = 1.5971760039227196E-5
 INa_pAI = 0.368385053951178
 INa_pRI = 1.0 - INa_pRP - INa_pAP - INa_pAI
 INa_gate = 0.6438319698769808
+INa_GX = 1.0
 
+ICaL_AssignmentProcess_Name = "ICaLAssignmentProcess"
 ICaL_I = -0.021540284879286362
 ICaL_pRP = 0.9986559554086973
 ICaL_pAP = 1.0689156140294714E-6
@@ -86,33 +94,40 @@ ICaL_KmPKA  = 0.00065e-3
 ICaL_hill_n = 2.0
 ICaL_MAX    = 3.0
 ICaL_kSingleCurrentAmp = 0.3
+ICaL_GX = 1.0
 
 CaDiadic = -3.829497696421197E-4
 
 ICaT_I = -0.14736011962422257
 ICaT_activation = 1.4707665423108421E-5
 ICaT_inactivation = 0.8741697711751273
+ICaT_GX = 1.0
 
 Ist_I = -16.671793749027845
 Ist_max = 1.0
 Ist_activation = 0.5552440040685058
 Ist_inactivation = 0.7736648554025101
 Ist_slowInactivation = 0.8287412781899008
+Ist_GX = 0.0
 
 Iha_I = 0.1858646715405654
+Iha_cAMP_Vshift    = -0.005343609952096294
 Iha_closedState1 = 0.9809411647486099
 Iha_closedState2 = 0.004874393600131279
 Iha_openState1 = 0.0049186575234831985
 Iha_openState2 = 0.004832728401994978
+Iha_GX = 0.0
 
 IK1_I = 24.29288398159507
 IK1_Pspm = 0.6373407661728812
+IK1_GX = 1.0
 
 IKr_I = 0.09486894729445249
 IKr_gate1 = 0.0011801183298905053
 IKr_gate2 = 0.1621809652686286
 IKr_gate3 = 0.969315526153146
 IKr_POpen = 0.063568155284470809
+IKr_GX = 1.0
 
 IKs_I = -1.2115421550329173
 IKs_gate1 = 0.15386065638396113
@@ -131,43 +146,60 @@ IKs_kb11 = 1450.0
 IKs_kb12 = 20.0
 IKs_kb13 = 300.0
 IKs_kb14 = 210.0
+IKs_GX = 1.0
+
+Ito_GX = 1.0
 
 IKACh_I = 0.0
+# IKACh_Km
+# IKACh_permeabilityK
 IKACh_gate = 0.027497803645978498
+IKACh_GX = 0.0
 
 INaK_I = 71.0920500406155
 INaK_gate = 0.5355938158215787
 INaK_amplitude0 = 10.8
+INaK_GX = 1.0
 
 INaCa_I = -12.382208025484562
 INaCa_pE1total = 0.1527696589632682
 INaCa_inActivation1 = 0.1744224872482831
 INaCa_inActivation2 = 0.6724616314101051
 INaCa_pE2total = 1.0 - INaCa_pE1total - INaCa_inActivation1 - INaCa_inActivation2
+INaCa_GX = 1.0
 
 IPMCA_I =2.9355898549522
 IPMCA_gate = 0.47231826638070495
 IPMCA_amplitude = 0.045815939110831344
+IPMCA_GX = 1.0
 
 ILCCa_I = -0.18270158054719257
+ILCCa_GX = 1.0
 
 IKATP_I = 0.004398611578760137
 IKATP_number = 2333.0
-IKATP_Cm0 = 132.0
+IKATP_Cm0 = Cm0 * 132.0 / 211.2  # 132.0
+IKATP_GX =  1.0
 
 IKpl_I = 3.2585916791737464E-6
+IKpl_GX = 1.0
 
 IbNSC_I = -57.13324953461715
+IbNSC_GX = 1.0
 
 ICab_I = -0.7490997296750779
+ICab_GX = 1.0
 
 IClb_I = -0.5756468538907918
+IClb_GX = 1.0
 
 NKCC_ClFlux = 0.6550976711989519
+NKCC_GX = 1.0
 
 IRyR_I = 8.513204629271943
 IRyR_open = 1.1813918231968055e-4
 IRyR_close = 0.18962058256879352
+IRyR_GX = 1.0
 
 PLB_Inhib1ptot = 1.0531940250521041e-7
 PLB_PLBp = 0.008395558810715353e-3
@@ -182,6 +214,7 @@ PLB_PLBItot = 0.106e-3
 
 ISRCA_I = -49.37365888139317
 ISRCA_gate = 0.02932301538170902
+ISRCA_GX = 1.0
 
 leak_I = 110.65094623284274
 leak_permeabilityCa = 0.3e+3
@@ -591,7 +624,7 @@ System System( /CELL/CYTOPLASM )
 
 	Variable Variable( SIZE )
 	{
-		Value 15353.339029443347e-15;  # units="L"
+		Value @Cytoplasm_SIZE;  # units="L"
 	}
 
 	Variable Variable( active_volume )
@@ -606,152 +639,151 @@ System System( /CELL/CYTOPLASM )
 	Variable Variable( Nav1_5 )
 	{
 		Name   "Relative expression of Nav1.5 for INa";
-		Value  1.0;
+		Value  @INa_GX;
 	}
 	
 	@# ICaL
 	Variable Variable( Cav1_2 )
 	{
 		Name   "Relative expression of Cav1.2 for ICaL";
-		Value  1.0;
+		Value  @ICaL_GX;
 	}
 
 	@# ICaT
 	Variable Variable( Cav3_1 )
 	{
 		Name   "Relative expression of Cav3.1 for ICaT";
-		Value  1.0;
+		Value  @ICaT_GX;
 	}
 
 	@# Ist
 	Variable Variable( ST_gene )
 	{
 		Name   "Relative expression for Ist";
-		Value  0.0;
+		Value  @Ist_GX;
+	}
+
+	@# Iha
+	Variable Variable( HCN )
+	{
+		Name	"Relative expression of HCN for Iha";
+		Value	@Iha_GX;
 	}
 
 	@# IK1
 	Variable Variable( Kir2_1 )
 	{
 		Name   "Relative expression of Kir2.1 for IK1";
-		Value  1.0;
+		Value  @IK1_GX;
 	}
 
 	@# IKr
 	Variable Variable( erg1 )
 	{
 		Name   "Relative expression of erg1 for IKr";
-		Value  1.0;
+		Value  @IKr_GX;
 	}
 
 	@# IKs
 	Variable Variable( KCNQ1 )
 	{
 		Name   "Relative expression of KCNQ1 for IKs";
-		Value  1.0;
+		Value  @IKs_GX;
 	}
 
 	@# Ito
 	Variable Variable( Kv1_4 )
 	{
 		Name   "Relative expression of Kv1.4 for Ito";
-		Value  1.0;
+		Value  @Ito_GX;
 	}
 
 	@# IKACh
 	Variable Variable( KACh_gene )
 	{
 		Name   "Relative expression for IKACh";
-		Value  0.0;
+		Value  @IKACh_GX;
 	}
 
 	@# INaK
 	Variable Variable( NaK_ATPase )
 	{
 		Name	"Relative expression of Na/K ATPase for Na/K pump";
-		Value	1.0;
+		Value	@INaK_GX;
 	}
 
 	@# INaCa
 	Variable Variable( NCX1 )
 	{
 		Name	"Relative expression of NCX1 for Na/Ca exchanger";
-		Value	1.0;
+		Value	@INaCa_GX;
 	}
 
 	@# IPMCA
 	Variable Variable( PMCA_gene )
 	{
 		Name   "Relative expression of IPMCA";
-		Value  1.0;
-		#Value  0.0;
+		Value  @IPMCA_GX;
 	}
 
 	@# ILCCa
 	Variable Variable( LCCa_gene )
 	{
 		Name   "Relative expression for ILCCa";
-		Value  1.0;
+		Value  @ILCCa_GX;
 	}
 
 	@# IKATP
 	Variable Variable( Kir6_2 )
 	{
 		Name   "Relative expression of Kir6.2 for IKATP";
-		Value  1.0;
+		Value  @IKATP_GX;
 	}
 
 	@# IKpl
 	Variable Variable( Kpl_gene )
 	{
 		Name   "Relative expression for IKpl";
-		Value  1.0;
+		Value  @IKpl_GX;
 	}
 
 	@# IbNSC
 	Variable Variable( bNSC_gene )
 	{
 		Name   "Relative expression for IbNSC";
-		Value  1.0;
+		Value  @IbNSC_GX;
 	}
 
 	@# ICab
 	Variable Variable( Cab_gene )
 	{
 		Name   "Relative expression for ICab";
-		Value  1.0;
+		Value  @ICab_GX;
 	}
 
 	@# IClb
 	Variable Variable( Clb_gene )
 	{
 		Name   "Relative expression for IClb";
-		Value  1.0;
+		Value  @IClb_GX;
 	}
 
 	@# NKCC
 	Variable Variable( NKCC_gene )
 	{
 		Name   "Relative expression for NKCC";
-		Value  1.0;
+		Value  @NKCC_GX;
 	}
 
 	@# IVRCC
 
 	@# ICFTR
 
-	@# Iha
-	Variable Variable( HCN )
-	{
-		Name	"Relative expression of HCN for Iha";
-		Value	0.0;
-	}
-
 	@# IRyR
 	Variable Variable( RyR1 )
 	{
 		Name	"Relative expression of RyR1 for IRyR";
-		Value	1.0;
+		Value	@IRyR_GX;
 	}
 
 	@# leak
@@ -760,7 +792,7 @@ System System( /CELL/CYTOPLASM )
 	Variable Variable( SERCA )
 	{
 		Name	"Relative expression of SERCA for ISRCA";
-		Value	1.0;
+		Value	@ISRCA_GX;
 	}
 
 
@@ -1067,12 +1099,13 @@ System System( /CELL/CYTOPLASM )
 	}
 
 
-	@# <AdenylateKinase name="vAK" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK">
+	@# <AdenylateKinase name="vAK" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK" >
 
 	Variable Variable( vAK )
 	{
 		Name "vAK";
-		Value -139.834886511;
+		Value @( vAK * 1.0e-3 * Cytoplasm_SIZE * N_A );
+		@# <AdenylateKinase name="vAK" initial_value="-1.512384036501122E-8" units="mM/ms" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK" >
 	}
 
 	Process ZeroVariableAsFluxProcess( vAK ) 
@@ -1097,7 +1130,8 @@ System System( /CELL/CYTOPLASM )
 	Variable Variable( vCK )
 	{
 		Name "Creatine Kinase";
-		Value -663549.73707;
+		Value @( vCK * 1.0e-3 * Cytoplasm_SIZE * N_A );
+		@# <CreatineKinase name="vCK" initial_value="-7.176621333962875E-5" units="mM/ms"	className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.CK" >
 	}
 
 	Process ZeroVariableAsFluxProcess( vCK ) 
@@ -1461,7 +1495,7 @@ System System( /CELL/MEMBRANE )
 	Variable Variable( Cm )
 	{
 		Name "membrane capacitance (pF)";
-		Value 211.2;
+		Value @Cm0;
 	}
 
 	Variable Variable( EK )
@@ -1798,6 +1832,7 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 @include( 'ICaL.em' )    @# Na, K, Ca
 @include( 'ICaT.em' )    @#        Ca
 @include( 'Ist.em' )     @# Na, K
+@include( 'Iha.em' )     @# Na, K
 @include( 'IK1.em' )     @#     K
 @include( 'IKr.em' )     @#     K
 @include( 'IKs.em' )     @# Na, K
@@ -1815,8 +1850,6 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 @include( 'NKCC.em' )    @# Na, K,     Cl
 @include( 'IVRCC.em' )   @#            Cl
 @include( 'ICFTR.em' )   @#            Cl
-
-@include( 'Iha.em' )     @# Na, K
 
 @# 筋小胞体
 @include( 'IRyR.em' )

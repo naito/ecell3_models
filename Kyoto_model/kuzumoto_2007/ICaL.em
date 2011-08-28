@@ -160,7 +160,7 @@ System System(/CELL/MEMBRANE/ICaL)
 	}
 
 
-	Process ICaLAssignmentProcess( I ) 
+	Process @( ICaL_AssignmentProcess_Name )( I ) 
 	{
 		StepperID	PSV;
 		Priority	20;

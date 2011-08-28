@@ -3,12 +3,12 @@
 
 USE_LIBECS;
 
-LIBECS_DM_CLASS( ICaLAssignmentProcess, Process )
+LIBECS_DM_CLASS( ICaLAssignmentHimeno08Process, Process )
 {
 
  public:
 
-	LIBECS_DM_OBJECT( ICaLAssignmentProcess, Process )
+	LIBECS_DM_OBJECT( ICaLAssignmentHimeno08Process, Process )
 	{
 		INHERIT_PROPERTIES( Process ); 
 
@@ -41,7 +41,7 @@ LIBECS_DM_CLASS( ICaLAssignmentProcess, Process )
 		PROPERTYSLOT_SET_GET( Real, amplitudePKAf );
 	}
 	
-	ICaLAssignmentProcess()
+	ICaLAssignmentHimeno08Process()
 		:
 		kAPAI( 0.004 ),
 		kAIAP( 0.001 ),
@@ -153,18 +153,15 @@ LIBECS_DM_CLASS( ICaLAssignmentProcess, Process )
 
 		I  = getVariableReference( "I" ).getVariable();
 
-
-		_delta = 1.0 + pow( KmPKA / PKA->getMolarConc(), hill_n );
-		_PKA_factor0 = 1.0 - MAX / _delta;
-		_Vshift0 = -15.0 / _delta;
+		_powKmPKAn = pow( KmPKA * 1000.0, hill_n );
 	}
 
 	virtual void fire()
 	{
 
-		_delta = 1.0 + pow( KmPKA / PKA->getMolarConc(), hill_n );
-		_PKA_factor = MAX / _delta + _PKA_factor0;
-		_Vshift = 15.0 / _delta + _Vshift0;
+		_delta = pow(( PKA->getMolarConc() - PKA0 ) * 1000.0, hill_n);
+		_PKA_factor = amplitudePKAf * MAX * _delta / ( _delta + _powKmPKAn ) + 1.0;
+		_Vshift = amplitudePKAf * 62.5 * _delta / (_delta + _powKmPKAn );
 		
 		// Voltage Gate
 
@@ -328,5 +325,5 @@ LIBECS_DM_CLASS( ICaLAssignmentProcess, Process )
 	Real _powKmPKAn;
 };
 
-LIBECS_DM_INIT( ICaLAssignmentProcess, Process );
+LIBECS_DM_INIT( ICaLAssignmentHimeno08Process, Process );
 

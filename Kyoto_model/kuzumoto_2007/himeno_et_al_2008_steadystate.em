@@ -79,6 +79,7 @@ INa_pRI = 1.0 - INa_pRP - INa_pAP - INa_pAI
 INa_gate = 0.06522287523631946
 INa_GX = 0.375 / 21.666666666667
 
+ICaL_AssignmentProcess_Name = "ICaLAssignmentHimeno08Process"
 ICaL_I = -5.698659920323735
 ICaL_pRP = 0.6984862394675786
 ICaL_pAP = 0.004815159319985881
@@ -115,6 +116,7 @@ Iha_closedState1   =  0.9802898362737278
 Iha_closedState2   =  0.004748257229221275
 Iha_openState1     =  0.004959347187308034
 Iha_openState2     =  0.004823623958079242
+Iha_GX = 1.0
 
 IK1_I = 0.06010967672690573
 IK1_Pspm = 0.9898965676123382
@@ -193,8 +195,6 @@ IClb_GX = 1.0
 
 NKCC_ClFlux = 5.226310117876499E-4
 NKCC_GX = 2.3687E-5 / 0.0359
-
-Iha_GX = 1.0
 
 IRyR_I = 1.3337693366079364
 IRyR_open = 1.0180387591148615E-4
@@ -663,6 +663,13 @@ System System( /CELL/CYTOPLASM )
 		Value  @Ist_GX;
 	}
 
+	@# Iha
+	Variable Variable( HCN )
+	{
+		Name	"Relative expression of HCN for Iha";
+		Value	@Iha_GX;
+	}
+
 	@# IK1
 	Variable Variable( Kir2_1 )
 	{
@@ -717,7 +724,6 @@ System System( /CELL/CYTOPLASM )
 	{
 		Name   "Relative expression of IPMCA";
 		Value  @IPMCA_GX;
-		#Value  0.0;
 	}
 
 	@# ILCCa
@@ -772,13 +778,6 @@ System System( /CELL/CYTOPLASM )
 	@# IVRCC
 
 	@# ICFTR
-
-	@# Iha
-	Variable Variable( HCN )
-	{
-		Name	"Relative expression of HCN for Iha";
-		Value	@Iha_GX;
-	}
 
 	@# IRyR
 	Variable Variable( RyR1 )
@@ -1100,12 +1099,13 @@ System System( /CELL/CYTOPLASM )
 	}
 
 
-	@# <AdenylateKinase name="vAK" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK">
+	@# <AdenylateKinase name="vAK" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK" >
 
 	Variable Variable( vAK )
 	{
 		Name "vAK";
 		Value @( vAK * 1.0e-3 * Cytoplasm_SIZE * N_A );
+		@# <AdenylateKinase name="vAK" initial_value="2.974768800484851E-9" units="mM/ms" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK" >
 	}
 
 	Process ZeroVariableAsFluxProcess( vAK ) 
@@ -1131,6 +1131,7 @@ System System( /CELL/CYTOPLASM )
 	{
 		Name "Creatine Kinase";
 		Value @( vCK * 1.0e-3 * Cytoplasm_SIZE * N_A );
+		@# <CreatineKinase name="vCK" initial_value="-1.944599969721096E-5" units="mM/ms" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.CK" >
 	}
 
 	Process ZeroVariableAsFluxProcess( vCK ) 
