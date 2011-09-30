@@ -1,35 +1,16 @@
-@{'''
-Author Yasuhiro Naito
+@{
+INaK_I = 71.0920500406155
+INaK_gate = 0.5355938158215787
 
-Version 0.1 2008-11-27 06:26:40 +0900
+INaK_amp = {
+	"V" : 10.8,
+	"EMB" : 10.8,
+	"LAT" : 10.8,
+	"NEO" : 10.8,
+	"SAN" : 14.5
+}
 
-	<INaK name="INaK" initial_value="71.0920500406155"
-		className="org.simBio.bio.kuzumoto_et_al_2007.current.carrier.INaK">
-		<link name="Vm" initial_value="../Vm" units="mV" />
-		<link name="Cm" initial_value="../membrane capacitance" />
-		<link name="current" initial_value="../current" />
-		<link name="currentNa" initial_value="../currentNa" />
-		<link name="currentK" initial_value="../currentK" />
-		<link name="Vi" initial_value="../volume" />
-		<link name="Nai" initial_value="../Na" units="mM" />
-		<link name="Nao" initial_value="../../Na" units="mM" />
-		<link name="Ki" initial_value="../K" units="mM" />
-		<link name="Ko" initial_value="../../K" units="mM" />
-		<link name="ATP" initial_value="../ATPtotal" units="mM" />
-		<link name="ADP" initial_value="../ADPtotal" units="mM" />
-		<link name="Pi" initial_value="../Pi" units="mM" />
-		<link name="PKA" initial_value="../PKA" units="mM" />
-		<link name="R" initial_value="/Gas constant" />
-		<link name="T" initial_value="/absolute temperature" units="K" />
-		<link name="F" initial_value="/Faraday constant" units="Coulomb/mM" />
-		<variable name="gate" initial_value="0.5355938158215787" />
-		<parameter name="stoichiometryNa" initial_value="3.0" units="pA/mM" />
-		<parameter name="stoichiometryK" initial_value="-2.0" units="pA/mM" />
-		<parameter name="amplitude0" initial_value="10.8" units="pA/pF" />
-		<parameter name="Couabain" initial_value="0.0" units="mM" />
-		<parameter name="amplitude" initial_value="10.8" units="pA/pF" />
-	</INaK>
-'''}
+}
 
 System System(/CELL/MEMBRANE/INaK)
 {
@@ -66,6 +47,10 @@ System System(/CELL/MEMBRANE/INaK)
 		Value 0.532101004335;
 	}
 
+	Variable Variable( GX ){
+		Value @( NaK_ATPase[SimulationMode]);
+	}
+
 	Process INaKAssignmentProcess( I ) 
 	{
 		StepperID       PSV;
@@ -83,7 +68,7 @@ System System(/CELL/MEMBRANE/INaK)
 			[ R        :/:R                         0 ]
 			[ F        :/:F                         0 ]
 			[ ATP      :../../CYTOPLASM:ATPtotal    0 ]
-			[ GX       :../../CYTOPLASM:NaK_ATPase  0 ]
+			[ GX       :.:GX                        0 ]
 			[ Couabain :.:Couabain                  0 ]
 			[ dy       :.:vgate                     1 ]
 			[ y        :.:gate                      0 ]
@@ -115,7 +100,9 @@ System System(/CELL/MEMBRANE/INaK)
 		k4            0.165;     #  rate constant for the reaction E2K->E1K
 
 		KmATP         0.094e-3;  #  hydrolysis coefficient of ATP (M)
-		amplitude0    @INaK_amplitude0;  #  (pA/pF)
+		amplitude0    @(INaK_amp[SimulationMode]);      #  (pA/pF)
+#		amplitude0    10.8;      #  (pA/pF)
+#                amplitude0    1.43;      #  (pA/pF)
 	}
 
 	Process ZeroVariableAsFluxProcess( gate )
@@ -155,3 +142,36 @@ System System(/CELL/MEMBRANE/INaK)
 	@addToTotalCurrent( 'current', 'I' )
 
 }
+
+@{'''
+Author Yasuhiro Naito
+
+Version 0.1 2008-11-27 06:26:40 +0900
+
+	<INaK name="INaK" initial_value="71.0920500406155"
+		className="org.simBio.bio.kuzumoto_et_al_2007.current.carrier.INaK">
+		<link name="Vm" initial_value="../Vm" units="mV" />
+		<link name="Cm" initial_value="../membrane capacitance" />
+		<link name="current" initial_value="../current" />
+		<link name="currentNa" initial_value="../currentNa" />
+		<link name="currentK" initial_value="../currentK" />
+		<link name="Vi" initial_value="../volume" />
+		<link name="Nai" initial_value="../Na" units="mM" />
+		<link name="Nao" initial_value="../../Na" units="mM" />
+		<link name="Ki" initial_value="../K" units="mM" />
+		<link name="Ko" initial_value="../../K" units="mM" />
+		<link name="ATP" initial_value="../ATPtotal" units="mM" />
+		<link name="ADP" initial_value="../ADPtotal" units="mM" />
+		<link name="Pi" initial_value="../Pi" units="mM" />
+		<link name="PKA" initial_value="../PKA" units="mM" />
+		<link name="R" initial_value="/Gas constant" />
+		<link name="T" initial_value="/absolute temperature" units="K" />
+		<link name="F" initial_value="/Faraday constant" units="Coulomb/mM" />
+		<variable name="gate" initial_value="0.5355938158215787" />
+		<parameter name="stoichiometryNa" initial_value="3.0" units="pA/mM" />
+		<parameter name="stoichiometryK" initial_value="-2.0" units="pA/mM" />
+		<parameter name="amplitude0" initial_value="10.8" units="pA/pF" />
+		<parameter name="Couabain" initial_value="0.0" units="mM" />
+		<parameter name="amplitude" initial_value="10.8" units="pA/pF" />
+	</INaK>
+'''}

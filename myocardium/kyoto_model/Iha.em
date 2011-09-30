@@ -1,26 +1,27 @@
-@{'''
-Author Yasuhiro Naito
-Version 0.1 2009-01-09 14:55:56 +0900
+@{
+Iha_I = 0.0
+Iha_closedState1 = 0.9960236629731324
+Iha_closedState2 = 0.0024941594071041704
+Iha_openState1 = 0.001052970622591984
+Iha_openState2 = 3.29452497062116E-4
 
-<Iha name="Iha" units="pA" className="org.simBio.bio.himeno_et_al_2008.Iha">
-	<link name="Vm" initial_value="../Vm" units="mV" />
-	<link name="Cm" initial_value="../membrane capacitance" />
-	<link name="constantFieldNa" initial_value="../constantFieldNa" units="mM" />
-	<link name="constantFieldK" initial_value="../constantFieldK" units="mM" />
-	<link name="current" initial_value="../current" />
-	<link name="currentNa" initial_value="../currentNa" />
-	<link name="currentK" initial_value="../currentK" />
-	<link name="cAMP" initial_value="../cAMP" />
-	<link name="cAMP0" initial_value="../cAMP0" />
-	<parameter name="permeabilityNa" initial_value="0.01379" />
-	<parameter name="permeabilityK" initial_value="0.05635" />
-	<parameter name="cAMP_Vshift" initial_value="0.0" />
-	<variable name="closedState1" initial_value="0.9960236629731324" />
-	<variable name="closedState2" initial_value="0.0024941594071041704" />
-	<variable name="openState1" initial_value="0.001052970622591984" />
-	<variable name="openState2" initial_value="3.29452497062116E-4" />
-</Iha>
-'''}
+Iha_permeabilityK = {
+	"V" : 0.05635,
+	"EMB" : 0.05635,
+	"LAT" : 0.05635,
+	"NEO" : 0.05635,
+	"SAN" : 0.05635
+}
+Iha_permeabilityNa = {
+	"V" : 0.01379,
+	"EMB" : 0.01379,
+	"LAT" : 0.01379,
+	"NEO" : 0.01379,
+	"SAN" : 0.01379,
+}
+
+}
+
 
 System System(/CELL/MEMBRANE/Iha)
 {
@@ -73,7 +74,7 @@ System System(/CELL/MEMBRANE/Iha)
 
 	Variable Variable( POpen )
 	{
-		Value @( 1.0 - Iha_closedState1 - Iha_closedState2 );
+		Value 0.00148217761976;
 	}
 
 	Variable Variable( i )
@@ -90,6 +91,10 @@ System System(/CELL/MEMBRANE/Iha)
 	Variable Variable( cNa )
 	{
 		Value 0.0;
+	}
+
+	Variable Variable( GX ){
+		Value @( HCN[SimulationMode]);
 	}
 
 	Process IhaAssignmentProcess( assignment ) 
@@ -110,7 +115,7 @@ System System(/CELL/MEMBRANE/Iha)
 			[ pO2    :.:openState2          0 ]
 			[ pOpen  :.:POpen               1 ]
 			[ i      :.:i                   1 ]
-			[ GX     :../../CYTOPLASM:HCN   0 ]
+			[ GX     :.:GX                  0 ]
 			[ Cm     :..:Cm                 0 ]
 			[ cK     :.:cK                  1 ]
 			[ CFK    :..:CFK                0 ]
@@ -123,10 +128,10 @@ System System(/CELL/MEMBRANE/Iha)
 
 		Vshift          0.0;
 		amplitudecAMPf  1.0;
-		KmcAMP          0.0002;
+		KmcAMP_hill_n   @( pow( 0.0002, 1.0 ));
 
-		permeabilityK   0.05635;
-		permeabilityNa  0.01379;
+                permeabilityK   @( Iha_permeabilityK[SimulationMode] );
+                permeabilityNa  @( Iha_permeabilityNa[SimulationMode] );
 	}
 
 	Process ZeroVariableAsFluxProcess( vC1_C2 ) 
@@ -175,3 +180,26 @@ System System(/CELL/MEMBRANE/Iha)
 
 }
 
+@{'''
+Author Yasuhiro Naito
+Version 0.1 2009-01-09 14:55:56 +0900
+
+<Iha name="Iha" units="pA" className="org.simBio.bio.himeno_et_al_2008.Iha">
+	<link name="Vm" initial_value="../Vm" units="mV" />
+	<link name="Cm" initial_value="../membrane capacitance" />
+	<link name="constantFieldNa" initial_value="../constantFieldNa" units="mM" />
+	<link name="constantFieldK" initial_value="../constantFieldK" units="mM" />
+	<link name="current" initial_value="../current" />
+	<link name="currentNa" initial_value="../currentNa" />
+	<link name="currentK" initial_value="../currentK" />
+	<link name="cAMP" initial_value="../cAMP" />
+	<link name="cAMP0" initial_value="../cAMP0" />
+	<parameter name="permeabilityNa" initial_value="0.01379" />
+	<parameter name="permeabilityK" initial_value="0.05635" />
+	<parameter name="cAMP_Vshift" initial_value="0.0" />
+	<variable name="closedState1" initial_value="0.9960236629731324" />
+	<variable name="closedState2" initial_value="0.0024941594071041704" />
+	<variable name="openState1" initial_value="0.001052970622591984" />
+	<variable name="openState2" initial_value="3.29452497062116E-4" />
+</Iha>
+'''}

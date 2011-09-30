@@ -69,6 +69,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 		
 		Vi  = getVariableReference( "Vi" ).getVariable();
 		Vt  = getVariableReference( "Vt" ).getVariable();
+		active_volume  = getVariableReference( "active_volume" ).getVariable();
 		Volume_ratio  = getVariableReference( "Volume_ratio" ).getVariable();
 
 		Proton  = getVariableReference( "Proton" ).getVariable();
@@ -117,10 +118,16 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 
 	virtual void fire()
 	{
-		_SizeN_A = getSuperSystem()->getSizeN_A();
-		_Vt = Vi->getValue() + Vn_L;
+	  //		printf(" Vi : %e\n", Vi->getValue());
+		
+		Vi->setValue( Vt->getValue() * active_volume->getValue());
+		//		printf("->settedVi : %e\n", Vi->getValue());
 
-		Vt->setValue( _Vt );
+		_SizeN_A = getSuperSystem()->getSizeN_A();
+
+//		_Vt = Vi->getValue() + Vn_L;
+//		Vt->setValue( _Vt );
+		
 		Volume_ratio->setValue( _Vt * Vt0i );
 		
 		_Proton_MolarConc = Proton->getMolarConc();
@@ -167,6 +174,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 
 	Variable* Vi;
 	Variable* Vt;
+	Variable* active_volume;
 	Variable* Volume_ratio;
 
 	Variable* Proton;

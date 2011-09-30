@@ -1,6 +1,8 @@
-@# Kuzumoto et al. 2007
+@# Late embryonic model
+@# Itoh et al. 2007. Syst & Synt Biol. on Kuzumoto et al. 2007
 
-@{SimulationMode = 'SAN'}
+
+@{SimulationMode = 'LAT'}
 # EMB, LAT, NEO, V, SAN
 
 @include('SetOptions.em')

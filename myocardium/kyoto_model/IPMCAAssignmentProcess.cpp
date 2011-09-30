@@ -58,8 +58,6 @@ LIBECS_DM_CLASS( IPMCAAssignmentProcess, Process )
 	{
 		Process::initialize();
 
-		GX     = getVariableReference( "GX" ).getVariable();
-
 		Cai    = getVariableReference( "Cai" ).getVariable();
 		CaCaM    = getVariableReference( "CaCaM" ).getVariable();
 		E1A    = getVariableReference( "E1A" ).getVariable();
@@ -74,8 +72,6 @@ LIBECS_DM_CLASS( IPMCAAssignmentProcess, Process )
 		PKA     = getVariableReference( "PKA" ).getVariable();
 		I      = getVariableReference( "I" ).getVariable();
 		Cm     = getVariableReference( "Cm" ).getVariable();
-
-		amplitude = amplitude0;
 	}
 
 	virtual void fire()
@@ -90,14 +86,10 @@ LIBECS_DM_CLASS( IPMCAAssignmentProcess, Process )
 
 		dE->setValue( -_dEA + ( k4 * ( 1.0 - _E2A ) * ( 1.0 - y->getValue() ) - k3 * ( 1.0 - _E1A ) * y->getValue() ) );
 		
-		amplitude = amplitude0 * ( amplitudePKAf * 1.5 / ( 1.0 + pow( 0.0000005 / PKA->getMolarConc(), 4.0 )) + 1.0 ) * ( 7.5 / ( 1.0 + pow( KmCaCaM / CaCaM->getMolarConc(), hill )) + 1.0 );
-		
-		I->setValue( GX->getValue() * amplitude * Cm->getValue() * _dEA );
+		I->setValue( amplitude0 * ( amplitudePKAf * 1.5 / ( 1.0 + pow( 0.0000005 / PKA->getMolarConc(), 4.0 )) + 1.0 ) * ( 7.5 / ( 1.0 + pow( KmCaCaM / CaCaM->getMolarConc(), hill )) + 1.0 ) * Cm->getValue() * _dEA );
 	}
 
  protected:
-
-	Variable* GX;
 
 	Variable* Cai;
 	Variable* CaCaM;

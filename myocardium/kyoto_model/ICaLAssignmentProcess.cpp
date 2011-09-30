@@ -154,17 +154,35 @@ LIBECS_DM_CLASS( ICaLAssignmentProcess, Process )
 		I  = getVariableReference( "I" ).getVariable();
 
 
-		_delta = 1.0 + pow( KmPKA / PKA->getMolarConc(), hill_n );
-		_PKA_factor0 = 1.0 - MAX / _delta;
-		_Vshift0 = -15.0 / _delta;
+		if ( amplitudePKAf == 0.0 ) {
+		
+			// kuzumoto model
+			_delta = 1.0 + pow( KmPKA / PKA->getMolarConc(), hill_n );
+			_PKA_factor0 = 1.0 - MAX / _delta;
+			_Vshift0 = -15.0 / _delta;
+
+		} else {
+			// himeno model
+			_powKmPKAn = pow( KmPKA * 1000.0, hill_n );
+		}
 	}
 
 	virtual void fire()
 	{
 
-		_delta = 1.0 + pow( KmPKA / PKA->getMolarConc(), hill_n );
-		_PKA_factor = MAX / _delta + _PKA_factor0;
-		_Vshift = 15.0 / _delta + _Vshift0;
+		if ( amplitudePKAf == 0.0 ) {
+		
+			// kuzumoto model
+			_delta = 1.0 + pow( KmPKA / PKA->getMolarConc(), hill_n );
+			_PKA_factor = MAX / _delta + _PKA_factor0;
+			_Vshift = 15.0 / _delta + _Vshift0;
+
+		} else {
+			// himeno model
+			_delta = pow(( PKA->getMolarConc() - PKA0 ) * 1000.0, hill_n);
+			_PKA_factor = amplitudePKAf * MAX * _delta / ( _delta + _powKmPKAn ) + 1.0;
+			_Vshift = amplitudePKAf * 62.5 * _delta / (_delta + _powKmPKAn );
+		}
 		
 		// Voltage Gate
 

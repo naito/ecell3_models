@@ -1,30 +1,19 @@
-@{'''
-Author Yasuhiro Naito
+@{
+INaCa_I = -12.382208025484562
+INaCa_pE1total = 0.1527696589632682
+INaCa_inActivation1 = 0.1744224872482831
+INaCa_inActivation2 = 0.6724616314101051
+INaCa_pE2total = 1.0 - INaCa_pE1total - INaCa_inActivation1 - INaCa_inActivation2
 
-Version 0.1 2008-11-27 08:36:10 +0900
+INaCa_amp = {
+     	"V" : 110.0,
+	"EMB" : 110.0,
+	"LAT" : 110.0,
+	"NEO" : 110.0,
+	"SAN" : 150.0
+}
 
-	<INaCa name="INaCa" initial_value="-12.382208025484562"
-		className="org.simBio.bio.takeuchi_et_al_2006.current.INaCa">
-		<variable name="pE1total" initial_value="0.1527696589632682" />
-		<variable name="inActivation1" initial_value="0.1744224872482831" />
-		<variable name="inActivation2" initial_value="0.6724616314101051" />
-		<parameter name="amplitude" initial_value="110.0" units="pA/pF" />
-		<parameter name="stoichiometryNa" initial_value="3.0" units="pA/mM" />
-		<parameter name="stoichiometryCa" initial_value="-2.0" units="pA/mM" />
-		<link name="Vm" initial_value="../Vm" units="mV" />
-		<link name="Cm" initial_value="../membrane capacitance" />
-		<link name="Nai" initial_value="../Na" units="mM" />
-		<link name="Nao" initial_value="../../Na" units="mM" />
-		<link name="Cai" initial_value="../Ca" units="mM" />
-		<link name="Cao" initial_value="../../Ca" units="mM" />
-		<link name="current" initial_value="../current" />
-		<link name="currentNa" initial_value="../currentNa" />
-		<link name="currentCa" initial_value="../currentCa" />
-		<link name="R" initial_value="/Gas constant" />
-		<link name="T" initial_value="/absolute temperature" units="K" />
-		<link name="F" initial_value="/Faraday constant" units="Coulomb/mM" />
-	</INaCa>
-'''}
+}
 
 System System(/CELL/MEMBRANE/INaCa)
 {
@@ -81,6 +70,9 @@ System System(/CELL/MEMBRANE/INaCa)
 		Value 7.6263502799998276e-07;
 	}
 
+	Variable Variable( GX ){
+		Value @( NCX1[SimulationMode]);
+	}
 
 	Process INaCaAssignmentProcess( I ) 
 	{
@@ -102,7 +94,7 @@ System System(/CELL/MEMBRANE/INaCa)
 			[ pE1tot  :.:pE1total            0 ]
 			[ pE2tot  :.:pE2total            1 ]
 			[ dE      :.:dE                  1 ]
-			[ GX      :../../CYTOPLASM:NCX1  0 ]
+			[ GX      :.:GX                  0 ]
 			[ I       :.:I                   1 ]
 			[ Cm      :..:Cm                 0 ];
 
@@ -117,7 +109,7 @@ System System(/CELL/MEMBRANE/INaCa)
 
 		partition  0.32;         #  distribution constant
 
-		amplitude  110.0;        #  amplitude factor [pA/pF]
+                amplitude  @( INaCa_amp[SimulationMode] );        #  amplitude factor [pA/pF]
 
 		#  rate constants in the presence of regulatory Ca2+ [msec-1]
 		a1Caon     0.002;
@@ -187,3 +179,31 @@ System System(/CELL/MEMBRANE/INaCa)
 	@addToTotalCurrent( 'current', 'I' )
 
 }
+
+@{'''
+Author Yasuhiro Naito
+
+Version 0.1 2008-11-27 08:36:10 +0900
+
+	<INaCa name="INaCa" initial_value="-12.382208025484562"
+		className="org.simBio.bio.takeuchi_et_al_2006.current.INaCa">
+		<variable name="pE1total" initial_value="0.1527696589632682" />
+		<variable name="inActivation1" initial_value="0.1744224872482831" />
+		<variable name="inActivation2" initial_value="0.6724616314101051" />
+		<parameter name="amplitude" initial_value="110.0" units="pA/pF" />
+		<parameter name="stoichiometryNa" initial_value="3.0" units="pA/mM" />
+		<parameter name="stoichiometryCa" initial_value="-2.0" units="pA/mM" />
+		<link name="Vm" initial_value="../Vm" units="mV" />
+		<link name="Cm" initial_value="../membrane capacitance" />
+		<link name="Nai" initial_value="../Na" units="mM" />
+		<link name="Nao" initial_value="../../Na" units="mM" />
+		<link name="Cai" initial_value="../Ca" units="mM" />
+		<link name="Cao" initial_value="../../Ca" units="mM" />
+		<link name="current" initial_value="../current" />
+		<link name="currentNa" initial_value="../currentNa" />
+		<link name="currentCa" initial_value="../currentCa" />
+		<link name="R" initial_value="/Gas constant" />
+		<link name="T" initial_value="/absolute temperature" units="K" />
+		<link name="F" initial_value="/Faraday constant" units="Coulomb/mM" />
+	</INaCa>
+'''}

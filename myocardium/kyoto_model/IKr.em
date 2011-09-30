@@ -1,7 +1,18 @@
-# Author Yasuhiro NAITO
-# Version 0.1 2008-08-20 06:55:43 +0900
+@{
+IKr_I = 0.09486894729445249
+IKr_gate1 = 0.0011801183298905053
+IKr_gate2 = 0.1621809652686286
+IKr_gate3 = 0.969315526153146
+IKr_POpen = 0.063568155284470809
 
-#simBio 1.0 className	"org.simBio.bio.terashima_et_al_2006.current.potassium.IKr"
+IKr_amp = {
+	"V" : 0.035,
+	"EMB" : 0.035,
+	"LAT" : 0.035,
+	"NEO" : 0.035,
+	"SAN" : 0.07
+}# 	amplitude  0.00928030303030303;
+}
 
 System System(/CELL/MEMBRANE/IKr)
 {
@@ -47,6 +58,10 @@ System System(/CELL/MEMBRANE/IKr)
 		Value @IKr_gate3;
 	}
 
+	Variable Variable( GX ){
+		Value @( erg1[SimulationMode]);
+	}
+
 	Process IKrAssignmentProcess( I )
 	{
 		StepperID	PSV;
@@ -61,13 +76,14 @@ System System(/CELL/MEMBRANE/IKr)
 			[ y3    :.:gate3               0 ]
 			[ pOpen :.:POpen               1 ]
 			[ I     :.:I                   1 ]
-			[ GX    :../../CYTOPLASM:erg1  0 ]
+			[ GX    :.:GX                  0 ]
 			[ Ko    :/:K                   0 ]
 			[ EK    :..:EK                 0 ]
 			[ Vm    :..:Vm                 0 ]
 			[ Cm    :..:Cm                 0 ];
 
-		amplitude  0.035;
+                amplitude  @( IKr_amp[SimulationMode] );
+
 		constant   5.4;
 		power      0.2;
 	}
@@ -103,3 +119,7 @@ System System(/CELL/MEMBRANE/IKr)
 
 }
 
+# Author Yasuhiro NAITO
+# Version 0.1 2008-08-20 06:55:43 +0900
+
+#simBio 1.0 className	"org.simBio.bio.terashima_et_al_2006.current.potassium.IKr"

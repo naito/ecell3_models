@@ -1,28 +1,9 @@
-@{'''
-Author Yasuhiro Naito
+@{
 
-Version 0.1 2008-11-30 01:21:33 +0900
+IPMCA_I =2.9355898549522
+IPMCA_gate = 0.47231826638070495
 
-	<IPMCA name="IPMCA" initial_value="2.9355898549522" units="pA"
-		className="org.simBio.bio.kuzumoto_et_al_2007.current.carrier.IPMCA">
-		<variable name="gate" initial_value="0.47231826638070495" />
-		<link name="Cm" initial_value="../membrane capacitance" />
-		<link name="Vi" initial_value="../volume" />
-		<link name="F" initial_value="/Faraday constant" />
-		<link name="Cai" initial_value="../Ca" units="mM" />
-		<link name="Cao" initial_value="../../Ca" units="mM" />
-		<link name="ATP" initial_value="../ATPtotal" units="mM" />
-		<link name="ADP" initial_value="../ADPtotal" units="mM" />
-		<link name="PKA" initial_value="../PKA" units="mM" />
-		<link name="current" initial_value="../current" />
-		<link name="currentCa" initial_value="../currentCa" />
-		<link name="CaCaM" initial_value="../calmodulin" />
-		<parameter name="stoichiometryCa" initial_value="1.0" />
-		<parameter name="KmCaCp0" initial_value="0.0019" />
-		<parameter name="amplitude" initial_value="0.045815939110831344" units="A/F" />
-		<label name="Phosphorylation" initial_value="true" />
-	</IPMCA>
-'''}
+}
 
 System System(/CELL/MEMBRANE/IPMCA)
 {
@@ -61,7 +42,6 @@ System System(/CELL/MEMBRANE/IPMCA)
 		Priority        20;
 
 		VariableReferenceList
-			[ GX    :../../CYTOPLASM:PMCA_gene   0 ]
 			[ Cai   :../../CYTOPLASM:Ca          0 ]
 			[ CaCaM :../../CYTOPLASM:calmodulin  0 ]
 			[ E1A   :.:E1A                       1 ]
@@ -85,7 +65,7 @@ System System(/CELL/MEMBRANE/IPMCA)
 		k4             1.0;
 		KmATP          0.1e-3;  #  Model adjusted. (M)
 
-		amplitude      @IPMCA_amplitude;  #  amplitude factor [pA/pF]
+		amplitude      0.045815939110831344;  #  amplitude factor [pA/pF]
 		amplitude0     0.0055;
 		amplitudePKAf  1.0;
 	}
@@ -124,3 +104,29 @@ System System(/CELL/MEMBRANE/IPMCA)
 	@addToTotalCurrent( 'current', 'I' )
 
 }
+
+@{'''
+Author Yasuhiro Naito
+
+Version 0.1 2008-11-30 01:21:33 +0900
+
+	<IPMCA name="IPMCA" initial_value="2.9355898549522" units="pA"
+		className="org.simBio.bio.kuzumoto_et_al_2007.current.carrier.IPMCA">
+		<variable name="gate" initial_value="0.47231826638070495" />
+		<link name="Cm" initial_value="../membrane capacitance" />
+		<link name="Vi" initial_value="../volume" />
+		<link name="F" initial_value="/Faraday constant" />
+		<link name="Cai" initial_value="../Ca" units="mM" />
+		<link name="Cao" initial_value="../../Ca" units="mM" />
+		<link name="ATP" initial_value="../ATPtotal" units="mM" />
+		<link name="ADP" initial_value="../ADPtotal" units="mM" />
+		<link name="PKA" initial_value="../PKA" units="mM" />
+		<link name="current" initial_value="../current" />
+		<link name="currentCa" initial_value="../currentCa" />
+		<link name="CaCaM" initial_value="../calmodulin" />
+		<parameter name="stoichiometryCa" initial_value="1.0" />
+		<parameter name="KmCaCp0" initial_value="0.0019" />
+		<parameter name="amplitude" initial_value="0.045815939110831344" units="A/F" />
+		<label name="Phosphorylation" initial_value="true" />
+	</IPMCA>
+'''}

@@ -3,6 +3,22 @@
 
 #simBio 1.0 className	"org.simBio.bio.himeno_et_al_2008.IKACh"
 
+@{
+IKACh_I = 0.0
+IKACh_gate = 0.027497803645978498
+
+GKACh = {
+#      "V" : 0.0,
+      "V" : 0.135,
+#      "EMB" : 0.0,
+      "EMB" : 0.135,
+      "LAT" : 0.0,
+      "NEO" : 0.0,
+      "SAN" : 0.135
+}
+
+}
+
 System System(/CELL/MEMBRANE/IKACh)
 {
 	StepperID	ODE;
@@ -27,6 +43,10 @@ System System(/CELL/MEMBRANE/IKACh)
 		Value 0.0;
 	}
 
+	Variable Variable( GX ){
+		Value @( Kir3_1[SimulationMode]);
+	}
+
 	Process IKAChAssignmentProcess( I )
 	{
 		StepperID	PSV;
@@ -40,11 +60,13 @@ System System(/CELL/MEMBRANE/IKACh)
 			[ dgate :.:dgate                    1 ]
 			[ gate  :.:gate                     0 ]
 			[ pOpen :.:pOpen                    1 ]
-			[ GX    :../../CYTOPLASM:KACh_gene  0 ]
+			[ GX    :.:GX                       0 ]
 			[ Cm    :..:Cm                      0 ];
 
 		Km             0.0042e-3;  # M
-		permeabilityK  0.135;  # pA/mV
+		permeabilityK  @(GKACh[SimulationMode]);  # pA/mV
+#		permeabilityK  0.135;  # pA/mV
+#                permeabilityK  0.0;  # pA/mV
 	}
 
 	Process ZeroVariableAsFluxProcess( gate ) 

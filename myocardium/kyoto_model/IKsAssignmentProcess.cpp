@@ -147,7 +147,15 @@ LIBECS_DM_CLASS( IKsAssignmentProcess, Process )
 	virtual void fire()
 	{
 
-		_KCNQ1_Yot = (( _KCNQ1tot_mM - 2.0 * kcnq1p->getMolarConc() * 1000.0 + Yottot + Kyotiao ) - pow( pow( _KCNQ1tot_mM - 2.0 * kcnq1p->getMolarConc() * 1000.0 + Yottot + Kyotiao, 2.0 ) - 4.0 * 1.0 * ( _KCNQ1tot_mM - kcnq1p->getMolarConc() * 1000.0 ) * ( Yottot - kcnq1p->getMolarConc() * 1000.0 ), 0.5)) / 2.0;
+		if ( amplitudePKAf == 0.0 ) {
+		
+			// kuzumoto model
+			_KCNQ1_Yot = (( _KCNQ1tot_mM - 2.0 * kcnq1p->getMolarConc() * 1000.0 + Yottot + Kyotiao ) - pow( pow( _KCNQ1tot_mM - 2.0 * kcnq1p->getMolarConc() * 1000.0 + Yottot + Kyotiao, 2.0 ) - 4.0 * 1.0 * ( _KCNQ1tot_mM - kcnq1p->getMolarConc() * 1000.0 ) * ( Yottot - kcnq1p->getMolarConc() * 1000.0 ), 0.5)) / 2.0;
+
+		} else {
+			// himeno model
+			_KCNQ1_Yot = kcnq1->getMolarConc() * 1000.0;
+		}
 
 		vkcnq1p->setValue( eps * kPKA_KCNQ1 * ( pka->getMolarConc() * PKAtot_Yot / PKAtot->getMolarConc() ) * _KCNQ1_Yot / ( KmPKA_KCNQ1 + eps * _KCNQ1_Yot ) - eps * kPP1_KCNQ1 * PP1tot_Yot * kcnq1p->getMolarConc() / (KmPP1_KCNQ1 + eps * kcnq1p->getMolarConc() ) );
 

@@ -38,9 +38,9 @@ System System(/Pipette)
 			[ t :/:t  0 ];
 
 		amplitude  @CurrentClamp_amplitude;  #  (pA)
-		amplitude  @CurrentClamp_onset;  #  (pA)
-		amplitude  @CurrentClamp_offset;  #  (pA)
-		amplitude  @CurrentClamp_interval;  #  (pA)
+		onset      @CurrentClamp_onset;  #  (pA)
+		offset     @CurrentClamp_offset;  #  (pA)
+		interval   @CurrentClamp_interval;  #  (pA)
 	}
 
 	Process IonFluxProcess( j ) 

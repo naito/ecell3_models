@@ -1,3 +1,40 @@
+@{
+IClb_I = -0.5756468538907918
+}
+
+System System(/CELL/MEMBRANE/IClb)
+{
+	StepperID	ODE;
+
+	Variable Variable( I )
+	{
+		Value @IClb_I;
+	}
+
+	Variable Variable( GX ){
+		Value @( Clb_gene[SimulationMode]);
+	}
+
+	Process IClbAssignmentProcess( I ) 
+	{
+		StepperID	PSV;
+		Priority	12;
+
+		VariableReferenceList
+			[ I     :.:I                       1 ]
+			[ GX    :.:GX                      0 ]
+			[ CFCl  :..:CFCl                   0 ]
+			[ Cm    :..:Cm                     0 ];
+
+		permeabilityCl  -1.82E-5;
+		pOpen            1.0;
+	}
+
+	@setCurrents( [ 'I' ], [ 'Cl', 'I' ] )
+
+}
+
+
 @{'''
 Author Yasuhiro Naito
 
@@ -17,33 +54,3 @@ Version 0.1 2008-11-30 02:27:23 +0900
 		<link name="currentCl" initial_value="../currentCl" />
 	</backGroundCurrent>
 '''}
-
-System System(/CELL/MEMBRANE/IClb)
-{
-	StepperID	ODE;
-
-	Variable Variable( I )
-	{
-		Value @IClb_I;
-	}
-
-	Process IClbAssignmentProcess( I ) 
-	{
-		StepperID	PSV;
-		Priority	12;
-
-		VariableReferenceList
-			[ I     :.:I                       1 ]
-			[ GX    :../../CYTOPLASM:Clb_gene  0 ]
-			[ CFCl  :..:CFCl                   0 ]
-			[ Cm    :..:Cm                     0 ];
-
-		permeabilityCl  -1.82E-5;
-		pOpen            1.0;
-	}
-
-	@setCurrents( [ 'I' ], [ 'Cl', 'I' ] )
-
-}
-
-

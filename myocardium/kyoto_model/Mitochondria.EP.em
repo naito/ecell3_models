@@ -1,179 +1,31 @@
-@{
-Mitochondria_Mg = 0.38e-3
-Mitochondria_Proton = 3.8052117309416624E-8
-Mitochondria_pH = 7.419621173053379
-Mitochondria_rbuffer = 251378.46458038045
-Mitochondria_ATPtotal = 6.403037657787217e-3
-Mitochondria_ATPfree = 2.741854916432813e-4
-Mitochondria_ATPmg = 6.128852166143936e-3
-Mitochondria_ADPtotal = 9.856962342212785e-3
-Mitochondria_ADPfree = 4.198887281728104e-3
-Mitochondria_ADPmg = 5.6580750604846815e-3
-Mitochondria_ANP_total = 16.26e-3
-Mitochondria_Pi = 5.247469299976676e-3
-Mitochondria_NADH = 8.948906751612181e-4
-Mitochondria_NAD = 2.075109324838782e-3
-Mitochondria_NAD_H_total = 2.97e-3
-Mitochondria_UQH2 = 1.0522454291006709e-3
-Mitochondria_UQ = 2.977545708993292e-4
-Mitochondria_UQ_H2_total = 1.35e-3
-Mitochondria_Cytc2 = 5.012887032447142e-5
-Mitochondria_Cytc3 = 2.198711296755286e-4
-Mitochondria_Cytc_23_total = 0.27e-3
-Mitochondria_EmN = -308.76432763447485
-Mitochondria_EmU = 68.13566055321765
-Mitochondria_Emc = 289.50055595027567
-Mitochondria_Ema = 635.123715429545
-Mitochondria_Cyta2 = 3.7318683311245e-6
-Mitochondria_Cyta3 = 1.3126813166887552e-4
-Mitochondria_Cyta_total = 1.35e-4
-Mitochondria_vC1 = 1.0875968955265928e-4
-Mitochondria_vC3 = 1.1175267504158818e-4
-Mitochondria_vC4 = 5.593585025749086e-5
-Mitochondria_vSN = 2.636388261805263e-4
-Mitochondria_vANT = 1.8697025007886943e-4
-Mitochondria_vPI = 2.52434188981354e-4
-Mitochondria_vLK = 2.4173630507944038E-4
-Mitochondria_vDH = 1.1307728142212603E-4
-Mitochondria_Amp = 5.0
-
-#Mitochondria_Amp = {
-#	"V" : 5.0,
-#	"EMB" : 0.5, #5.0/10
-#	"LAT" : 2.5, #5.0/2
-#	"NEO" : 2.5, #5.0/2
-#	"SAN" : 1.2
-#}
-
-}
-
 System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 {
 	StepperID	ODE;
 
 	@{'''
-	<volume me="volume" initial_value="3531.2679767719696" units="um^3">
+	<volume name="volume" initial_value="3531.2679767719696" units="um^3">
 		<link name="total" initial_value="../../volume" units="um^3" />
 		<parameter name="ratio" initial_value="0.23" units="/cell volume" />
 	</volume>
 	'''}
-
 	Variable Variable( SIZE )
 	{
-		Value @(MITOCHONDRIA_SIZE_init);
+		Value 3531.2679767719696e-15;
 	}
 
-	Process MitochondriaAssignmentProcess( _assignment ) 
+	Process ExpressionAssignmentProcess( volume ) 
 	{
-		Name "mitochondria assingnment";
+		Name "SRup volume";
 
 		StepperID	PSV;
 		Priority	18;
 
 		VariableReferenceList
-			[ volume     :.:SIZE               1 ]
-			[ total      :/CELL/CYTOPLASM:SIZE 0 ]
-			[ ratio      :.:volumeRatio        0 ]
-			[ Rcm        :.:Rcm                1 ]
-			[ Pi         :..:Pi                1 ]
-			[ PiTotal    :..:PiTotal           0 ]
-			[ PCr        :..:PCr               0 ]
-			[ ATPtcell   :..:ATPtotal          0 ]
-			[ ADPtcell   :..:ADPtotal          0 ]
-			[ AMP        :..:AMP               0 ]
-			[ ATPtmit    :.:ATPtotal           0 ]
-			[ ADPtmit    :.:ADPtotal           1 ]
-			[ ATPfcell   :..:ATPfree           0 ]
-			[ ADPfcell   :..:ADPfree           0 ]
-			[ ATPfmit    :.:ATPfree            1 ]
-			[ ADPfmit    :.:ADPfree            1 ]
-			[ Pimit      :.:Pi                 0 ]
-			[ Mg         :.:Mg                 0 ]
-			[ ATPMg      :.:ATPmg              1 ]
-			[ ADPMg      :.:ADPmg              1 ]
-			#[ z         :.:Zvalue             0 ]
-			[ T          :/:T                  0 ]
-			[ R          :/:R                  0 ]
-			[ F          :/:F                  0 ]
-			[ Proton     :.:Proton             0 ]
-			[ Hcell      :..:Proton            0 ]
-			[ pH         :.:pH                 1 ]
-			[ pHcell     :..:pH                0 ]
-			[ rbuffer    :.:rbuffer            1 ]
-			[ NADH       :.:NADH               0 ]
-			[ NAD        :.:NAD                1 ]
-			[ UQH2       :.:UQH2               0 ]
-			[ UQ         :.:UQ                 1 ]
-			[ Cytc2      :.:Cytc2              0 ]
-			[ Cytc3      :.:Cytc3              1 ]
-			[ EmN        :.:EmN                1 ]
-			[ EmU        :.:EmU                1 ]
-			[ Emc        :.:Emc                1 ]
-			[ Ema        :.:Ema                1 ]
-			#[ Cyta_total :.:Cyta_total         0 ]
-			[ Cyta2      :.:Cyta2              1 ]
-			[ Cyta3      :.:Cyta3              1 ]
-			[ vC1        :.:vC1                1 ]
-			[ vC3        :.:vC3                1 ]
-			[ vC4        :.:vC4                1 ]
-			[ jC1        :.:jC1                1 ]
-			[ jC3        :.:jC3                1 ]
-			[ jC4        :.:jC4                1 ]
-			[ O2         :/:Oxygen             0 ]
-			[ CN         :/:CN                 0 ]
-			[ jO2        :.:jO2                1 ]
-			[ vSN        :.:vSN                1 ]
-			[ vANT       :.:vANT               1 ]
-			[ vPI        :.:vPI                1 ]
-			[ vLK        :.:vLK                1 ]
-			[ jSN        :.:jSN                1 ]
-			[ jANT       :.:jANT               1 ]
-			[ jPI        :.:jPI                1 ]
-			[ jLK        :.:jLK                1 ]
-			[ FCCP       :/:FCCP               0 ]
-			[ vDH        :.:vDH                1 ]
-			[ jDH        :.:jDH                1 ];
+			[ volume :.:SIZE               1 ]
+			[ total  :/CELL/CYTOPLASM:SIZE 0 ]
+			[ ratio  :.:volumeRatio        0 ];
 
-		#PiTotal 46.0e-3;  # (M)
-		ActivityFactor  1.0;
-		cbuffer         0.022;  # (mM Proton / pH)
-		dpH             0.001;  # HBuffering.javaの内部パラメータ、gradientpH dpHとは別物
-		dP_myu          0.861;
-		dPsi_ratio      0.65;
-		ANP_total       @Mitochondria_ANP_total;
-		kD_ATP          0.017e-3;
-		kD_ADP          0.282e-3;
-		NAD_H_total     @Mitochondria_NAD_H_total;
-		UQ_H2_total     @Mitochondria_UQ_H2_total;
-		Cytc_23_total   @Mitochondria_Cytc_23_total;
-		Cyta_total      @Mitochondria_Cyta_total;
-		ZscaleN         1.0;
-		ZscaleU         1.0;
-		Zscalec         2.0;
-		EmN0           -320.0;  # mV
-		EmU0            85.0;  # mV
-		Emc0            250.0;  # mV
-		Ema0            540.0;  # mV
-		Amp             @Mitochondria_Amp;
-		kC1             3.9825E-6;  # mM/mV/ms
-		kC3             2.2735e-6;  # mM/mV/ms
-		KmOC4           0.0008e-3;   #  (M)
-		kC4_0           0.06;     #  1/mM/ms, CN/initial
-		KmC4            0.12e-3;  #  (M)
-		nC4             5.0;
-		dGp0            31.9;  # J/mmol
-		kSN             5.7193e-4;  # mM/ms
-		nASN            2.5;  # nA of vSN
-		kEX             9.0953e-4;  #  mM/ms
-		KmADP           0.0035e-3;  #  (M)
-		kPI             1.157016667;  # 1/mM/ms
-		pKa             6.8;  # dimensionless
-		kLK1            4.16667e-8;  # mM/ms
-		kLK1_0          4.16667e-8;  # mM/ms
-		kLK2            0.038;  # 1/mV
-		kDH             4.679e-4;  # mM/ms
-		KmN             100.0;  # dimensionless
-		PD              0.8;  # dimensionless
+		Expression "total.Value * ratio.Value";
 	}
 
 	@{'''
@@ -182,20 +34,55 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		<link name="ratio" initial_value="../volume/ratio" units="/cell volume" />
 	</volumeratio>
 	'''}
-
 	Variable Variable( volumeRatio )
 	{
-		Value @Mit_volumeRatio;
+		Value 0.23;
 	}
 
 	Variable Variable( Rcm )
 	{
 		Name "Volume ratio between cell and mitochondria";
-		Value @Mit_Rcm_init;
+		Value 4.3478260869565215;
+	}
+
+	Process ExpressionAssignmentProcess( Rcm ) 
+	{
+		Name "Calulate volume ratio between cell and mitochondria";
+		# Korzeniewski B & Zoladz JA, Biophys. Chem., 92, 17-34, 2001
+
+		StepperID	PSV;
+		Priority	18;
+
+		VariableReferenceList
+			[ Rcm   :.:Rcm         1 ]
+			[ ratio :.:volumeRatio 0 ];
+
+		Expression "1.0 / ratio.Value";
 	}
 
 	@# 細胞質 Pi の計算だが、ミトコンドリア内のリン酸関連物質量も計算に用いるため、Processをここに置く。Cytoplasmに置くと、Mitochondria.emを外したときにミトコンドリア内のVariableを参照できずエラーとなってしまう。
+	Process ExpressionAssignmentProcess( Pi ) 
+	{
+		Name "Mass conservation of Pi";
 
+		StepperID	PSV;
+		Priority	3;
+
+		VariableReferenceList
+			[ Pi       :..:Pi        1 ]
+			[ PiTotal  :..:PiTotal   0 ]
+			[ PCr      :..:PCr       0 ]
+			[ ATPtcell :..:ATPtotal  0 ]
+			[ ADPtcell :..:ADPtotal  0 ]
+			[ AMP      :..:AMP       0 ]
+			[ ATPtmit  :.:ATPtotal   0 ]
+			[ ADPtmit  :.:ADPtotal   0 ]
+			[ Pimit    :.:Pi         0 ];
+
+		PiTotal 46.0e-3;  # (M)
+
+		Expression "PiTotal.Value - PCr.Value - 3.0 * ATPtcell.Value - 2.0 * ADPtcell.Value - AMP.Value - 3.0 * ATPtmit.Value - 2.0 * ADPtmit.Value - Pimit.Value";
+	}
 	@# 体積の変動を表現しているのに、総イオン濃度が変化しないと仮定しているのは厳密には不適切。無視して差し支えない程度かもしれないが。
 
 	@{'''
@@ -206,20 +93,40 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		<link name="F" initial_value="/Faraday constant" units="C/mmol" />
 	</Zvalue>
 	'''}
+	Variable Variable( Zvalue )
+	{
+		Name "Z value (mV)";
+		Value 61.51965192093832;
+	}
 
+	Process ExpressionAssignmentProcess( Zvalue ) 
+	{
+		Name "Z value (mV)";
+		# Korzeniewski B & Zoladz JA, Biophys. Chem., 92, 17-34, 2001
+
+		StepperID	PSV;
+		Priority	18;
+
+		VariableReferenceList
+			[ z :.:Zvalue 1 ]
+			[ T :/:T      0 ];
+
+
+		Expression "2.303 * @R_F * T.Value";
+	}
 
 	@# <parameter name="Mg" initial_value="0.38" units="mM" />
 	Variable Variable( Mg )
 	{
 		Name "Mg";
-		MolarConc @Mitochondria_Mg;
+		MolarConc 0.38e-3;
 	}
 
 	@# <variable name="Proton" initial_value="3.8052117309416624E-5" units="mM" />
 	Variable Variable( Proton )
 	{
 		Name "Proton";
-		MolarConc @Mitochondria_Proton;
+		MolarConc 3.8052117309416624e-8;
 	}
 
 	@{'''
@@ -230,9 +137,24 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( pH )
 	{
 		Name "pH";
-		Value @Mitochondria_pH;
+		Value 7.419621173053379;
 	}
 
+	Process ExpressionAssignmentProcess( Acidity ) 
+	{
+		Name "Acidity";
+
+		StepperID	PSV;
+		Priority	18;
+
+		VariableReferenceList
+			[ Proton :.:Proton 0 ]
+			[ pH     :.:pH     1 ];
+
+		ActivityFactor 1.0;
+
+		Expression "-log10( ActivityFactor * Proton.MolarConc )";
+	}
 
 	@{'''
 	<ProtonBuffering name="rbuffer" initial_value="251378.46458038045" units="mM Proton / pH"
@@ -244,9 +166,25 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( rbuffer )
 	{
 		Name "rbuffer (mM Proton / pH)";
-		Value @Mitochondria_rbuffer;
+		Value 251378.46458038045;
 	}
 
+	Process ExpressionAssignmentProcess( ProtonBuffering ) 
+	{
+		Name "ProtonBuffering";
+
+		StepperID	PSV;
+		Priority	17;
+
+		VariableReferenceList
+			[ rbuffer :.:rbuffer 1 ]
+			[ pH      :.:pH      0 ];
+
+		cbuffer 0.022;  # (mM Proton / pH)
+		dpH 0.001;
+
+		Expression "cbuffer / ( (pow(10.0, - pH.Value) - pow(10.0, (- pH.Value - dpH))) / dpH )";
+	}
 
 	@{'''
 	<gradientpH name="dpH" initial_value="25.814948504899753" units="dimensionless"
@@ -256,6 +194,27 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		<link name="pHmit" initial_value="../pH" units="dimensionless" />
 	</gradientpH>
 	'''}
+	Variable Variable( dpH )
+	{
+		Name "Delta pH";
+		Value 25.814948504899753;
+	}
+
+	Process ExpressionAssignmentProcess( gradientpH ) 
+	{
+		Name "delta pH";
+
+		StepperID	PSV;
+		Priority	17;
+
+		VariableReferenceList
+			[ dpH    :.:dpH    1 ]
+			[ Zvalue :.:Zvalue 0 ]
+			[ pHcell :..:pH    0 ]
+			[ pHmit  :.:pH     0 ];
+
+		Expression "Zvalue.Value * ( pHmit.Value - pHcell.Value )";
+	}
 
 	@{'''
 	<gradientP name="dP" initial_value="185.71905399208455" units="mV"
@@ -264,6 +223,32 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		<parameter name="myu" initial_value="0.861" units="dimensionless" />
 	</gradientP>
 	'''}
+	Variable Variable( dP )
+	{
+		Name "Delta P (mV)";
+		Value 185.71905399208455;
+	}
+
+	Variable Variable( dP_myu )
+	{
+		Name "myu";
+		Value 0.861;
+	}
+
+	Process ExpressionAssignmentProcess( gradientP ) 
+	{
+		Name "delta P";
+
+		StepperID	PSV;
+		Priority	16;
+
+		VariableReferenceList
+			[ dP  :.:dP      1 ]
+			[ dpH :.:dpH     0 ]
+			[ myu :.:dP_myu  0 ];
+
+		Expression "dpH.Value * 1.0 / ( 1.0 - myu.Value )";
+	}
 
 	@{'''
 	<MembranePotential name="dPsi" initial_value="-159.9041054871848" units="mV"
@@ -272,6 +257,26 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		<link name="dP" initial_value="../dP" units="mV" />
 	</MembranePotential>
 	'''}
+	Variable Variable( dPsi )
+	{
+		Name "Delta psi (mV)";
+		Value -159.9041054871848;
+	}
+
+	Process ExpressionAssignmentProcess( dPsi ) 
+	{
+		Name "Membrane potential Delta Psi";
+
+		StepperID	PSV;
+		Priority	15;
+
+		VariableReferenceList
+			[ dPsi :.:dPsi 1 ]
+			[ dpH  :.:dpH  0 ]
+			[ dP   :.:dP   0 ];
+
+		Expression "-( dP.Value - dpH.Value )";
+	}
 
 	@{'''
 	<partialPotential name="dPsimit" initial_value="-103.93766856667013" units="mV"
@@ -284,12 +289,57 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		<parameter name="ratio" initial_value="-0.35" units="dimensionless" />
 	</partialPotential>
 	'''}
+	Variable Variable( dPsimit )
+	{
+		Name "Delta psi mit (mV)";
+		Value -103.93766856667013;
+	}
+
+	Variable Variable( dPsicell )
+	{
+		Name "Delta psi cell (mV)";
+		Value 55.96643692051468;
+	}
+
+	Process ExpressionAssignmentProcess( dPsimit ) 
+	{
+		Name "Partial potential Delta Psi_mit";
+
+		StepperID	PSV;
+		Priority	14;
+
+		VariableReferenceList
+			[ partial1 :.:dPsimit   1 ]
+			[ total    :.:dPsi      0 ];
+
+		ratio	0.65;
+
+		Expression "total.Value * ratio";
+
+	}
+
+	Process ExpressionAssignmentProcess( dPsicell ) 
+	{
+		Name "Partial potential Delta Psi_mit";
+
+		StepperID	PSV;
+		Priority	14;
+
+		VariableReferenceList
+			[ partial2 :.:dPsicell -1 ]
+			[ total    :.:dPsi      0 ];
+
+		ratio	0.65;
+
+		Expression "total.Value * ( 1.0 - ratio )";
+
+	}
 
 	@# <variable name="ATPtotal" initial_value="6.403037657787217" units="mM" />
 	Variable Variable( ATPtotal )
 	{
 		Name "Total ATP";
-		MolarConc @Mitochondria_ATPtotal;
+		MolarConc 6.403037657787217e-3;
 	}
 
 	@{'''
@@ -302,7 +352,24 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( ATPfree )
 	{
 		Name "Free ATP";
-		MolarConc @Mitochondria_ATPfree;
+		MolarConc 2.741854916432813e-4;
+	}
+
+	Process ExpressionAssignmentProcess( ATPfree ) 
+	{
+		Name "Free ATP";
+
+		StepperID	PSV;
+		Priority	3;
+
+		VariableReferenceList
+			[ total :.:ATPtotal 0 ]
+			[ metal :.:Mg       0 ]
+			[ free  :.:ATPfree  1 ];
+
+		kD 0.017e-3;  #  (M)
+
+		Expression "total.Value / ( 1.0 + metal.MolarConc / kD)";
 	}
 
 	@{'''
@@ -314,10 +381,24 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( ATPmg )
 	{
 		Name "ATP-Mg";
-		MolarConc @Mitochondria_ATPmg;
+		MolarConc 6.128852166143936e-3;
 	}
 
 	@# 最小値（1.0e-18 mM）に関する処理は未実装
+	Process ExpressionAssignmentProcess( ATPmg ) 
+	{
+		Name "Mass conservation of ATP";
+
+		StepperID	PSV;
+		Priority	2;
+
+		VariableReferenceList
+			[ total :.:ATPtotal 0 ]
+			[ other :.:ATPfree  0 ]
+			[ self  :.:ATPmg    1 ];
+
+		Expression "total.Value - other.Value";
+	}
 
 	@{'''
 	<massconservation name="ADPtotal" initial_value="9.856962342212785" units="mM">
@@ -328,7 +409,23 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( ADPtotal )
 	{
 		Name "Total ADP";
-		MolarConc @Mitochondria_ADPtotal;
+		MolarConc 9.856962342212785e-3;
+	}
+
+	Process ExpressionAssignmentProcess( ADPtotal ) 
+	{
+		Name "Mass conservation of ADP";
+
+		StepperID	PSV;
+		Priority	4;
+
+		VariableReferenceList
+			[ other :.:ATPtotal  0 ]
+			[ self  :.:ADPtotal  1 ];
+
+		total	16.26e-3;  # M
+
+		Expression "total * self.getSuperSystem().SizeN_A - other.Value";
 	}
 
 	@{'''
@@ -341,7 +438,24 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( ADPfree )
 	{
 		Name "Free ADP";
-		MolarConc @Mitochondria_ADPfree;
+		MolarConc 4.198887281728104e-3;
+	}
+
+	Process ExpressionAssignmentProcess( ADPfree ) 
+	{
+		Name "Free ADP";
+
+		StepperID	PSV;
+		Priority	3;
+
+		VariableReferenceList
+			[ total :.:ADPtotal  0 ]
+			[ metal :.:Mg        0 ]
+			[ free  :.:ADPfree   1 ];
+
+		kD 0.282e-3;  #  (M)
+
+		Expression "total.Value / ( 1.0 + metal.MolarConc / kD)";
 	}
 
 	@{'''
@@ -353,21 +467,36 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( ADPmg )
 	{
 		Name "ADP-Mg";
-		MolarConc @Mitochondria_ADPmg;
+		MolarConc 5.6580750604846815e-3;
+	}
+
+	Process ExpressionAssignmentProcess( ADPmg ) 
+	{
+		Name "Mass conservation of ADP-Mg";
+
+		StepperID	PSV;
+		Priority	2;
+
+		VariableReferenceList
+			[ total :.:ADPtotal  0 ]
+			[ other :.:ADPfree   0 ]
+			[ self  :.:ADPmg     1 ];
+
+		Expression "total.Value - other.Value";
 	}
 
 	@# <variable name="Pi" initial_value="5.247469299976676" units="mM" />
 	Variable Variable( Pi )
 	{
 		Name "Pi";
-		MolarConc @Mitochondria_Pi;
+		MolarConc 5.247469299976676e-3;
 	}
 
 	@# <variable name="NADH" initial_value="0.8948906751612181" units="mM" />
 	Variable Variable( NADH )
 	{
 		Name "NADH";
-		MolarConc @Mitochondria_NADH;
+		MolarConc 8.948906751612181e-4;
 	}
 
 	@{'''
@@ -379,14 +508,30 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( NAD )
 	{
 		Name "NAD";
-		MolarConc @Mitochondria_NAD;
+		MolarConc 2.075109324838782e-3;
+	}
+
+	Process ExpressionAssignmentProcess( NAD ) 
+	{
+		Name "Mass conservation of NAD";
+
+		StepperID	PSV;
+		Priority	3;
+
+		VariableReferenceList
+			[ other :.:NADH  0 ]
+			[ self  :.:NAD   1 ];
+
+		total	2.97e-3;  #  (M)
+
+		Expression "total * self.getSuperSystem().SizeN_A - other.Value";
 	}
 
 	@# <variable name="UQH2" initial_value="1.0522454291006709" units="mM" />
 	Variable Variable( UQH2 )
 	{
 		Name "UQH2";
-		MolarConc @Mitochondria_UQH2;
+		MolarConc 1.0522454291006709e-3;
 	}
 
 	@{'''
@@ -398,14 +543,30 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( UQ )
 	{
 		Name "UQ";
-		MolarConc @Mitochondria_UQ;
+		MolarConc 2.977545708993292e-4;
+	}
+
+	Process ExpressionAssignmentProcess( UQ ) 
+	{
+		Name "Mass conservation of UQ";
+
+		StepperID	PSV;
+		Priority	3;
+
+		VariableReferenceList
+			[ other :.:UQH2  0 ]
+			[ self  :.:UQ    1 ];
+
+		total	1.35e-3;  # (M)
+
+		Expression "total * self.getSuperSystem().SizeN_A - other.Value";
 	}
 
 	@# <variable name="Cytc2" initial_value="0.05012887032447142" units="mM" />
 	Variable Variable( Cytc2 )
 	{
 		Name "cytochrome c2";
-		MolarConc @Mitochondria_Cytc2;
+		MolarConc 5.012887032447142e-5;
 	}
 
 	@{'''
@@ -417,7 +578,23 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( Cytc3 )
 	{
 		Name "cytochrome c3";
-		MolarConc @Mitochondria_Cytc3;
+		MolarConc 2.198711296755286e-4;
+	}
+
+	Process ExpressionAssignmentProcess( Cytc3 ) 
+	{
+		Name "Mass conservation of cytochrome c3";
+
+		StepperID	PSV;
+		Priority	3;
+
+		VariableReferenceList
+			[ other :.:Cytc2  0 ]
+			[ self  :.:Cytc3  1 ];
+
+		total	0.27e-3;  #  (M)
+
+		Expression "total * self.getSuperSystem().SizeN_A - other.Value";
 	}
 
 	@{'''
@@ -432,7 +609,26 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( EmN )
 	{
 		Name "NAD redox potential (mV)";
-		Value @Mitochondria_EmN;
+		Value -308.76432763447485;
+	}
+
+	Process ExpressionAssignmentProcess( RedoxPotential_N ) 
+	{
+		Name "Calculate NAD redox potential";
+
+		StepperID	PSV;
+		Priority	17;
+
+		VariableReferenceList
+			[ Em        :.:EmN     1 ]
+			[ Zvalue    :.:Zvalue  0 ]
+			[ Product   :.:NAD     0 ]
+			[ Substrate :.:NADH    0 ];
+
+		Em0	-320.0;  # mV
+		Zscale	1.0;
+
+		Expression "Em0 + Zscale * Zvalue.Value * 0.5 * log10( Product.Value / Substrate.Value )";
 	}
 
 	@{'''
@@ -446,7 +642,26 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( EmU )
 	{
 		Name "ubiquinone redox potential (mV)";
-		Value @Mitochondria_EmU;
+		Value 68.13566055321765;
+	}
+
+	Process ExpressionAssignmentProcess( RedoxPotential_U ) 
+	{
+		Name "Calculate ubiquinone redox potential";
+
+		StepperID	PSV;
+		Priority	17;
+
+		VariableReferenceList
+			[ Em        :.:EmU     1 ]
+			[ Zvalue    :.:Zvalue  0 ]
+			[ Product   :.:UQ      0 ]
+			[ Substrate :.:UQH2    0 ];
+
+		Em0	85.0;  # mV
+		Zscale	1.0;
+
+		Expression "Em0 + Zscale * Zvalue.Value * 0.5 * log10( Product.Value / Substrate.Value )";
 	}
 
 	@{'''
@@ -461,7 +676,26 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( Emc )
 	{
 		Name "cytochrome c redox potential (mV)";
-		Value @Mitochondria_Emc;
+		Value 289.50055595027567;
+	}
+
+	Process ExpressionAssignmentProcess( RedoxPotential_c ) 
+	{
+		Name "Calculate cytochrome c redox potential";
+
+		StepperID	PSV;
+		Priority	17;
+
+		VariableReferenceList
+			[ Em        :.:Emc     1 ]
+			[ Zvalue    :.:Zvalue  0 ]
+			[ Product   :.:Cytc3   0 ]
+			[ Substrate :.:Cytc2   0 ];
+
+		Em0	250.0;  # mV
+		Zscale	2.0;
+
+		Expression "Em0 + Zscale * Zvalue.Value * 0.5 * log10( Product.Value / Substrate.Value )";
 	}
 
 	@{'''
@@ -475,7 +709,23 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( Ema )
 	{
 		Name "cytochrome a3 redox potential (mV)";
-		Value @Mitochondria_Ema;
+		Value 635.123715429545;
+	}
+
+	Process ExpressionAssignmentProcess( RedoxPotential_a ) 
+	{
+		Name "Calculate cytochrome a3 redox potential";
+
+		StepperID	PSV;
+		Priority	15;
+
+		VariableReferenceList
+			[ Em  :.:Ema     1 ]
+			[ myu :.:dP_myu  0 ]
+			[ Emc :.:Emc     0 ]
+			[ dP  :.:dP      0 ];
+
+		Expression "Emc.Value + dP.Value * ( 2.0 + 2.0 * myu.Value ) / 2.0";
 	}
 
 	@{'''
@@ -490,7 +740,31 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( Cyta2 )
 	{
 		Name "cytochrome a2";
-		MolarConc @Mitochondria_Cyta2;
+		MolarConc 3.7318683311245e-6;
+	}
+
+	Variable Variable( Cyta_total )
+	{
+		Name "Total cytochrome a";
+		MolarConc 1.35e-4;
+	}
+
+	Process ExpressionAssignmentProcess( cyta2concentration ) 
+	{
+		Name "Calculate cytochrome a2 concentration";
+
+		StepperID	PSV;
+		Priority	14;
+
+		VariableReferenceList
+			[ Cyta2  :.:Cyta2       1 ]
+			[ Zvalue :.:Zvalue      0 ]
+			[ Ema    :.:Ema         0 ]
+			[ total  :.:Cyta_total  0 ];
+
+		Ema0	540.0;  # mV
+
+		Expression "total.Value / ( 1.0 + pow( 10.0, ( Ema.Value - Ema0 ) / Zvalue.Value ))";
 	}
 
 	@{'''
@@ -502,7 +776,22 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( Cyta3 )
 	{
 		Name "cytochrome a3";
-		MolarConc @Mitochondria_Cyta3;
+		MolarConc 1.3126813166887552e-4;
+	}
+
+	Process ExpressionAssignmentProcess( Cyta3 ) 
+	{
+		Name "Mass conservation of cytochrome a3";
+
+		StepperID	PSV;
+		Priority	14;
+
+		VariableReferenceList
+			[ total :.:Cyta_total  0 ]
+			[ other :.:Cyta2       0 ]
+			[ self  :.:Cyta3       1 ];
+
+		Expression "total.Value - other.Value";
 	}
 
 	@{'''
@@ -520,25 +809,47 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( vC1 )
 	{
 		Name "rate of Complex I (mM/ms)";
-		Value @Mitochondria_vC1;
+		Value 1.0875968955265928e-4;
 	}
 
-	Variable Variable( jC1 )
+	Process ExpressionAssignmentProcess( vC1 ) 
 	{
-		Name "jC1";
-		Value 201118.214403;
+		Name "rate of Complex I (mM/ms)";
+
+		StepperID	PSV;
+		Priority	14;
+
+		VariableReferenceList
+			[ vC1 :.:vC1 1 ]
+			[ vC3 :.:vC3 0 ]
+			[ vC4 :.:vC4 0 ]
+			[ EmN :.:EmN 0 ]
+			[ EmU :.:EmU 0 ]
+			[ dP  :.:dP  0 ]
+			[ Amp :.:Amp 0 ];
+
+		kC1	3.9825E-6;  # mM/mV/ms
+
+		Expression "and( geq( vC1.Value, 0.0 ), and( geq( vC3.Value, 0.0 ), geq( vC4.Value, 0.0 ))) * Amp.Value * kC1 * ( EmU.Value - EmN.Value - dP.Value * 2.0 )";
+
 	}
 
-	Process ZeroVariableAsFluxProcess( NADH_UQOxidoreductase ) 
+	Process ExpressionFluxProcess( NADH_UQOxidoreductase ) 
 	{
 		Name "NADH UQ Oxidoreductase (1/ms)";
 
 		Priority	12;
 
 		VariableReferenceList
-			[ j     :.:jC1     0 ]
+			[ vC1   :.:vC1     0 ]
+			[ Rcm   :.:Rcm     0 ]
 			[ NADH  :.:NADH   -1 ]
-			[ UQH2  :.:UQH2    5 ];
+			[ UQH2  :.:UQH2    5 ]
+			[ Hmito :.:Proton  0 ];
+
+		Expression "vC1.Value * Rcm.Value / 5.0 / 1000.0 * self.getSuperSystem().SizeN_A";
+		# Expression "vC1.Value / 5.0 / 1000.0 * self.getSuperSystem().SizeN_A";
+
 	}
 
 	@{'''
@@ -557,25 +868,45 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( vC3 )
 	{
 		Name "rate of Complex III (mM/ms)";
-		Value @Mitochondria_vC3;
+		Value 1.1175267504158818e-4;
 	}
 
-	Variable Variable( jC3 )
+	Process ExpressionAssignmentProcess( vC3 ) 
 	{
-		Name "jC3";
-		Value 1033264.18784;
+		Name "rate of Complex III (mM/ms)";
+
+		StepperID	PSV;
+		Priority	15;
+
+		VariableReferenceList
+			[ vC3 :.:vC3     1 ]
+			[ vC4 :.:vC4     0 ]
+			[ EmU :.:EmU     0 ]
+			[ Emc :.:Emc     0 ]
+			[ dP  :.:dP      0 ]
+			[ myu :.:dP_myu  0 ]
+			[ Amp :.:Amp     0 ];
+
+		kC3	2.2735e-6;  # mM/mV/ms
+
+		Expression "and( geq( vC3.Value, 0.0 ), geq( vC4.Value, 0.0 )) * Amp.Value * kC3 * ( Emc.Value - EmU.Value - dP.Value * ( 4.0 - 2.0 * myu.Value ) / 2.0 )";
+
 	}
 
-	Process ZeroVariableAsFluxProcess( Cytochrome_bc1 ) 
+	Process ExpressionFluxProcess( Cytochrome_bc1 ) 
 	{
 		Name "Cytochrome bc1 (1/ms)";
 
 		Priority	12;
 
 		VariableReferenceList
-			[ j     :.:jC3    0 ]
+			[ vC3   :.:vC3    0 ]
+			[ Rcm   :.:Rcm    0 ]
 			[ UQH2  :.:UQH2  -1 ]
 			[ Cytc2 :.:Cytc2  2 ];
+
+		Expression "vC3.Value * Rcm.Value / 1000.0 * self.getSuperSystem().SizeN_A";
+
 	}
 
 	@{'''
@@ -598,24 +929,46 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( vC4 )
 	{
 		Name "rate of Complex IV (mM/ms)";
-		Value @Mitochondria_vC4;
+		Value 5.593585025749086e-5;
 	}
 
-	Variable Variable( jC4 )
+	Process ExpressionAssignmentProcess( vC4 ) 
 	{
-		Name "jC4";
-		Value 517182.348127;
+		Name "rate of Complex IV (mM/ms)";
+
+		StepperID	PSV;
+		Priority	16;
+
+		VariableReferenceList
+			[ vC4 :.:vC4     1 ]
+			[ O2  :/:Oxygen  0 ]
+			[ a2  :.:Cyta2   0 ]
+			[ c2  :.:Cytc2   0 ]
+			[ CN  :/:CN      0 ]
+			[ Amp :.:Amp     0 ];
+
+		KmO	0.0008e-3;   #  (M)
+		initial	0.06;     #  1/mM/ms, CN/initial
+		Km	0.12e-3;  #  (M)
+		n	5.0;
+
+		Expression "geq( vC4.Value, 0.0 ) * Amp.Value * ( initial / ( 1.0 + pow( CN.MolarConc / Km, n ))) * ( a2.MolarConc* 1000.0 ) * ( c2.MolarConc * 1000.0 ) * ( O2.MolarConc / ( O2.MolarConc + KmO ))";
+
 	}
 
-	Process ZeroVariableAsFluxProcess( CytochromecOxidase ) 
+	Process ExpressionFluxProcess( CytochromecOxidase ) 
 	{
 		Name "Cytochrome c oxidase (1/ms)";
 
 		Priority	12;
 
 		VariableReferenceList
-			[ j     :.:jC4     0 ]
+			[ vC4   :.:vC4     0 ]
+			[ Rcm   :.:Rcm     0 ]
 			[ Cytc2 :.:Cytc2  -4 ];
+
+		Expression "vC4.Value * Rcm.Value / 1000.0 * self.getSuperSystem().SizeN_A";
+
 	}
 
 	@{'''
@@ -661,14 +1014,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		</CytochromecOxidase>
 	</OxidativePhosphorylation>
 	'''}
-
-	Variable Variable( jO2 )
-	{
-		Name "jO2";
-		Value -9.22582150713;
-	}
-
-	Process ZeroVariableAsFluxProcess( vO2 ) 
+	Process ExpressionFluxProcess( vO2 ) 
 	{
 		Name "Delta H (1/ms)";
 
@@ -676,7 +1022,19 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 
 		VariableReferenceList
 			[ Hmito       :.:Proton  1 ]
-			[ j           :.:jO2     0 ];
+			[ rbuffermito :.:rbuffer 0 ]
+			[ myu         :.:dP_myu  0 ]
+			[ Rcm         :.:Rcm     0 ]
+			[ vC1         :.:vC1     0 ]
+			[ vC3         :.:vC3     0 ]
+			[ vC4         :.:vC4     0 ]
+			[ vSN         :.:vSN     0 ]
+			[ vANT        :.:vANT    0 ]
+			[ vPI         :.:vPI     0 ]
+			[ nA          :.:vSN_nA  0 ];
+
+		# Expression "- (( 2.0 * ( 2.0 + 2.0 * myu.Value ) * vC4.Value ) + (( 4.0 - 2.0 * myu.Value ) * vC3.Value ) + ( 4.0 * vC1.Value ) - ( nA.Value * vSN.Value ) - ( myu.Value * vANT.Value ) - (( 1.0 - myu.Value ) * vPI.Value )) * Rcm.Value / rbuffermito.Value / 1000.0 * self.getSuperSystem().SizeN_A";
+		Expression "(   - (( 2.0 * ( 2.0 + 2.0 * myu.Value ) * vC4.Value ) + (( 4.0 - 2.0 * myu.Value ) * vC3.Value ) + ( 4.0 * vC1.Value )) + nA.Value * vSN.Value + myu.Value * vANT.Value + ( 1.0 - myu.Value ) * vPI.Value   ) * Rcm.Value / rbuffermito.Value / 1000.0 * self.getSuperSystem().SizeN_A";
 	}
 
 	@{'''
@@ -702,26 +1060,55 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( vSN )
 	{
 		Name "rate of ATP synthase (mM/ms)";
-		Value @Mitochondria_vSN;
+		Value 2.636388261805263e-4;
 	}
 
-	Variable Variable( jSN )
+	Variable Variable( vSN_nA )
 	{
-		Name "jSN";
-		Value 2437602.12017;
+		Name "nA of vSN";
+		Value 2.5;
 	}
 
-	Process ZeroVariableAsFluxProcess( ATPsynthase ) 
+	Process ExpressionAssignmentProcess( vSN ) 
+	{
+		Name "rate of ATP synthase (mM/ms)";
+
+		StepperID	PSV;
+		Priority	14;
+
+		VariableReferenceList
+			[ vSN      :.:vSN      1 ]
+			[ Hmito    :.:Proton   0 ]
+			[ dP       :.:dP       0 ]
+			[ ATPtmito :.:ATPtotal 0 ]
+			[ ADPtmito :.:ADPtotal 0 ]
+			[ Pitmito  :.:Pi       0 ]
+			[ Zvalue   :.:Zvalue   0 ]
+			[ nA       :.:vSN_nA   0 ]
+			[ Amp      :.:Amp      0 ];
+
+		dGp0	31.9;  # J/mmol
+		kSN	5.7193e-4;  # mM/ms
+
+		Expression "Amp.Value * kSN * (pow( 10.0, ( nA.Value * dP.Value - ( dGp0 * 1000.0 / @F + Zvalue.Value * log10( ATPtmito.MolarConc / ADPtmito.MolarConc / Pitmito.MolarConc ))) / Zvalue.Value ) - 1.0) / (pow( 10.0, ( nA.Value * dP.Value - ( dGp0 * 1000.0 / @F + Zvalue.Value * log10( ATPtmito.MolarConc / ADPtmito.MolarConc / Pitmito.MolarConc ))) / Zvalue.Value ) + 1.0)";
+
+	}
+
+	Process ExpressionFluxProcess( ATPsynthase ) 
 	{
 		Name "ATP synthase (1/ms)";
 
 		Priority	12;
 
 		VariableReferenceList
-			[ j        :.:jSN       0 ]
+			[ vSN      :.:vSN       0 ]
 			[ ATPtmito :.:ATPtotal  1 ]
-			#[ ADPtmito :.:ADPtotal -1 ]    @{''' 物質収支で代数計算されている（MitochondriaAssignmentProcess） '''}
-			[ Pitmito  :.:Pi       -1 ];
+			[ ADPtmito :.:ADPtotal -1 ]
+			[ Pitmito  :.:Pi       -1 ]
+			[ Rcm      :.:Rcm       0 ];
+
+		Expression "vSN.Value * Rcm.Value / 1000.0 * self.getSuperSystem().SizeN_A";
+
 	}
 
 	@{'''
@@ -750,26 +1137,51 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( vANT )
 	{
 		Name "rate of ATP/ADP exchanger (mM/ms)";
-		Value @Mitochondria_vANT;
+		Value 1.8697025007886943e-4;
 	}
 
-	Variable Variable( jANT )
+	Process ExpressionAssignmentProcess( vANT ) 
 	{
-		Name "jANT";
-		Value 1728725.18287;
+		Name "rate of ATP/ADP exchanger (mM/ms)";
+
+		StepperID	PSV;
+		Priority	13;
+
+		VariableReferenceList
+			[ vANT     :.:vANT     1 ]
+			[ dPsicell :.:dPsicell 0 ]
+			[ dPsimito :.:dPsimit  0 ]
+			[ ATPfcell :..:ATPfree 0 ]
+			[ ADPfcell :..:ADPfree 0 ]
+			[ ATPfmito :.:ATPfree  0 ]
+			[ ADPfmito :.:ADPfree  0 ]
+			[ Zvalue   :.:Zvalue   0 ]
+			[ Amp      :.:Amp      0 ];
+
+		kEX	9.0953e-4;  #  mM/ms
+		KmADP	0.0035e-3;  #  (M)
+
+		Expression "Amp.Value * kEX * (( ADPfcell.MolarConc / (ADPfcell.MolarConc + pow( 10.0, ( -dPsicell.Value / Zvalue.Value )) * ATPfcell.MolarConc )) - ( ADPfmito.MolarConc / (ADPfmito.MolarConc + pow( 10.0, ( -dPsimito.Value / Zvalue.Value )) * ATPfmito.MolarConc ))) / ( 1.0 + KmADP / ADPfcell.MolarConc )";
 	}
 
-	Process ZeroVariableAsFluxProcess( ATPADPExchanger ) 
+	Process ExpressionFluxProcess( ATPADPExchanger ) 
 	{
 		Name "ATP/ADP exchanger, Adenine Nucleotide Transporter (1/ms)";
 
 		Priority	12;
 
 		VariableReferenceList
-			[ j        :.:jANT       0 ]
+			[ vANT     :.:vANT       0 ]
 			[ ATPtcell :..:ATPtotal  1 ]
 			[ ADPtcell :..:ADPtotal -1 ]
-			[ ATPtmito :.:ATPtotal  -1 ];
+			[ ATPtmito :.:ATPtotal  -1 ]
+			[ Rcm      :.:Rcm        0 ];
+
+		@# Rcmをかけるのか、かけないのか？→かける。ミトコンドリアでの濃度変化について濃度・分子数変換する必要があるから。
+		# Expression "vANT.Value / 1000.0 * self.getSuperSystem().SizeN_A";
+
+		Expression "vANT.Value * Rcm.Value / 1000.0 * self.getSuperSystem().SizeN_A";
+
 	}
 
 	@{'''
@@ -788,43 +1200,51 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		<parameter name="pKa" initial_value="6.8" units="dimensionless" />
 		<link name="Amp" initial_value="../Amp" units="dimension_less" />
 	</PhosphateCarrier>
-
-		vPI = Amp * kPI * (forward - backward);
-		setValue(vPI);
-
-		// [Pi]tcell is not regulated by differential equations.
-		//		Pitcell.addDydt(- vPI);
-		// [H+]cell is fixed.
-		//
-		// d[Pi]tmit/dt = (vPI - vSN)*Rcm - vSL
-		Pitmito.addDydt(vPI * Rcm.getValue());
-		// d[H+]mit/dt = -(2*(2+2*u)*vC4+(4-2*u)*vC3+4*vC1-nA*vSN-u*vEX-(1-u)*vPI-vLK)*Rcm/rbuffi
-		Hmito.addDydt(
-			(1.0 - myu) * vPI * Rcm.getValue() / rbuffermito.getValue());
 	'''}
 
 	@# Phosphate carrier
 	Variable Variable( vPI )
 	{
 		Name "rate of phosphate carrier (mM/ms)";
-		Value @Mitochondria_vPI;
+		Value 2.52434188981354e-4;
 	}
 
-	Variable Variable( jPI )
+	Process ExpressionAssignmentProcess( vPI ) 
 	{
-		Name "jPI";
-		Value 2334064.60115;
+		Name "rate of phosphate carrier (mM/ms)";
+
+		StepperID	PSV;
+		Priority	13;
+
+		VariableReferenceList
+			[ vPI     :.:vPI     1 ]
+			[ Pitcell :..:Pi     0 ]
+			[ Pitmito :.:Pi      0 ]
+			[ Hcell   :..:Proton 0 ]
+			[ Hmito   :.:Proton  0 ]
+			[ pHcell  :..:pH     0 ]
+			[ pHmito  :.:pH      0 ]
+			[ Amp     :.:Amp     0 ];
+
+		kPI	1.157016667;  # 1/mM/ms
+		pKa	6.8;
+
+		Expression "Amp.Value * kPI * ((( Pitcell.MolarConc * 1000.0 / ( 1.0 + pow( 10.0, ( pHcell.Value - pKa )))) * Hcell.MolarConc * 1000.0 ) - (( Pitmito.MolarConc * 1000.0 / ( 1.0 + pow( 10.0, ( pHmito.Value - pKa )))) * Hmito.MolarConc * 1000.0 ))";
 	}
 
-	Process ZeroVariableAsFluxProcess( PhosphateCarrier ) 
+	Process ExpressionFluxProcess( PhosphateCarrier ) 
 	{
 		Name "phosphate carrier (1/ms)";
 
 		Priority	12;
 
 		VariableReferenceList
-			[ j       :.:jPI 0 ]
-			[ Pitmito :.:Pi  1 ];
+			[ vPI     :.:vPI 0 ]
+			[ Pitmito :.:Pi  1 ]
+			[ Rcm     :.:Rcm 0 ];
+
+		Expression "vPI.Value * Rcm.Value / 1000.0 * self.getSuperSystem().SizeN_A";
+
 	}
 
 	@{'''
@@ -849,16 +1269,32 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( vLK )
 	{
 		Name "rate of proton leak (mM/ms)";
-		Value @Mitochondria_vLK;
+		Value 2.4173630507944038E-4;
 	}
 
-	Variable Variable( jLK )
+	Process ExpressionAssignmentProcess( vLK ) 
 	{
-		Name "jLK";
-		Value 8.89134086618;
+		Name "rate of proton leak (mM/ms)";
+
+		StepperID	PSV;
+		Priority	13;
+
+		VariableReferenceList
+			[ vLK         :.:vLK     1 ]
+			[ pHcell      :..:pH     0 ]
+			[ dP          :.:dP      0 ]
+			[ FCCP        :/:FCCP    0 ]
+			[ Amp         :.:Amp     0 ];
+
+		kLK1	4.16667e-8;  # mM/ms
+		initial	4.16667e-8;  # mM/ms
+		kLK2	0.038;  # 1/mV
+
+		Expression "Amp.Value * initial * ( 1.0 + 1.0e+4 * FCCP.MolarConc / ( FCCP.MolarConc + 1.0e-7 )) * ( exp( kLK2 * dP.Value ) - 1.0 )";
+
 	}
 
-	Process ZeroVariableAsFluxProcess( ProtonLeak ) 
+	Process ExpressionFluxProcess( ProtonLeak ) 
 	{
 		Name "proton leak (1/ms)";
 
@@ -866,7 +1302,12 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 
 		VariableReferenceList
 			[ Hmito       :.:Proton   1 ]
-			[ j           :.:jLK      0 ];
+			[ rbuffermito :.:rbuffer  0 ]
+			[ Rcm         :.:Rcm      0 ]
+			[ vLK         :.:vLK      0 ];
+
+		Expression "vLK.Value * Rcm.Value / rbuffermito.Value * 1.0e-3 * self.getSuperSystem().SizeN_A";
+
 	}
 
 	@{'''
@@ -886,26 +1327,50 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	Variable Variable( vDH )
 	{
 		Name "rate of substrate dehydrogenation in mitochondria (mM/ms)";
-		Value @Mitochondria_vDH;
+		Value 1.1307728142212603E-4;
 	}
 
-	Variable Variable( jDH )
+	Process ExpressionAssignmentProcess( vDH ) 
 	{
-		Name "jDH";
-		Value 209102.297208;
+		Name "rate of substrate dehydrogenation in mitochondria (mM/ms)";
+
+		StepperID	PSV;
+		Priority	13;
+
+		VariableReferenceList
+			[ vDH  :.:vDH  1 ]
+			[ NAD  :.:NAD  0 ]
+			[ NADH :.:NADH 0 ]
+			[ Amp  :.:Amp  0 ];
+
+		kDH	4.679e-4;  # mM/ms
+		KmN	100.0;  # dimensionless
+		PD	0.8;  # dimensionless
+
+		Expression "Amp.Value * kDH / pow( 1.0 + KmN * NADH.Value / NAD.Value, PD )";
+
 	}
 
-	Process ZeroVariableAsFluxProcess( SubstrateDehydrogenation ) 
+	Process ExpressionFluxProcess( SubstrateDehydrogenation ) 
 	{
 		Name "substrate dehydrogenation in mitochondria (1/ms)";
 
 		Priority	12;
 
 		VariableReferenceList
-			[ j    :.:jDH  0 ]
-			[ NADH :.:NADH 1 ];
+			[ vDH  :.:vDH  0 ]
+			[ NADH :.:NADH 1 ]
+			[ Rcm  :.:Rcm  0 ];
+
+		Expression " vDH.Value * Rcm.Value / 5.0 * 1.0e-3 * self.getSuperSystem().SizeN_A";
+
 	}
 
 	@# <parameter name="Amp" initial_value="5.0" units="dimension_less" />
+	Variable Variable( Amp )
+	{
+		Name "amplifying factor";
+		Value 5.0;
+	}
 
 }

@@ -1,34 +1,30 @@
 @{
-'''
-Author Yasuhiro Naito
+IKs_I = -1.2115421550329173
+IKs_gate1 = 0.15386065638396113
+IKs_gate2 = 0.45916408455111457
+IKs_gateC2 = 0.07834389466278933
+IKs_KCNQ1 = 2.1132650663548235E-8
+IKs_KCNQ1free = 1.4550513768928859E-9
+IKs_KCNQ1p = 2.373203529130647E-9
+IKs_KCNQ1p_ratio = 0.09492814116522588
+IKs_POpen = 0.012150164373409759
+IKs_ka11 = 85.0
+IKs_ka12 = -10.5
+IKs_ka13 = 370.0
+IKs_ka14 = -62.0
+IKs_kb11 = 1450.0
+IKs_kb12 = 20.0
+IKs_kb13 = 300.0
+IKs_kb14 = 210.0
 
-Version 0.1 2008-11-27 04:37:37 +0900
-
-	<IKs name="IKs" initial_value="-1.2115421550329173" units="pA"
-		className="org.simBio.bio.kuzumoto_et_al_2007.current.cf.IKs">
-		<link name="Vm" initial_value="../Vm" units="mV" />
-		<link name="Cm" initial_value="../membrane capacitance" />
-		<link name="Ca" initial_value="../Ca" units="mM" />
-		<link name="constantFieldNa" initial_value="../constantFieldNa" units="mM" />
-		<link name="constantFieldK" initial_value="../constantFieldK" units="mM" />
-		<link name="current" initial_value="../current" />
-		<link name="currentNa" initial_value="../currentNa" />
-		<link name="currentK" initial_value="../currentK" />
-		<link name="PKA" initial_value="../PKA" />
-		<link name="PKAtot" initial_value="../Beta1Signaling/PKA/PKAtot" />
-		<parameter name="permeabilityK0" initial_value="0.025" units="pA/mM" />
-		<parameter name="relativePNa" initial_value="0.04" units="pNa/pK" />
-		<variable name="gate1" initial_value="0.15386065638396113" />
-		<variable name="gate2" initial_value="0.45916408455111457" />
-		<variable name="gateC2" initial_value="0.07834389466278933" />
-		<variable name="KCNQ1" initial_value="2.1132650663548235E-5" />
-		<parameter name="KCNQ1free" initial_value="1.4550513768928859E-6" />
-		<variable name="KCNQ1p" initial_value="2.373203529130647E-6" />
-		<parameter name="KCNQ1p_ratio" initial_value="0.09492814116522588" />
-		<parameter name="ratio" initial_value="2.3" />
-		<label name="Phosphorylation" initial_value="true" />
-	</IKs>
-'''
+IKs_permeabilityK0 = {
+	"V" : 0.025,
+	"EMB" : 0.025,
+	"LAT" : 0.025,
+	"NEO" : 0.025,
+	"SAN" : 0.025
+#	"EMB" : 0.0000331439393939394
+}
 
 def IKs_setKCNQ1pProcessVariableReference():
 	if amplitudePKAf:
@@ -127,7 +123,11 @@ System System(/CELL/MEMBRANE/IKs)
 		Value -1.2204225186;
 	}
 
-	Process @( IKS_AssignmentProcess_Name )( I ) 
+	Variable Variable( GX ){
+		Value @( KCNQ1[SimulationMode]);
+	}
+
+	Process IKsAssignmentProcess( I ) 
 	{
 		StepperID	PSV;
 		Priority	20;
@@ -144,9 +144,9 @@ System System(/CELL/MEMBRANE/IKs)
 			[ y1      :.:gate1                 0 ]
 			[ y2      :.:gate2                 0 ]
 			[ yC2     :.:gateC2                0 ]
-			[ pOpen   :.:POpen                 1 ]
+			[ pOpen   :.:POpen                 0 ]
 			[ i       :.:i                     1 ]
-			[ GX      :../../CYTOPLASM:KCNQ1   0 ]
+			[ GX      :.:GX                    0 ]
 			[ Cm      :..:Cm                   0 ]
 			[ kcnq1p  :.:KCNQ1p                0 ]
 			[ kcnq1   :.:KCNQ1                 0 ]
@@ -174,7 +174,8 @@ System System(/CELL/MEMBRANE/IKs)
 		Kyotiao         1.0e-7;
 
 		KCNQ1tot        0.025e-6;  #  ( M )
-		permeabilityK0  0.025;  #  ( pA/mM )
+		permeabilityK0  @(IKs_permeabilityK0[SimulationMode]);
+
 		relativePNa     0.04;
 
 		amplitudePKAf   @amplitudePKAf;
@@ -231,3 +232,35 @@ System System(/CELL/MEMBRANE/IKs)
 	@setCurrents( [ 'I' ], [ 'Na', 'cNa' ], [ 'K', 'cK' ] )
 
 }
+
+@{
+'''
+Author Yasuhiro Naito
+
+Version 0.1 2008-11-27 04:37:37 +0900
+
+	<IKs name="IKs" initial_value="-1.2115421550329173" units="pA"
+		className="org.simBio.bio.kuzumoto_et_al_2007.current.cf.IKs">
+		<link name="Vm" initial_value="../Vm" units="mV" />
+		<link name="Cm" initial_value="../membrane capacitance" />
+		<link name="Ca" initial_value="../Ca" units="mM" />
+		<link name="constantFieldNa" initial_value="../constantFieldNa" units="mM" />
+		<link name="constantFieldK" initial_value="../constantFieldK" units="mM" />
+		<link name="current" initial_value="../current" />
+		<link name="currentNa" initial_value="../currentNa" />
+		<link name="currentK" initial_value="../currentK" />
+		<link name="PKA" initial_value="../PKA" />
+		<link name="PKAtot" initial_value="../Beta1Signaling/PKA/PKAtot" />
+		<parameter name="permeabilityK0" initial_value="0.025" units="pA/mM" />
+		<parameter name="relativePNa" initial_value="0.04" units="pNa/pK" />
+		<variable name="gate1" initial_value="0.15386065638396113" />
+		<variable name="gate2" initial_value="0.45916408455111457" />
+		<variable name="gateC2" initial_value="0.07834389466278933" />
+		<variable name="KCNQ1" initial_value="2.1132650663548235E-5" />
+		<parameter name="KCNQ1free" initial_value="1.4550513768928859E-6" />
+		<variable name="KCNQ1p" initial_value="2.373203529130647E-6" />
+		<parameter name="KCNQ1p_ratio" initial_value="0.09492814116522588" />
+		<parameter name="ratio" initial_value="2.3" />
+		<label name="Phosphorylation" initial_value="true" />
+	</IKs>
+'''

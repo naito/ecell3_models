@@ -1,30 +1,16 @@
-@{'''
-Author Maria Takeuchi
-Author Yasuhiro Naito
-Version 0.2 2008-11-24 13:40:48 +0900
+@{
+IK1_I = 24.29288398159507
+IK1_Pspm = 0.6373407661728812
 
-<IK1 name="IK1" initial_value="24.29288398159507" units="pA"
-	className="org.simBio.bio.kuzumoto_et_al_2007.current.IK1">
-	<KoDependencyIK1 name="permeabilityK" initial_value="2.5449343128168245" units="pA/mV"
-		className="org.simBio.bio.kuzumoto_et_al_2007.function.KoDependency_IK1">
-		<parameter name="amplitude" initial_value="2.6" />
-		<parameter name="constant" initial_value="5.4" units="mM" />
-		<parameter name="power" initial_value="0.6" units="dimension_less" />
-		<parameter name="A" initial_value="-0.6" units="dimension_less" />
-		<parameter name="B" initial_value="3.1" units="dimension_less" />
-		<link name="Ko" initial_value="../../../K" />
-	</KoDependencyIK1>
-	<variable name="Pspm" initial_value="0.6373407661728812" />
-	<parameter name="Phi" initial_value="0.9" />
-	<link name="Vm" initial_value="../Vm" units="mV" />
-	<link name="Cm" initial_value="../membrane capacitance" />
-	<link name="Mg" initial_value="../Mg" />
-	<link name="SPM" initial_value="../Spermine" />
-	<link name="reversalPotential" initial_value="../K reversal potential" units="mV" />
-	<link name="current" initial_value="../current" />
-	<link name="currentK" initial_value="../currentK" />
-</IK1>
-'''}
+IK1_amp = {
+	"V" : 2.6,
+	"EMB" : 2.6,
+	"LAT" : 2.6,
+	"NEO" : 2.6,
+	"SAN" : 0.007079,
+}
+
+}
 
 System System(/CELL/MEMBRANE/IK1)
 {
@@ -55,6 +41,9 @@ System System(/CELL/MEMBRANE/IK1)
 		Value 0.414217508395;
 	}
 
+	Variable Variable( GX ){
+		Value @( Kir2_1[SimulationMode]);
+	}
 
 	Process IK1AssignmentProcess( I ) 
 	{
@@ -70,14 +59,16 @@ System System(/CELL/MEMBRANE/IK1)
 			[ Pspm  :.:Pspm                    0 ]
 			[ fracO :.:fracO                   1 ]
 			[ pOpen :.:POpen                   1 ]
-			[ GX    :../../CYTOPLASM:Kir2_1    0 ]
+			[ GX    :.:GX                      0 ]			
+#			[ GX    :../../CYTOPLASM:Kir2_1    0 ]
 			[ Ko    :/:K                       0 ]
 			[ Cm    :..:Cm                     0 ]
 			[ I     :.:I                       1 ];
 
 		Phi        0.9;
 
-		amplitude  2.6;
+		amplitude  @(IK1_amp[SimulationMode]);
+
 		constant   5.4;
 		power      0.6;
 		A         -0.6;
@@ -103,3 +94,30 @@ System System(/CELL/MEMBRANE/IK1)
 
 }
 
+@{'''
+Author Maria Takeuchi
+Author Yasuhiro Naito
+Version 0.2 2008-11-24 13:40:48 +0900
+
+<IK1 name="IK1" initial_value="24.29288398159507" units="pA"
+	className="org.simBio.bio.kuzumoto_et_al_2007.current.IK1">
+	<KoDependencyIK1 name="permeabilityK" initial_value="2.5449343128168245" units="pA/mV"
+		className="org.simBio.bio.kuzumoto_et_al_2007.function.KoDependency_IK1">
+		<parameter name="amplitude" initial_value="2.6" />
+		<parameter name="constant" initial_value="5.4" units="mM" />
+		<parameter name="power" initial_value="0.6" units="dimension_less" />
+		<parameter name="A" initial_value="-0.6" units="dimension_less" />
+		<parameter name="B" initial_value="3.1" units="dimension_less" />
+		<link name="Ko" initial_value="../../../K" />
+	</KoDependencyIK1>
+	<variable name="Pspm" initial_value="0.6373407661728812" />
+	<parameter name="Phi" initial_value="0.9" />
+	<link name="Vm" initial_value="../Vm" units="mV" />
+	<link name="Cm" initial_value="../membrane capacitance" />
+	<link name="Mg" initial_value="../Mg" />
+	<link name="SPM" initial_value="../Spermine" />
+	<link name="reversalPotential" initial_value="../K reversal potential" units="mV" />
+	<link name="current" initial_value="../current" />
+	<link name="currentK" initial_value="../currentK" />
+</IK1>
+'''}

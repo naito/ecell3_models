@@ -1,7 +1,6 @@
 #include <gsl/gsl_errno.h> 
 #include <gsl/gsl_math.h> 
 #include <gsl/gsl_roots.h> 
-#include <gsl/gsl_errno.h> 
 #include <vector>
 
 #include <libecs/libecs.hpp>
@@ -261,18 +260,7 @@ void IsotonicContractionProcess::fire()
 		//printf( "\nx   = %12.10f", x  );
 		//printf( "\ndx  = %e", x - x0 );
 
-		try {
-			status = gsl_root_fdfsolver_iterate( s );
-		}
-		//catch ( GSL_EBADFUNC ) {
-		//	printf( "GSL ERROR: GSL_EBADFUNC" );
-		//	break;
-		//}
-		catch ( ... ) {
-			printf( "GSL ERROR: other" );
-			break;
-		}
-
+		status = gsl_root_fdfsolver_iterate( s );
 		if ( status ) {
 			
 			if ( status  == GSL_EBADFUNC ) printf( "gsl_root_fdfsolver_iterate: GSL_EBADFUNC" ); 

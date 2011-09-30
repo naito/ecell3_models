@@ -1,6 +1,6 @@
 @# Kuzumoto et al. 2007
 
-@{SimulationMode = 'SAN'}
+@{SimulationMode = 'V'}
 # EMB, LAT, NEO, V, SAN
 
 @include('SetOptions.em')

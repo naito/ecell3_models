@@ -1,35 +1,18 @@
-@{'''
-Author Yasuhiro Naito
+@{
 
-Version 0.1 2008-11-30 13:24:18 +0900
+PLB_Inhib1ptot = 1.0531940250521041e-7
+PLB_PLBp = 0.008395558810715353e-3
+PLB_Inhib1tot = 3.0E-7
+PLB_PP1tot = 8.9E-7
+PLB_PLB = 0.09760444118928464e-3
+PLB_Inhib1 = 1.9468059749478957E-7
+PLB_Inhib1p = 1.3402576051448544E-10
+PLB_PP1_Inhib1p = 1.0518537674469592E-7
+PLB_PP1 = 7.84814623255304E-7
+PLB_PLBItot = 0.106e-3
 
-	<PLB name="PLB" className="org.simBio.bio.kuzumoto_et_al_2007.molecule.PLB">
-		<link name="PKA" initial_value="../../PKA" units="mM" />
-		<link name="ATP" initial_value="../../ATPtotal" units="mM" />
-		<link name="ADP" initial_value="../../ADPtotal" units="mM" />
-		<variable name="Inhib1ptot" initial_value="1.0531940250521041E-4" units="mM" />
-		<variable name="PLBp" initial_value="0.008395558810715353" units="mM" />
-		<parameter name="Inhib1tot" initial_value="3.0E-4" units="mM" />
-		<parameter name="PP1tot" initial_value="8.9E-4" units="mM" />
-		<parameter name="KInhib1" initial_value="1.0E-6" units="mM" />
-		<parameter name="PLB" initial_value="0.09760444118928464" units="mM" />
-		<parameter name="Inhib1" initial_value="1.9468059749478957E-4" units="mM" />
-		<parameter name="Inhib1p" initial_value="1.3402576051448544E-7" units="mM" />
-		<parameter name="PP1_Inhib1p" initial_value="1.0518537674469592E-4" units="mM" />
-		<parameter name="PP1" initial_value="7.84814623255304E-4" units="mM" />
-		<parameter name="PLBItot" initial_value="0.106" />
-		<parameter name="PLBphos" initial_value="0.07920338500674862" />
-		<parameter name="PLBphosMAX" initial_value="0.09236678351643977" />
-		<parameter name="kPKA_PLB" initial_value="0.0324" />
-		<parameter name="KmPKA_PLB" initial_value="0.021" />
-		<parameter name="kPP1_PLB" initial_value="0.0085" />
-		<parameter name="KmPP1_PLB" initial_value="0.0070" />
-		<parameter name="kPKA_Inhib1" initial_value="0.06" />
-		<parameter name="KmPKA_Inhib1" initial_value="0.0010" />
-		<parameter name="VmaxPP2A_Inhib1" initial_value="1.4E-5" />
-		<parameter name="KmPP2A_Inhib1" initial_value="0.0010" />
-	</PLB>
-'''}
+
+}
 
 @# System System(/CELL/CYTOPLASM/SRUP)
 @# {
@@ -145,3 +128,35 @@ Version 0.1 2008-11-30 13:24:18 +0900
 
 @# }
 
+@{'''
+Author Yasuhiro Naito
+
+Version 0.1 2008-11-30 13:24:18 +0900
+
+	<PLB name="PLB" className="org.simBio.bio.kuzumoto_et_al_2007.molecule.PLB">
+		<link name="PKA" initial_value="../../PKA" units="mM" />
+		<link name="ATP" initial_value="../../ATPtotal" units="mM" />
+		<link name="ADP" initial_value="../../ADPtotal" units="mM" />
+		<variable name="Inhib1ptot" initial_value="1.0531940250521041E-4" units="mM" />
+		<variable name="PLBp" initial_value="0.008395558810715353" units="mM" />
+		<parameter name="Inhib1tot" initial_value="3.0E-4" units="mM" />
+		<parameter name="PP1tot" initial_value="8.9E-4" units="mM" />
+		<parameter name="KInhib1" initial_value="1.0E-6" units="mM" />
+		<parameter name="PLB" initial_value="0.09760444118928464" units="mM" />
+		<parameter name="Inhib1" initial_value="1.9468059749478957E-4" units="mM" />
+		<parameter name="Inhib1p" initial_value="1.3402576051448544E-7" units="mM" />
+		<parameter name="PP1_Inhib1p" initial_value="1.0518537674469592E-4" units="mM" />
+		<parameter name="PP1" initial_value="7.84814623255304E-4" units="mM" />
+		<parameter name="PLBItot" initial_value="0.106" />
+		<parameter name="PLBphos" initial_value="0.07920338500674862" />
+		<parameter name="PLBphosMAX" initial_value="0.09236678351643977" />
+		<parameter name="kPKA_PLB" initial_value="0.0324" />
+		<parameter name="KmPKA_PLB" initial_value="0.021" />
+		<parameter name="kPP1_PLB" initial_value="0.0085" />
+		<parameter name="KmPP1_PLB" initial_value="0.0070" />
+		<parameter name="kPKA_Inhib1" initial_value="0.06" />
+		<parameter name="KmPKA_Inhib1" initial_value="0.0010" />
+		<parameter name="VmaxPP2A_Inhib1" initial_value="1.4E-5" />
+		<parameter name="KmPP2A_Inhib1" initial_value="0.0010" />
+	</PLB>
+'''}

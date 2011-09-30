@@ -1,28 +1,22 @@
-@{'''# Author Maria Takeuchi
-Author Yasuhiro Naito
-Version 0.2 2008-11-24 04:23:13 +0900
+@{
+INa_I = -22.37340068433973
+INa_pRP = 0.39171609519888434
+INa_pAP = 1.5971760039227196E-5
+INa_pAI = 0.368385053951178
+INa_pRI = 1.0 - INa_pRP - INa_pAP - INa_pAI
+INa_gate = 0.6438319698769808
 
-	<INa name="INa" initial_value="-22.37340068433973" units="pA"
-		className="org.simBio.bio.terashima_et_al_2006.current.cf.INa">
-		<link name="Vm" initial_value="../Vm" units="mV" />
-		<link name="constantFieldNa" initial_value="../constantFieldNa" units="mM" />
-		<link name="constantFieldK" initial_value="../constantFieldK" units="mM" />
-		<link name="constantFieldCa" initial_value="../constantFieldCa" units="mM" />
-		<link name="constantFieldCl" initial_value="../constantFieldCl" units="mM" />
-		<link name="current" initial_value="../current" />
-		<link name="currentNa" initial_value="../currentNa" />
-		<link name="currentK" initial_value="../currentK" />
-		<link name="currentCa" initial_value="../currentCa" />
-		<link name="currentCl" initial_value="../currentCl" />
-		<link name="Cm" initial_value="../membrane capacitance" />
-		<parameter name="permeabilityNa" initial_value="21.666666666667" units="pA/mM" />
-		<parameter name="rerativePK" initial_value="0.1" units="pK/pNa" />
-		<variable name="pRP" initial_value="0.39171609519888434" units="dimension_less" />
-		<variable name="pAP" initial_value="1.5971760039227196E-5" units="dimension_less" />
-		<variable name="pAI" initial_value="0.368385053951178" units="dimension_less" />
-		<variable name="gate" initial_value="0.6438319698769808" units="dimension_less" />
-	</INa>
-'''}
+## ducky wking 100804
+INa_permeabilityNa = {
+	"V" : 21.7,
+	"EMB" : 21.7,
+	"LAT" : 21.7,
+	"NEO" : 21.7,
+	"SAN" : 0.375,	
+#	"SAN" : 1.2
+}
+
+}
 
 System System(/CELL/MEMBRANE/INa)
 {
@@ -78,7 +72,6 @@ System System(/CELL/MEMBRANE/INa)
 		Value -0.00109716431175;
 	}
 
-
 	Variable Variable( vgate )
 	{
 		Value 9.69484197675e-05;
@@ -104,6 +97,24 @@ System System(/CELL/MEMBRANE/INa)
 		Value 0.000651216154604;
 	}
 
+	Variable Variable( GX ){
+#		Value @( Nav1_5[SimulationMode] * Cm[SimulationMode] / Cm_V[SimulationMode]);
+		Value @( Nav1_5[SimulationMode] );
+	}
+
+#	Process GXAssignmentProcess ( GX )
+#	{
+#		StepperID  PSV;
+#		Priority   25;#
+
+#		VariableReferenceList
+#			[ GX       :.:GX                    1 ]			
+#			[ rel_Act  :../../CYTOPLASM:Nav1_5  0 ]
+#			[ Cm       :..:Cm                   0 ];
+
+#		Cm_V 	@( Cm_V[SimulationMode] );		
+#	}
+
 	Process INaAssignmentProcess( pOpen ) 
 	{
 		StepperID  PSV;
@@ -123,7 +134,8 @@ System System(/CELL/MEMBRANE/INa)
 			[ y        :.:gate                  0 ]
 			[ pOpen    :.:POpen                 1 ]
 			[ i        :.:i                     1 ]
-			[ GX       :../../CYTOPLASM:Nav1_5  0 ]
+			[ GX       :.:GX                    0 ]
+#			[ GX       :../../CYTOPLASM:Nav1_5  0 ]
 			[ Cm       :..:Cm                   0 ]
 			[ cNa      :.:cNa                   1 ]
 			[ CFNa     :..:CFNa                 0 ]
@@ -133,8 +145,8 @@ System System(/CELL/MEMBRANE/INa)
 
 		kAIAP           0.0000875;
 
-		permeabilityNa  21.666666666667;
-		permeabilityK   @( 21.666666666667 * 0.1 );
+                permeabilityNa  @( INa_permeabilityNa[SimulationMode] );
+                permeabilityK   @( INa_permeabilityNa[SimulationMode] * 0.1 );
 				
 	}
 
@@ -190,3 +202,30 @@ System System(/CELL/MEMBRANE/INa)
 	@setCurrents( [ 'I' ], [ 'Na', 'cNa' ], [ 'K', 'cK' ] )
 
 }
+
+@{'''# Author Maria Takeuchi
+Author Yasuhiro Naito
+Version 0.2 2008-11-24 04:23:13 +0900
+
+	<INa name="INa" initial_value="-22.37340068433973" units="pA"
+		className="org.simBio.bio.terashima_et_al_2006.current.cf.INa">
+		<link name="Vm" initial_value="../Vm" units="mV" />
+		<link name="constantFieldNa" initial_value="../constantFieldNa" units="mM" />
+		<link name="constantFieldK" initial_value="../constantFieldK" units="mM" />
+		<link name="constantFieldCa" initial_value="../constantFieldCa" units="mM" />
+		<link name="constantFieldCl" initial_value="../constantFieldCl" units="mM" />
+		<link name="current" initial_value="../current" />
+		<link name="currentNa" initial_value="../currentNa" />
+		<link name="currentK" initial_value="../currentK" />
+		<link name="currentCa" initial_value="../currentCa" />
+		<link name="currentCl" initial_value="../currentCl" />
+		<link name="Cm" initial_value="../membrane capacitance" />
+		<parameter name="permeabilityNa" initial_value="21.666666666667" units="pA/mM" />
+		<parameter name="rerativePK" initial_value="0.1" units="pK/pNa" />
+		<variable name="pRP" initial_value="0.39171609519888434" units="dimension_less" />
+		<variable name="pAP" initial_value="1.5971760039227196E-5" units="dimension_less" />
+		<variable name="pAI" initial_value="0.368385053951178" units="dimension_less" />
+		<variable name="gate" initial_value="0.6438319698769808" units="dimension_less" />
+	</INa>
+'''}
+

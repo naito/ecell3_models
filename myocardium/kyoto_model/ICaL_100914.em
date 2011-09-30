@@ -16,10 +16,10 @@ ICaL_kSingleCurrentAmp = 0.3
 
 ## ducky wking 100804
 ICaL_permeabilityCa = {
-	"V" : 174.3,
+	"V" : 45.0,
 	"EMB" : 174.3,
-	"LAT" : 174.3,
-	"NEO" : 174.3,
+	"LAT" : 45.0,
+	"NEO" : 45.0,
 	"SAN" : 31.5,
 #	"V" : 45.0,
 }

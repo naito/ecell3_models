@@ -1,3 +1,53 @@
+@{
+IKpl_I = 3.2585916791737464E-6
+
+IKpl_amp = {
+	 "V" : 8.333E-7,
+	 "EMB" : 8.333E-7,
+	 "LAT" : 8.333E-7,
+	 "NEO" : 8.333E-7,
+	 "SAN" : 2.187E-4
+}
+}
+
+System System(/CELL/MEMBRANE/IKpl)
+{
+	StepperID	ODE;
+
+	Variable Variable( I )
+	{
+		Value @IKpl_I;
+	}
+
+	Variable Variable( GX ){
+		Value @( Kpl_gene[SimulationMode]);
+	}
+
+	Process IKplAssignmentProcess( I ) 
+	{
+		StepperID       PSV;
+		Priority	20;
+
+		VariableReferenceList
+			[ I   :.:I                       1 ]
+			[ GX  :.:GX                      0 ]
+			[ Cm  :..:Cm                     0 ]
+			[ Vm  :..:Vm                     0 ]
+			[ Ko  :/:K                       0 ]
+			[ CFK :..:CFK                    0 ];
+
+		amplitude  @(IKpl_amp[SimulationMode]);
+#		amplitude  8.333E-7;
+#        	amplitude  0.0000001104753787879;
+		constant   5.4;
+		power      0.16;
+		pOpen      1.0;
+	}
+
+	@setCurrents( [ 'I' ], [ 'K', 'I' ] )
+
+}
+
 @{'''
 
 Author Yasuhiro Naito
@@ -24,36 +74,3 @@ Version 0.2 2008-11-30 02:02:56 +0900
 		<link name="currentCl" initial_value="../currentCl" />
 	</IKpl>
 '''}
-
-System System(/CELL/MEMBRANE/IKpl)
-{
-	StepperID	ODE;
-
-	Variable Variable( I )
-	{
-		Value @IKpl_I;
-	}
-
-	Process IKplAssignmentProcess( I ) 
-	{
-		StepperID       PSV;
-		Priority	20;
-
-		VariableReferenceList
-			[ I   :.:I                       1 ]
-			[ GX  :../../CYTOPLASM:Kpl_gene  0 ]
-			[ Cm  :..:Cm                     0 ]
-			[ Vm  :..:Vm                     0 ]
-			[ Ko  :/:K                       0 ]
-			[ CFK :..:CFK                    0 ];
-
-		amplitude  8.333E-7;
-		constant   5.4;
-		power      0.16;
-		pOpen      1.0;
-	}
-
-	@setCurrents( [ 'I' ], [ 'K', 'I' ] )
-
-}
-

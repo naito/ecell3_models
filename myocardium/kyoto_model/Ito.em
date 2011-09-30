@@ -1,11 +1,15 @@
-@{'''
-Author Hiromi KUMAMOTO
-Author Yasuhiro Naito
+@{
+Ito_permeabilityK = {
+	"V" : 2.5e-4,
+	"EMB" : 2.5e-4,
+	"LAT" : 2.5e-4,
+	"NEO" : 2.5e-4,
+	"SAN" : 0,
+#	"EMB" : 2.5e-6,
+}
+	
+}
 
-Version 0.2 2008-11-27 06:12:24 +0900
-
-simBio 1.0 className   "org.simBio.bio.terashima_et_al_2006.current.cf.Ito"
-'''}
 
 System System(/CELL/MEMBRANE/Ito)
 {
@@ -60,6 +64,9 @@ System System(/CELL/MEMBRANE/Ito)
 			[ dy  :.:vgate2 0 ];
 	}
 
+	Variable Variable( GX ){
+		Value @( Kv1_4[SimulationMode]);
+	}
 
 	Process ItoAssignmentProcess( I ) 
 	{
@@ -74,7 +81,7 @@ System System(/CELL/MEMBRANE/Ito)
 			[ y2    :.:gate2                0 ]
 			[ pOpen :.:POpen                1 ]
 			[ i     :.:i                    1 ]
-			[ GX    :../../CYTOPLASM:Kv1_4  0 ]
+			[ GX    :.:GX                   0 ]
 			[ Cm    :..:Cm                  0 ]
 			[ cK    :.:cK                   1 ]
 			[ CFK   :..:CFK                 0 ]
@@ -82,8 +89,8 @@ System System(/CELL/MEMBRANE/Ito)
 			[ CFNa  :..:CFNa                0 ]
 			[ I     :.:I                    1 ];
 
-		permeabilityK  2.5E-4;
-		permeabilityNa   @( 2.5E-4 * 0.09 );
+                permeabilityK  @( Ito_permeabilityK[SimulationMode] );	
+                permeabilityNa   @( Ito_permeabilityK[SimulationMode] * 0.09 );
 	}
 
 	Variable Variable( i )
@@ -104,3 +111,12 @@ System System(/CELL/MEMBRANE/Ito)
 	@setCurrents( [ 'I' ], [ 'Na', 'cNa' ], [ 'K', 'cK' ] )
 
 }
+
+@{'''
+Author Hiromi KUMAMOTO
+Author Yasuhiro Naito
+
+Version 0.2 2008-11-27 06:12:24 +0900
+
+simBio 1.0 className   "org.simBio.bio.terashima_et_al_2006.current.cf.Ito"
+'''}

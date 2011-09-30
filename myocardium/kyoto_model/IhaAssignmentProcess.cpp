@@ -12,36 +12,33 @@ LIBECS_DM_CLASS( IhaAssignmentProcess, Process )
 	{
 		INHERIT_PROPERTIES( Process ); 
 
-		PROPERTYSLOT_SET_GET( Real, cAMP_Vshift );
 		PROPERTYSLOT_SET_GET( Real, cAMP0 );
 		PROPERTYSLOT_SET_GET( Real, hill_n );
 		PROPERTYSLOT_SET_GET( Real, Vshift );
 		PROPERTYSLOT_SET_GET( Real, amplitudecAMPf );
-		PROPERTYSLOT_SET_GET( Real, KmcAMP );
+		PROPERTYSLOT_SET_GET( Real, KmcAMP_hill_n );
 		PROPERTYSLOT_SET_GET( Real, permeabilityK );
 		PROPERTYSLOT_SET_GET( Real, permeabilityNa );
 	}
 	
 	IhaAssignmentProcess()
 		:
-		cAMP_Vshift( -0.0053410196444981595 ),
 		cAMP0( 2.93969563263e-07 ),
 		hill_n( 1.0 ),
 		Vshift( 0.0 ),
 		amplitudecAMPf( 1.0 ),
-		KmcAMP( 0.0002 ),
+		KmcAMP_hill_n( 0.0002 ),
 		permeabilityK( 0.05635 ),
 		permeabilityNa( 0.01379 )
 	{
 		// do nothing
 	}
 
-	SIMPLE_SET_GET_METHOD( Real, cAMP_Vshift );
 	SIMPLE_SET_GET_METHOD( Real, cAMP0 );
 	SIMPLE_SET_GET_METHOD( Real, hill_n );
 	SIMPLE_SET_GET_METHOD( Real, Vshift );
 	SIMPLE_SET_GET_METHOD( Real, amplitudecAMPf );
-	SIMPLE_SET_GET_METHOD( Real, KmcAMP );
+	SIMPLE_SET_GET_METHOD( Real, KmcAMP_hill_n );
 	SIMPLE_SET_GET_METHOD( Real, permeabilityK );
 	SIMPLE_SET_GET_METHOD( Real, permeabilityNa );
 	
@@ -72,45 +69,31 @@ LIBECS_DM_CLASS( IhaAssignmentProcess, Process )
 		cNa  = getVariableReference( "cNa" ).getVariable();
 		CFNa  = getVariableReference( "CFNa" ).getVariable();
 		I  = getVariableReference( "I" ).getVariable();
-
-		_KmcAMP_hill_n = pow( KmcAMP, hill_n );
 	}
 
 	virtual void fire()
 	{
 		_p = pow(( cAMP->getMolarConc() - cAMP0 ) * 1000.0, hill_n );
-		
-		cAMP_Vshift = amplitudecAMPf * 15.0 * _p / (_p + _KmcAMP_hill_n );
-		//cAMP_Vshift = 0.0;
-		
-		_v  = Vm->getValue() - Vshift - cAMP_Vshift;
-
+		_v  = Vm->getValue() - Vshift - ( amplitudecAMPf * 15.0 * _p / ( _p + KmcAMP_hill_n ));
 		_alpha = 1.0 / ( 2400.0 * exp( _v / 17.0 ));
 		_beta  = 1.0 / ( 6.5 * exp( -_v / 14.0 ) + 2.0 * exp( -_v / 530.0 ));
-		_myu   = 1.0 / ( 20000000.0 * exp( _v / 8.0 ) + 350.0 * exp( _v / 600.0 ));
-		_lamda = 1.0 / ( 14.5 * exp( -_v / 16.2 ) + 0.38 * exp( -_v / 530.0 ));
-
 		_pC1 = pC1->getValue();
 		_pC2 = pC2->getValue();
 		_pO1 = pO1->getValue();
 		_pO2 = pO2->getValue();
-		_pO3 = 1.0 - _pC1 - _pC2 - _pO1 - _pO2;
-
 		_pOpen = 1.0 - _pC1 - _pC2;
 		_i = GX->getValue() * _pOpen * Cm->getValue();
-		_cK  = permeabilityK  * CFK->getValue() * _i;
+		_cK = permeabilityK * CFK->getValue() * _i;
 		_cNa = permeabilityNa * CFNa->getValue() * _i;
 		
 		//p->setValue( _p );
 		//v->setValue(  );
 		//alpha->setValue( _alpha );
 		//beta->setValue( _beta );
-
-		vC1_C2->setValue( _lamda * _pC2 - _myu   * _pC1 );
-		vC2_O1->setValue( _beta  * _pO1 - _alpha * _pC2 );
-		vO1_O2->setValue( _beta  * _pO2 - _alpha * _pO1 );
-		vO2_O3->setValue( _beta  * _pO3 - _alpha * _pO2 );
-
+		vC1_C2->setValue( ( 1.0 / ( 14.5 * exp( -_v / 16.2 ) + 0.38 * exp( -_v / 530.0 )) ) * _pC2 - ( 1.0 / ( 20000000.0 * exp( _v / 8.0 ) + 350.0 * exp( _v / 600.0 )) ) * _pC1 );
+		vC2_O1->setValue( _beta * _pO1 - _alpha * _pC2 );
+		vO1_O2->setValue( _beta * _pO2 - _alpha * _pO1 );
+		vO2_O3->setValue( _beta * ( 1.0 - _pC1 - _pC2 - _pO1 - _pO2 ) - _alpha * _pO2 );
 		pOpen->setValue( _pOpen );
 		i->setValue( _i );
 		cK->setValue( _cK );
@@ -144,29 +127,24 @@ LIBECS_DM_CLASS( IhaAssignmentProcess, Process )
 	Variable* CFNa;
 	Variable* I;
 
-	Real cAMP_Vshift;
 	Real cAMP0;  // 2.93969563263e-07
 	Real hill_n;  // 1.0
 	Real Vshift;  // 0.0
 	Real amplitudecAMPf;  // 1.0
-	Real KmcAMP;  // 0.0002
+	Real KmcAMP_hill_n;  // 0.0002
 	Real permeabilityK;  // 0.05635
 	Real permeabilityNa;  // 0.01379
 
  private:
 
-	Real _KmcAMP_hill_n;  // 0.0002
 	Real _p;
 	Real _v;
 	Real _alpha;
 	Real _beta;
-	Real _myu;
-	Real _lamda;
 	Real _pC1;
 	Real _pC2;
 	Real _pO1;
 	Real _pO2;
-	Real _pO3;
 	Real _pOpen;
 	Real _i;
 	Real _cK;

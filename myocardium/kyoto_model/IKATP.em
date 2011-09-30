@@ -1,3 +1,65 @@
+@{
+IKATP_I = 0.004398611578760137
+IKATP_number = 2333.0
+IKATP_Cm0 = 132.0
+
+IKATP_amp = {
+	  "V" : 0.0236,
+	  "EMB" : 0.0236,
+	  "LAT" : 0.0236, 
+	  "NEO" : 0.0236, 
+	  "SAN" : 0.04173, 
+}
+
+}
+
+System System(/CELL/MEMBRANE/IKATP)
+{
+	StepperID	ODE;
+
+	Variable Variable( I )
+	{
+		Value @IKATP_I;
+	}
+
+	Variable Variable( POpen )
+	{
+		Value 0.000164995;
+	}
+
+	Variable Variable( GX ){
+		Value @( Kir6_2[SimulationMode]);
+	}
+
+	Process IKATPAssignmentProcess( I ) 
+	{
+		StepperID	PSV;
+		Priority	13;
+
+		VariableReferenceList
+			[ ATPi  :../../CYTOPLASM:ATPtotal  0 ]
+			[ pOpen :.:POpen                   1 ]
+			[ I     :.:I                       1 ]
+			[ GX    :.:GX                      0 ]
+			[ Ko    :/:K                       0 ]
+			[ EK    :..:EK                     0 ]
+			[ Vm    :..:Vm                     0 ]
+			[ Cm    :..:Cm                     0 ];
+
+#		amplitude  0.0236;
+#                amplitude  0.00312878787878788;
+#                amplitude  0.0236;
+                amplitude  @(IKATP_amp[SimulationMode]);
+		number     @IKATP_number;
+		constant   1.0e-3;
+		power      0.24;
+		Cm0        @IKATP_Cm0;
+	}
+
+	@setCurrents( [ 'I' ], [ 'K', 'I' ] )
+
+}
+
 @{'''
 Author  Maria TAKEUCHI
 Author  Hiromi KUMAMOTO
@@ -26,44 +88,3 @@ Version 0.2 2008-11-30 01:39:43 +0900
 		<link name="currentCl" initial_value="../currentCl" />
 	</IKATP>
 '''}
-
-System System(/CELL/MEMBRANE/IKATP)
-{
-	StepperID	ODE;
-
-	Variable Variable( I )
-	{
-		Value @IKATP_I;
-	}
-
-	Variable Variable( POpen )
-	{
-		Value 0.000164995;
-	}
-
-	Process IKATPAssignmentProcess( I ) 
-	{
-		StepperID	PSV;
-		Priority	13;
-
-		VariableReferenceList
-			[ ATPi  :../../CYTOPLASM:ATPtotal  0 ]
-			[ pOpen :.:POpen                   1 ]
-			[ I     :.:I                       1 ]
-			[ GX    :../../CYTOPLASM:Kir6_2    0 ]
-			[ Ko    :/:K                       0 ]
-			[ EK    :..:EK                     0 ]
-			[ Vm    :..:Vm                     0 ]
-			[ Cm    :..:Cm                     0 ];
-
-		amplitude  0.0236;
-		number     @IKATP_number;
-		constant   1.0e-3;
-		power      0.24;
-		Cm0        @IKATP_Cm0;
-	}
-
-	@setCurrents( [ 'I' ], [ 'K', 'I' ] )
-
-}
-

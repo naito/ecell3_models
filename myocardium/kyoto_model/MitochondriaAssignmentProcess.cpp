@@ -244,11 +244,13 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 
 	virtual void fire()
 	{
-		_SizeN_A = getSuperSystem()->getSizeN_A();
-
 		_ATPtmit = ATPtmit->getValue();
 
 		volume->setValue( total->getValue() * ratio->getValue() );
+
+		_SizeN_A = getSuperSystem()->getSizeN_A();
+		//		printf("Mit: %12.10f\n",_SizeN_A);
+
 		Rcm->setValue( 1.0 / ratio->getValue() );
 		_Rcm = Rcm->getValue();
 		Pi->setValue( PiTotal->getValue() - PCr->getValue() - 3.0 * ATPtcell->getValue() - 2.0 * ADPtcell->getValue() - AMP->getValue() - 3.0 * _ATPtmit - 2.0 * ADPtmit->getValue() - Pimit->getValue() );
@@ -569,17 +571,17 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	*/
 	
 /*
-	void setComponent( Real total, Variable* self, Variable* other )
+	void setComponent( Real total, VariableReference self, VariableReference other )
 	{
 		self->setValue( total * getSuperSystem()->getSizeN_A() - other->getValue() );
 	}
 
-	void setRedoxPotential( Real Em0, Real Zscale, Real Zvalue, Variable* Em, Variable* product, Variable* substrate )
+	void setRedoxPotential( Real Em0, Real Zscale, Real Zvalue, VariableReference Em, VariableReference product, VariableReference substrate )
 	{
 		Em->setValue( Em0 + Zscale * Zvalue * 0.5 * log10( product->getValue() / substrate->getValue() ) );
 	}
 
-	void setMetalEquilibrium( Real kD, Variable* total, Variable* ligand, Variable* bind, Variable* free )
+	void setMetalEquilibrium( Real kD, VariableReference total, VariableReference ligand, VariableReference bind, VariableReference free )
 	{
 		Real _free = total->getValue() / ( 1.0 + ligand->getMolarConc() / kD);
 		free->setValue( _free );

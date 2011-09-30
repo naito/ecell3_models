@@ -1,18 +1,21 @@
-@{'''
-Author Aoi Miyabe
-Author Yasuhiro Naito
+@{
+ICaT_I = -0.14736011962422257
+ICaT_activation = 1.4707665423108421E-5
+ICaT_inactivation = 0.8741697711751273
 
-Version 0.2 2008-11-24 12:18:55 +0900
+ICaT_permeabilityCa = {
+	"V" : 4.636,
+	"EMB" : 4.636,
+	"LAT" : 4.636,
+	"NEO" : 4.636,
+	"SAN" : 4.636,
+}
 
-simBio 1.0 className	"org.simBio.bio.terashima_et_al_2006.current.cf.ICaT"
-'''}
+}
 
 System System(/CELL/MEMBRANE/ICaT)
 {
 	StepperID	ODE;
-
-
-
 
 	Variable Variable( I )
 	{
@@ -44,6 +47,10 @@ System System(/CELL/MEMBRANE/ICaT)
 		Value 7.31376837008e-05;
 	}
 
+	Variable Variable( GX ){
+		Value @( Cav3_1[SimulationMode]);
+	}
+
 	Process ICaTAssignmentProcess( I ) 
 	{
 		StepperID	PSV;
@@ -56,12 +63,13 @@ System System(/CELL/MEMBRANE/ICaT)
 			[ y1    :.:activation            0 ]
 			[ y2    :.:inactivation          0 ]
 			[ pOpen :.:POpen                 1 ]
-			[ GX    :../../CYTOPLASM:Cav3_1  0 ]
+			[ GX       :.:GX                 0 ]
+#			[ GX    :../../CYTOPLASM:Cav3_1  0 ]
 			[ Cm    :..:Cm                   0 ]
 			[ CFCa  :..:CFCa                 0 ]
 			[ I     :.:I                     1 ];
 
-		permeabilityCa    4.636;  # pA/mM
+		permeabilityCa  @( ICaT_permeabilityCa[SimulationMode] );  # pA/mM
 	}
 
 	Process ZeroVariableAsFluxProcess( activation ) 
@@ -85,3 +93,12 @@ System System(/CELL/MEMBRANE/ICaT)
 	@setCurrents( [ 'I' ], [ 'Ca', 'I' ] )
 
 }
+
+@{'''
+Author Aoi Miyabe
+Author Yasuhiro Naito
+
+Version 0.2 2008-11-24 12:18:55 +0900
+
+simBio 1.0 className	"org.simBio.bio.terashima_et_al_2006.current.cf.ICaT"
+'''}

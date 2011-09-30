@@ -68,7 +68,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 		Name "Isotonic Contraction Assignment";
 
 		StepperID	PSV;
-		Priority	20;
+#		Priority	20;
+		Priority	-1;
 
 		VariableReferenceList
 			[ L         :..:halfSarcomereLength  1 ]
@@ -130,7 +131,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 	{
 		Name "Cross Bridge Length";
 
-		Priority	15;
+#		Priority	15;
+		Priority	-2;
 
 		VariableReferenceList
 			[ dXdt :.:dXdt  0 ]
@@ -140,7 +142,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Process ZeroVariableAsFluxProcess( qb ) 
 	{
-		Priority	15;
+#		Priority	15;
+		Priority	-2;
 
 		VariableReferenceList
 			[ qb       :.:qb        0 ]
@@ -151,7 +154,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Process ZeroVariableAsFluxProcess( qa1 ) 
 	{
-		Priority	15;
+#		Priority	15;
+		Priority	-2;
 
 		VariableReferenceList
 			[ qa1   :.:qa1     0 ]
@@ -161,7 +165,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Process ZeroVariableAsFluxProcess( qa2 ) 
 	{
-		Priority	15;
+#		Priority	15;
+		Priority	-2;
 
 		VariableReferenceList
 			[ qa2   :.:qa2         0 ]
@@ -174,7 +179,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Process ZeroVariableAsFluxProcess( qr ) 
 	{
-		Priority	15;
+#		Priority	15;
+		Priority	-2;
 
 		VariableReferenceList
 			[ qr      :.:qr        0 ]
@@ -186,7 +192,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Process ZeroVariableAsFluxProcess( qd ) 
 	{
-		Priority	15;
+#		Priority	15;
+		Priority	-2;
 
 		VariableReferenceList
 			[ qd  :.:qd          0 ]
@@ -198,7 +205,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Process ZeroVariableAsFluxProcess( qd1 ) 
 	{
-		Priority	15;
+#		Priority	15;
+		Priority	-2;
 
 		VariableReferenceList
 			[ qd1 :.:qd1         0 ]
@@ -210,7 +218,8 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Process ZeroVariableAsFluxProcess( qd2 ) 
 	{
-		Priority	15;
+#		Priority	15;
+		Priority	-2;
 
 		VariableReferenceList
 			[ qd2     :.:qd2         0 ]
