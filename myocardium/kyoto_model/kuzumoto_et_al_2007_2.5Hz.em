@@ -1,66 +1,66 @@
 @# Kuzumoto et al. 2007
 
+@{SimulationMode = 'V'}
+# EMB, LAT, NEO, V, SAN
+
+@include('SetOptions.em')
+
 @{
-'''モデル中ので共有する値'''
+MitFactor = {
+	"V" : 1.0, #0.23
+	"EMB" : 0.1, #0.23/10
+	"LAT" : 0.5, #0.23/2
+	"NEO" : 0.5, #0.23/2
+	"SAN" : 1.0 #0.23
+}
 
-'''cAMP0 (M)'''
-cAMP0 = 2.939695632625512e-7
+SRFactor = {
+	"V" : 1.0,
+	"EMB" : 0.04,
+	"LAT" : 0.3,
+	"NEO" : 0.3,
+	"SAN" : 0.03
+}
 
+Vi_SIZE = {
+	"V" : 12800.0e-15,
+#	"EMB" : 12800.0e-15,
+	"EMB" : 1697.0e-15,
+	"LAT" : 2121.2e-15,
+	"NEO" : 2424.2e-15,
+	"SAN" : 5029.0e-15
+}
 
+active_volume = 0.8
+Vt_SIZE = Vi_SIZE[SimulationMode] / active_volume
+Vn_SIZE = Vt_SIZE - Vi_SIZE[SimulationMode]
 
-'''アボガドロ数'''
-N_A = 6.0221367e+23
+SRREL_SIZE_init = Vi_SIZE[SimulationMode] * 0.02 * SRFactor[SimulationMode]
+SRUP_SIZE_init  = Vi_SIZE[SimulationMode] * 0.05 * SRFactor[SimulationMode]
 
-'''ファラデー定数（C/mmol）'''
-F   = 96.4867
+MITOCHONDRIA_SIZE_init = Vi_SIZE[SimulationMode] * 0.23 * MitFactor[SimulationMode]
 
-'''気体定数（mV/K/mmol）'''
-R   = 8.3143
+Mit_volumeRatio = 0.23 * MitFactor[SimulationMode]
+Mit_Rcm_init = 1.0 / Mit_volumeRatio
 
-zNa = 1.0
-zK  = 1.0
-zCa = 2.0
-zCl = -1.0
+Cm = {
+	"V" : 211.2,
+	"EMB" : 28.0,
+	"LAT" : 35.0,
+	"NEO" : 40.0,
+	"SAN" : 32.0
+}
 
-R_F = R / F
+Cm_V = {
+	"V" : 211.2,
+	"EMB" : 211.2,
+	"LAT" : 211.2,
+	"NEO" : 211.2,
+	"SAN" : 32.0
+}
+}
 
-R_FzNa = R / F / zNa
-R_FzK  = R / F / zK
-R_FzCa = R / F / zCa
-R_FzCl = R / F / zCl
-
-FzNa_R = zNa * F / R
-FzK_R  = zK  * F / R
-FzCa_R = zCa * F / R
-FzCl_R = zCl * F / R
-
-# (/sec)
-'''
-_pA2J = 1.0e-15 * N_A / F
-_pA2J_Na = 1.0e-15 * N_A / zNa / F
-_pA2J_K  = 1.0e-15 * N_A / zK  / F
-_pA2J_Ca = 1.0e-15 * N_A / zCa / F
-_pA2J_Cl = 1.0e-15 * N_A / zCl / F
-
-_C2mV = 1.0e-15 / N_A * F
-'''
-
-# (/msec)
-_pA2J = 1.0e-18 * N_A / F
-_pA2J_Na = 1.0e-18 * N_A / zNa / F
-_pA2J_K  = 1.0e-18 * N_A / zK  / F
-_pA2J_Ca = 1.0e-18 * N_A / zCa / F
-_pA2J_Cl = 1.0e-18 * N_A / zCl / F
-
-_C2mV = 1.0e-18 / N_A * F
-
-'''モデル内パラメータ'''
-StepInterval = 0.01  # (msec)
-
-Vt0 = 18553.33902944335e-15
-Cm0 = 211.2
-
-Cytoplasm_SIZE = 15353.339029443347e-15  # (L)
+@{
 
 PKA0   = 1.3644055081894695e-7
 amplitudePKAf = 0.0
@@ -68,197 +68,227 @@ amplitudePKAf = 0.0
 IsotonicContraction_X = 0.9567533837638065
 IsotonicContraction_dXdt = 1.1936490127522834E-5
 
-vAK = -1.512384036501122E-8  # (mM/ms)
-vCK = -7.176621333962875E-5  # (mM/ms)
+#INa
+Nav1_5 = {
+	"V" : 1.0,
+	"EMB" : 0.07,
+#	"EMB" : 0.0769,
+	"LAT" : 1.0,
+	"NEO" : 1.0,
+	"SAN" : 1.0	
+}
 
-INa_I = -22.37340068433973
-INa_pRP = 0.39171609519888434
-INa_pAP = 1.5971760039227196E-5
-INa_pAI = 0.368385053951178
-INa_pRI = 1.0 - INa_pRP - INa_pAP - INa_pAI
-INa_gate = 0.6438319698769808
-INa_GX = 1.0
+#ICaL
+Cav1_2 = {
+	"V" : 1.0,
+	"EMB" : 0.46,
+	"LAT" : 0.78,
+	"NEO" : 0.78,
+	"SAN" : 1.0	
+}
 
-ICaL_AssignmentProcess_Name = "ICaLAssignmentProcess"
-ICaL_I = -0.021540284879286362
-ICaL_pRP = 0.9986559554086973
-ICaL_pAP = 1.0689156140294714E-6
-ICaL_pAI = 3.097435461749658E-4
-ICaL_pRI = 1.0 - ICaL_pRP - ICaL_pAP - ICaL_pAI
-ICaL_pU = 0.18248096326453925
-ICaL_pUCa = 8.751644952667154E-5
-ICaL_pC = 0.44939265821991975
-ICaL_pCCa = 1.0 - ICaL_pU - ICaL_pUCa - ICaL_pC
-ICaL_gate = 0.9994680498831937
-ICaL_KmPKA  = 0.00065e-3
-ICaL_hill_n = 2.0
-ICaL_MAX    = 3.0
-ICaL_kSingleCurrentAmp = 0.3
-ICaL_GX = 1.0
+#ICaT
+Cav3_1 = {
+	"V" : 1.0,
+	"EMB" : 4.5,
+	"LAT" : 4.5,
+	"NEO" : 1.0,
+	"SAN" : 1.0	
+}
 
-CaDiadic = -3.829497696421197E-4
+## Ist
+iStGene = {
+	"V" : 0,
+	"EMB" : 1.0,
+	"LAT" : 0,
+	"NEO" : 0,
+	"SAN" : 1.0	
+}
 
-ICaT_I = -0.14736011962422257
-ICaT_activation = 1.4707665423108421E-5
-ICaT_inactivation = 0.8741697711751273
-ICaT_GX = 1.0
+#Iha
+HCN = {
+	"V" : 0,
+	"EMB" : 1.0,
+	"LAT" : 0,
+	"NEO" : 0,
+	"SAN" : 1.0	
+}
 
-Ist_I = -16.671793749027845
-Ist_max = 1.0
-Ist_activation = 0.5552440040685058
-Ist_inactivation = 0.7736648554025101
-Ist_slowInactivation = 0.8287412781899008
-Ist_GX = 0.0
+#IK1
+Kir2_1 = {
+	"V" : 1.0,
+	"EMB" : 0.11,
+	"LAT" : 1.0,
+	"NEO" : 1.0,
+	"SAN" : 1.0	
+}
 
-Iha_I = 0.1858646715405654
-Iha_cAMP_Vshift    = -0.005343609952096294
-Iha_closedState1 = 0.9809411647486099
-Iha_closedState2 = 0.004874393600131279
-Iha_openState1 = 0.0049186575234831985
-Iha_openState2 = 0.004832728401994978
-Iha_GX = 0.0
+#IKr
+erg1 = {
+       "V" : 1.0,
+       "EMB" : 2.0,
+       "LAT" : 2.0,
+       "NEO" : 1.5,
+       "SAN" : 1.0
+}
 
-IK1_I = 24.29288398159507
-IK1_Pspm = 0.6373407661728812
-IK1_GX = 1.0
+#IKs
+KCNQ1 = {
+       "V" : 1.0,
+       "EMB" : 0.01,
+       "LAT" : 0.01,
+       "NEO" : 2.0,
+       "SAN" : 1.0
+}
 
-IKr_I = 0.09486894729445249
-IKr_gate1 = 0.0011801183298905053
-IKr_gate2 = 0.1621809652686286
-IKr_gate3 = 0.969315526153146
-IKr_POpen = 0.063568155284470809
-IKr_GX = 1.0
+#Ito
+Kv1_4 = {
+      "V" : 1.0,
+      "EMB" : 0.01,
+      "LAT" : 0.27,
+      "NEO" : 1.0,
+      "SAN" : 1.0
+}
 
-IKS_AssignmentProcess_Name = "IKsAssignmentProcess"
-IKs_I = -1.2115421550329173
-IKs_gate1 = 0.15386065638396113
-IKs_gate2 = 0.45916408455111457
-IKs_gateC2 = 0.07834389466278933
-IKs_KCNQ1 = 2.1132650663548235E-8
-IKs_KCNQ1free = 1.4550513768928859E-9
-IKs_KCNQ1p = 2.373203529130647E-9
-IKs_KCNQ1p_ratio = 0.09492814116522588
-IKs_POpen = 0.012150164373409759
-IKs_ka11 = 85.0
-IKs_ka12 = -10.5
-IKs_ka13 = 370.0
-IKs_ka14 = -62.0
-IKs_kb11 = 1450.0
-IKs_kb12 = 20.0
-IKs_kb13 = 300.0
-IKs_kb14 = 210.0
-IKs_GX = 1.0
+#IKACh
+Kir3_1 = {
+      "V" : 0,
+      "EMB" : 0,
+#      "EMB" : 1.0,
+      "LAT" : 0,
+      "NEO" : 0,
+      "SAN" : 1.0
+}
 
-Ito_GX = 1.0
+#INaK
+NaK_ATPase = {
+	"V" : 1.0,
+	"EMB" : 1.0,
+	"LAT" : 1.0,
+	"NEO" : 1.0,
+	"SAN" : 1.0
+}
 
-IKACh_I = 0.0
-# IKACh_Km
-# IKACh_permeabilityK
-IKACh_gate = 0.027497803645978498
-IKACh_GX = 0.0
+#INaCa
+NCX1 = {
+     	"V" : 1.0,
+	"EMB" : 4.95,
+	"LAT" : 1.74,
+	"NEO" : 1.0,
+	"SAN" : 1.0
+}
 
-INaK_I = 71.0920500406155
-INaK_gate = 0.5355938158215787
-INaK_amplitude0 = 10.8
-INaK_GX = 1.0
+#ILCCA
+LCCa_gene = {
+	"V" : 1.0,
+	"EMB" : 1.0,
+	"LAT" : 1.0,
+	"NEO" : 1.0,
+	"SAN" : 1.0
+}
 
-INaCa_I = -12.382208025484562
-INaCa_pE1total = 0.1527696589632682
-INaCa_inActivation1 = 0.1744224872482831
-INaCa_inActivation2 = 0.6724616314101051
-INaCa_pE2total = 1.0 - INaCa_pE1total - INaCa_inActivation1 - INaCa_inActivation2
-INaCa_GX = 1.0
+Kir6_2 = {
+       "V" : 1.0,
+       "EMB" : 0.32,
+       "LAT" : 0.88,
+       "NEO" : 1.0,
+       "SAN" : 1.0
+}
 
-IPMCA_I =2.9355898549522
-IPMCA_gate = 0.47231826638070495
-IPMCA_amplitude = 0.045815939110831344
-IPMCA_GX = 1.0
+Kpl_gene = {
+	 "V" : 1.0,
+	 "EMB" : 1.0,
+	 "LAT" : 1.0,
+	 "NEO" : 1.0,
+	 "SAN" : 1.0
+}
 
-ILCCa_I = -0.18270158054719257
-ILCCa_GX = 1.0
+#IbNSC 
+bNSC_gene = {
+	  "V" : 1.0,
+	  "EMB" : 1.0,
+	  "LAT" : 1.0,
+	  "NEO" : 1.0,
+	  "SAN" : 1.0	  
+}
 
-IKATP_I = 0.004398611578760137
-IKATP_number = 2333.0
-IKATP_Cm0 = Cm0 * 132.0 / 211.2  # 132.0
-IKATP_GX =  1.0
+#ICab
+Cab_gene = {
+	  "V" : 1.0,
+	  "EMB" : 1.0,
+	  "LAT" : 1.0,
+	  "NEO" : 1.0,
+	  "SAN" : 1.0	  
+}
 
-IKpl_I = 3.2585916791737464E-6
-IKpl_GX = 1.0
+#IClb
+Clb_gene = {
+	  "V" : 1.0,
+	  "EMB" : 1.0,
+	  "LAT" : 1.0,
+	  "NEO" : 1.0,
+	  "SAN" : 1.0	  
+}
 
-IbNSC_I = -57.13324953461715
-IbNSC_GX = 1.0
+#NKCC
+NKCC_gene = {
+	  "V" : 1.0,
+	  "EMB" : 1.0,
+	  "LAT" : 1.0,
+	  "NEO" : 1.0,
+	  "SAN" : 1.0	  
+}
 
-ICab_I = -0.7490997296750779
-ICab_GX = 1.0
+#IRyR
+RyR1 = {
+	  "V" : 1.0,
+	  "EMB" : 0.05,
+	  "LAT" : 0.4,
+	  "NEO" : 0.4,
+	  "SAN" : 1.0	  
+}
 
-IClb_I = -0.5756468538907918
-IClb_GX = 1.0
+#ISRCa
+SERCA = {
+	  "V" : 1.0,
+	  "EMB" : 0.03,
+	  "LAT" : 0.21,
+	  "NEO" : 0.21,
+	  "SAN" : 1.0  
+}
 
-NKCC_ClFlux = 0.6550976711989519
-NKCC_GX = 1.0
 
-IRyR_I = 8.513204629271943
-IRyR_open = 1.1813918231968055e-4
-IRyR_close = 0.18962058256879352
-IRyR_GX = 1.0
+#Ileak
+leak_act = {
+	  "V" : 1.0,
+	  "EMB" : 0.04,
+	  "LAT" : 0.3,
+	  "NEO" : 0.3,
+	  "SAN" : 1.0  
+}
 
-PLB_Inhib1ptot = 1.0531940250521041e-7
-PLB_PLBp = 0.008395558810715353e-3
-PLB_Inhib1tot = 3.0E-7
-PLB_PP1tot = 8.9E-7
-PLB_PLB = 0.09760444118928464e-3
-PLB_Inhib1 = 1.9468059749478957E-7
-PLB_Inhib1p = 1.3402576051448544E-10
-PLB_PP1_Inhib1p = 1.0518537674469592E-7
-PLB_PP1 = 7.84814623255304E-7
-PLB_PLBItot = 0.106e-3
+transfer_act = {
+	  "V" : 1.0,
+	  "EMB" : 0.04,
+	  "LAT" : 0.3,
+	  "NEO" : 0.3,
+	  "SAN" : 1.0  
+}
 
-ISRCA_I = -49.37365888139317
-ISRCA_gate = 0.02932301538170902
-ISRCA_GX = 1.0
-
-leak_I = 110.65094623284274
-leak_permeabilityCa = 0.3e+3
-
-Mitochondria_SIZE = 3531.2679767719696e-15
-Mitochondria_Rcm = 4.3478260869565215
-Mitochondria_Mg = 0.38e-3
-Mitochondria_Proton = 3.8052117309416624E-8
-Mitochondria_pH = 7.419621173053379
-Mitochondria_rbuffer = 251378.46458038045
-Mitochondria_ATPtotal = 6.403037657787217e-3
-Mitochondria_ATPfree = 2.741854916432813e-4
-Mitochondria_ATPmg = 6.128852166143936e-3
-Mitochondria_ADPtotal = 9.856962342212785e-3
-Mitochondria_ADPfree = 4.198887281728104e-3
-Mitochondria_ADPmg = 5.6580750604846815e-3
-Mitochondria_ANP_total = 16.26e-3
-Mitochondria_Pi = 5.247469299976676e-3
-Mitochondria_NADH = 8.948906751612181e-4
-Mitochondria_NAD = 2.075109324838782e-3
-Mitochondria_NAD_H_total = 2.97e-3
-Mitochondria_UQH2 = 1.0522454291006709e-3
-Mitochondria_UQ = 2.977545708993292e-4
-Mitochondria_UQ_H2_total = 1.35e-3
-Mitochondria_Cytc2 = 5.012887032447142e-5
-Mitochondria_Cytc3 = 2.198711296755286e-4
-Mitochondria_Cytc_23_total = 0.27e-3
-Mitochondria_EmN = -308.76432763447485
-Mitochondria_EmU = 68.13566055321765
-Mitochondria_Emc = 289.50055595027567
-Mitochondria_Ema = 635.123715429545
-Mitochondria_Cyta2 = 3.7318683311245e-6
-Mitochondria_Cyta3 = 1.3126813166887552e-4
-Mitochondria_Cyta_total = 1.35e-4
-Mitochondria_vC1 = 1.0875968955265928e-4
-Mitochondria_vC3 = 1.1175267504158818e-4
-Mitochondria_vC4 = 5.593585025749086e-5
-Mitochondria_vSN = 2.636388261805263e-4
-Mitochondria_vANT = 1.8697025007886943e-4
-Mitochondria_vPI = 2.52434188981354e-4
-Mitochondria_vLK = 2.4173630507944038E-4
-Mitochondria_vDH = 1.1307728142212603E-4
-Mitochondria_Amp = 5.0
+diadicFactor = {
+	"V" : -150.0,
+	"EMB" : -3.0,
+	"LAT" : -60.0,
+	"NEO" : -60.0,
+	"SAN" : -150.0
+}
+SRtrans_permeabilityCa = {
+		       "V" : 5.0e+3,
+		       "EMB" : 5.0e+3,
+		       "LAT" : 5.0e+3,
+		       "NEO" : 5.0e+3,
+		       "SAN" : 0.99e+3,		       
+}
 
 CurrentClamp_amplitude = -8000.0
 CurrentClamp_onset     =  50.0
@@ -625,179 +655,187 @@ System System( /CELL/CYTOPLASM )
 
 	Variable Variable( SIZE )
 	{
-		Value @Cytoplasm_SIZE;  # units="L"
+#		Value 15353.339029443347e-15;  # units="L"
+#		Value 1.99593407382764e-12;
+
+		Value @(Vi_SIZE[SimulationMode] );
 	}
 
 	Variable Variable( active_volume )
 	{
-		Value 80.0;	# percentage(dimensionless)
+#		Value 80.0;	# percentage(dimensionless)
+		Value @(active_volume);	# percentage(dimensionless)
 	}
 
 
 	@# 遺伝子発現
 
 	@# INa
-	Variable Variable( Nav1_5 )
-	{
-		Name   "Relative expression of Nav1.5 for INa";
-		Value  @INa_GX;
-	}
+#	Variable Variable( Nav1_5 )
+#	{
+#		Name   "Relative expression of Nav1.5 for INa";
+#		Value  @( Nav1_5[SimulationMode]);
+#	}
 	
 	@# ICaL
-	Variable Variable( Cav1_2 )
-	{
-		Name   "Relative expression of Cav1.2 for ICaL";
-		Value  @ICaL_GX;
-	}
+#	Variable Variable( Cav1_2 )
+#	{
+#		Name   "Relative expression of Cav1.2 for ICaL";
+#		Value  @( Cav1_2[SimulationMode]);
+#	}
 
 	@# ICaT
-	Variable Variable( Cav3_1 )
-	{
-		Name   "Relative expression of Cav3.1 for ICaT";
-		Value  @ICaT_GX;
-	}
+#	Variable Variable( Cav3_1 )
+#	{
+#		Name   "Relative expression of Cav3.1 for ICaT";
+#		Value  1.0;
+#	}
 
 	@# Ist
-	Variable Variable( ST_gene )
-	{
-		Name   "Relative expression for Ist";
-		Value  @Ist_GX;
-	}
-
-	@# Iha
-	Variable Variable( HCN )
-	{
-		Name	"Relative expression of HCN for Iha";
-		Value	@Iha_GX;
-	}
+#	Variable Variable( ST_gene )
+#	{
+#		Name   "Relative expression for Ist";
+#		Value  0.0;
+#	}
 
 	@# IK1
-	Variable Variable( Kir2_1 )
-	{
-		Name   "Relative expression of Kir2.1 for IK1";
-		Value  @IK1_GX;
-	}
+#	Variable Variable( Kir2_1 )
+#	{
+#		Name   "Relative expression of Kir2.1 for IK1";
+#		Value  1.0;
+#	}
 
 	@# IKr
-	Variable Variable( erg1 )
-	{
-		Name   "Relative expression of erg1 for IKr";
-		Value  @IKr_GX;
-	}
+#	Variable Variable( erg1 )
+#	{
+#		Name   "Relative expression of erg1 for IKr";
+#		Value  1.0;
+#	}
 
 	@# IKs
-	Variable Variable( KCNQ1 )
-	{
-		Name   "Relative expression of KCNQ1 for IKs";
-		Value  @IKs_GX;
-	}
+#	Variable Variable( KCNQ1 )
+#	{
+#		Name   "Relative expression of KCNQ1 for IKs";
+#		Value  1.0;
+#	}
 
 	@# Ito
-	Variable Variable( Kv1_4 )
-	{
-		Name   "Relative expression of Kv1.4 for Ito";
-		Value  @Ito_GX;
-	}
+#	Variable Variable( Kv1_4 )
+#	{
+#		Name   "Relative expression of Kv1.4 for Ito";
+#		Value  1.0;
+#	}
 
 	@# IKACh
-	Variable Variable( KACh_gene )
-	{
-		Name   "Relative expression for IKACh";
-		Value  @IKACh_GX;
-	}
+#	Variable Variable( Kir3_1 )
+#	{
+#		Name   "Relative expression for IKACh";
+#		Value  0.0;
+#	}
 
 	@# INaK
-	Variable Variable( NaK_ATPase )
-	{
-		Name	"Relative expression of Na/K ATPase for Na/K pump";
-		Value	@INaK_GX;
-	}
+#	Variable Variable( NaK_ATPase )
+#	{
+#		Name	"Relative expression of Na/K ATPase for Na/K pump";
+#		Value	1.0;
+#	}
 
-	@# INaCa
-	Variable Variable( NCX1 )
-	{
-		Name	"Relative expression of NCX1 for Na/Ca exchanger";
-		Value	@INaCa_GX;
-	}
+#	@# INaCa
+#	Variable Variable( NCX1 )
+#	{
+#		Name	"Relative expression of NCX1 for Na/Ca exchanger";
+#		Value	1.0;
+#	}
 
 	@# IPMCA
-	Variable Variable( PMCA_gene )
-	{
-		Name   "Relative expression of IPMCA";
-		Value  @IPMCA_GX;
-	}
 
-	@# ILCCa
-	Variable Variable( LCCa_gene )
-	{
-		Name   "Relative expression for ILCCa";
-		Value  @ILCCa_GX;
-	}
+#	@# ILCCa
+#	Variable Variable( LCCa_gene )
+#	{
+#		Name   "Relative expression for ILCCa";
+#		Value  1.0;
+#	}
 
 	@# IKATP
-	Variable Variable( Kir6_2 )
-	{
-		Name   "Relative expression of Kir6.2 for IKATP";
-		Value  @IKATP_GX;
-	}
+#	Variable Variable( Kir6_2 )
+#	{
+#		Name   "Relative expression of Kir6.2 for IKATP";
+#		Value  1.0;
+#	}
 
 	@# IKpl
-	Variable Variable( Kpl_gene )
-	{
-		Name   "Relative expression for IKpl";
-		Value  @IKpl_GX;
-	}
+#	Variable Variable( Kpl_gene )
+#	{
+#		Name   "Relative expression for IKpl";
+#		Value  1.0;
+#	}
 
-	@# IbNSC
-	Variable Variable( bNSC_gene )
-	{
-		Name   "Relative expression for IbNSC";
-		Value  @IbNSC_GX;
-	}
+#	@# IbNSC
+#	Variable Variable( bNSC_gene )
+#	{
+#		Name   "Relative expression for IbNSC";
+#		Value  1.0;
+#	}
 
-	@# ICab
-	Variable Variable( Cab_gene )
-	{
-		Name   "Relative expression for ICab";
-		Value  @ICab_GX;
-	}
+#	@# ICab
+#	Variable Variable( Cab_gene )
+#	{
+#		Name   "Relative expression for ICab";
+#		Value  1.0;
+#	}
 
-	@# IClb
-	Variable Variable( Clb_gene )
-	{
-		Name   "Relative expression for IClb";
-		Value  @IClb_GX;
-	}
+#	@# IClb
+#	Variable Variable( Clb_gene )
+#	{
+#		Name   "Relative expression for IClb";
+#		Value  1.0;
+#	}
 
-	@# NKCC
-	Variable Variable( NKCC_gene )
-	{
-		Name   "Relative expression for NKCC";
-		Value  @NKCC_GX;
-	}
+#	@# NKCC
+#	Variable Variable( NKCC_gene )
+#	{
+#		Name   "Relative expression for NKCC";
+#		Value  1.0;
+#	}
 
 	@# IVRCC
 
 	@# ICFTR
 
+	@# Iha
+#	Variable Variable( HCN )
+#	{
+#		Name	"Relative expression of HCN for Iha";
+#		Value	1.0;
+#	}
+
 	@# IRyR
-	Variable Variable( RyR1 )
+
+	Variable Variable( SR_activity )
 	{
-		Name	"Relative expression of RyR1 for IRyR";
-		Value	@IRyR_GX;
+		Name	"Relative expression of SR";
+		Value	1.0;
 	}
+
+#	Variable Variable( RyR1 )
+#	{
+#		Name	"Relative expression of RyR1 for IRyR";
+#		Value	1.0;
+#	}
 
 	@# leak
+#	Variable Variable( leak_activity )
+#	{
+#		Name	"Relative activity of SR leak current";
+#		Value	1.0;
+#	}
 
 	@# ISRCA
-	Variable Variable( SERCA )
-	{
-		Name	"Relative expression of SERCA for ISRCA";
-		Value	@ISRCA_GX;
-	}
-
-
-
+#	Variable Variable( SERCA )
+#	{
+#		Name	"Relative expression of SERCA for ISRCA";
+#		Value	1.0;
+#	}
 
 	@# ion
 
@@ -847,7 +885,7 @@ System System( /CELL/CYTOPLASM )
 	Variable Variable( Vt )
 	{
 		Name "Vt";
-		Value @( Vt0 );  # (L)
+		Value @( Vt_SIZE );  # (L)
 	}
 
 	Process CytoplasmAssignmentProcess( Cytoplasm ) 
@@ -855,11 +893,14 @@ System System( /CELL/CYTOPLASM )
 		Name "Total cell volume";
 
 		StepperID	PSV;
+#		Priority	200;
 		Priority	3;
 
 		VariableReferenceList
-			[ Vi           :.:SIZE                   0 ]
+#			[ Vi           :.:SIZE                   0 ]
+			[ Vi           :.:SIZE                   1 ]
 			[ Vt           :.:Vt                     1 ]
+			[ active_volume :.:active_volume          0 ]
 			[ Volume_ratio :.:Volume_ratio           1 ]
 			[ Proton       :.:Proton                 0 ]
 			[ pH           :.:pH                     1 ]
@@ -900,8 +941,11 @@ System System( /CELL/CYTOPLASM )
 
 
 		# Vn              3200.0;          # the osmotically inactive cell volume (um^3)
-		Vn_L              3200.0e-15;      # (L)
-		Vt0i              @( 1.0 / Vt0 );
+#		Vn_L              3200.0e-15;      # (L)
+#		Vn_L              7.072e-14;      # (L)
+		Vn_L              @( Vn_SIZE );
+		Vt0i              @( 1.0 / Vt_SIZE );
+
 		ActivityFactor    1.0;
 		kD_ATP            0.024e-3;        # units="M"
 		kD_ADP            0.347e-3;        # units="M"
@@ -915,8 +959,6 @@ System System( /CELL/CYTOPLASM )
 		Km_calmodulin     2.38e-06;        # units="M"
 		calmodulin_total  5e-05;           # units="M"
 	}
-
-
 
 	@# <VolumeRatio name="Volume ratio">
 
@@ -1076,7 +1118,7 @@ System System( /CELL/CYTOPLASM )
 	Variable Variable( WaterFlux )
 	{
 		Name "Water Flux";
-		Value -5.3058761952021085e-21;
+		Value -5.30589229565e-21;
 	}
 
 	Process ZeroVariableAsFluxProcess( WaterFlux ) 
@@ -1091,8 +1133,6 @@ System System( /CELL/CYTOPLASM )
 			[ volumeext  :/:SIZE         -1 ];
 	}
 
-
-
 	Variable Variable( halfSarcomereLength )
 	{
 		Name "Half sarcomere length (um)";
@@ -1100,13 +1140,12 @@ System System( /CELL/CYTOPLASM )
 	}
 
 
-	@# <AdenylateKinase name="vAK" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK" >
+	@# <AdenylateKinase name="vAK" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK">
 
 	Variable Variable( vAK )
 	{
 		Name "vAK";
-		Value @( vAK * 1.0e-3 * Cytoplasm_SIZE * N_A );
-		@# <AdenylateKinase name="vAK" initial_value="-1.512384036501122E-8" units="mM/ms" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.AK" >
+		Value -139.834886511;
 	}
 
 	Process ZeroVariableAsFluxProcess( vAK ) 
@@ -1131,8 +1170,7 @@ System System( /CELL/CYTOPLASM )
 	Variable Variable( vCK )
 	{
 		Name "Creatine Kinase";
-		Value @( vCK * 1.0e-3 * Cytoplasm_SIZE * N_A );
-		@# <CreatineKinase name="vCK" initial_value="-7.176621333962875E-5" units="mM/ms"	className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.CK" >
+		Value -663549.73707;
 	}
 
 	Process ZeroVariableAsFluxProcess( vCK ) 
@@ -1496,7 +1534,7 @@ System System( /CELL/MEMBRANE )
 	Variable Variable( Cm )
 	{
 		Name "membrane capacitance (pF)";
-		Value @Cm0;
+		Value @(Cm[SimulationMode]);
 	}
 
 	Variable Variable( EK )
@@ -1639,7 +1677,9 @@ System System( /CELL/CYTOPLASM/SRREL )
 
 	Variable Variable( SIZE )
 	{
-		Value 307.06678058886695e-15;  #  units="L"
+#		Value 307.06678058886695e-15;  #  units="L"
+#                Value 1.19756044429658e-14;  #  units="L"
+		Value @( SRREL_SIZE_init );
 	}
 
 	Process SRrelAssignmentProcess( volume ) 
@@ -1656,7 +1696,9 @@ System System( /CELL/CYTOPLASM/SRREL )
 			[ Ca            :.:Ca                  1 ]
 			[ calsequestrin :.:calsequestrin       1 ];
 
-		ratio                 0.02;
+#		ratio                 0.02;
+		ratio                 @(0.02 * SRFactor[SimulationMode]); 
+
 		Km_calsequestrin    0.0008;	# units="M"
 		calsequestrin_total   0.01;	# units="M"
 	}
@@ -1689,7 +1731,9 @@ System System( /CELL/CYTOPLASM/SRUP )
 
 	Variable Variable( SIZE )
 	{
-		Value 767.6669514721674e-15;
+#		Value 767.6669514721674e-15;
+#                Value 2.99390111074145e-14;
+		Value @( SRUP_SIZE_init );
 	}
 
 	Process SRupAssignmentProcess( volume ) 
@@ -1697,13 +1741,14 @@ System System( /CELL/CYTOPLASM/SRUP )
 		Name "SRup volume";
 
 		StepperID	PSV;
-		Priority	4;
+		Priority	8;
 
 		VariableReferenceList
 			[ volume :.:SIZE   1 ]
 			[ total  :..:SIZE  0 ];
 
-		ratio 0.05;
+#		ratio 0.05;
+		ratio @(0.05 * SRFactor[SimulationMode]);
 	}
 
 	Variable Variable( Ca )
@@ -1761,6 +1806,10 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 		Value 42.66230178693931;
 	}
 
+	Variable Variable( GX ){
+		Value @( transfer_act[SimulationMode]);
+	}
+
 	Process SRDiffusionAssignmentProcess( transfer ) 
 	{
 		Name "transfer Ca2+ current";
@@ -1770,11 +1819,17 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 
 		VariableReferenceList
 			[ I   :.:transfer         1 ]
+			[ SR_f    :..:SR_activity 0 ]
+			[ GX  :.:GX               0 ]
 			[ Cai :../SRREL:Ca        0 ]
 			[ Cao :../SRUP:Ca         0 ]
 			[ Cm  :../../MEMBRANE:Cm  0 ];
 
-		permeabilityCa	5.0e+3;  #  pA/M
+                permeabilityCa  @(SRtrans_permeabilityCa[SimulationMode]);  #  pA/M
+#		permeabilityCa	5.0e+3;  #  pA/M
+#               permeabilityCa  248.579545454545;  #  pA/M
+#                permeabilityCa  1508.57142857143;  #  pA/M
+#                permeabilityCa  200;  #  pA/M
 	}
 
 	Process IonFluxProcess( j ) 
@@ -1789,51 +1844,19 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 			[ F   :/:F               0 ]
 			[ z   :/:zCa             0 ];
 	}
-
-#	Process PythonProcess( transfer ) 
-#	{
-#		Name "transfer Ca2+ current";
-#
-#		IsContinuous 1;
-#		StepperID    ODE;
-#		Priority	10;
-#
-#		VariableReferenceList
-#			[ Cai :../SRREL:Ca        0 ]
-#			[ Cao :../SRUP:Ca        -1 ]  # Cao = in
-#			[ out :../SRREL:CaTotal   1 ]
-#			[ Cm  :../../MEMBRANE:Cm  0 ];
-#
-#		permeabilityCa	5.0;	# pA/mM
-#
-#		InitializeMethod '''
-#from KyotoModel import *
-#_pA2flux = 1.0e-15 * N_A / zCa / F
-#'''; 
-#
-#		FireMethod '''
-#cCa = permeabilityCa * ( Cao.MolarConc - Cai.MolarConc) * 1000.0 * Cm.Value
-#self.setFlux( cCa * _pA2flux )
-#self.Activity = cCa
-#''';
-#	}
-
 }
-
 
 @# ミトコンドリア｛ /CELL/CYTOPLASM/MITOCHONDRIA ｝
 @include( 'Mitochondria.em' )
-@#include( 'Mitochondria.EP.em' )
 
 @# 筋収縮
 @include( 'IsotonicContraction.em' )
 
 @# 細胞膜上のイオンチャネル
 @include( 'INa.em' )     @# Na, K
-@include( 'ICaL.em' )    @# Na, K, Ca
+@include( 'ICaL_V.em' )    @# Na, K, Ca
 @include( 'ICaT.em' )    @#        Ca
 @include( 'Ist.em' )     @# Na, K
-@include( 'Iha.em' )     @# Na, K
 @include( 'IK1.em' )     @#     K
 @include( 'IKr.em' )     @#     K
 @include( 'IKs.em' )     @# Na, K
@@ -1851,6 +1874,8 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 @include( 'NKCC.em' )    @# Na, K,     Cl
 @include( 'IVRCC.em' )   @#            Cl
 @include( 'ICFTR.em' )   @#            Cl
+
+@include( 'Iha.em' )     @# Na, K
 
 @# 筋小胞体
 @include( 'IRyR.em' )
