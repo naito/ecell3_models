@@ -7,6 +7,12 @@ E-Cell 3 のモデルファイルおよびユーティリティのコレクシ�
 Contents 内容
 ------------
 
+### erythrocyte
+
+赤血球モデル
+
+* kinoshita_2007: IABが開発した赤血球モデル Kinoshita A et al. FEBS J. 2007;274(6):1449-58. PMID: 17489100.PMID: [17489100].
+
 ### myocardium
 
 心筋細胞モデル
@@ -45,3 +51,4 @@ ecell3-session-monitor で load してシミュレーションを
 [17826821]: http://www.ncbi.nlm.nih.gov/pubmed/17826821
 [17911349]: http://www.ncbi.nlm.nih.gov/pubmed/17911349
 [18171128]: http://www.ncbi.nlm.nih.gov/pubmed/18171128
+[17489100]: http://www.ncbi.nlm.nih.gov/pubmed/17489100
