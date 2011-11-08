@@ -1,5 +1,5 @@
 
-System System(/CELL/MEMBRANE/INa)
+System System(/CELL/MEMBRANE/Ito)
 {
 	StepperID	ODE;
 
