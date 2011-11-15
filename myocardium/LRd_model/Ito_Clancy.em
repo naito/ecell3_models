@@ -188,6 +188,10 @@ System System(/CELL/MEMBRANE/Ito)
         }
 
 
+	@MembranePotential( 'I' )                  @# ←←← このへんはすべて I でＯＫ
 
+	@addToTotalCurrent( 'currentK', 'I' )     @# ←←← このへんはすべて I でＯＫ
+
+	@addToTotalCurrent( 'current', 'I' )       @# ←←← このへんはすべて I でＯＫ
 
 }
