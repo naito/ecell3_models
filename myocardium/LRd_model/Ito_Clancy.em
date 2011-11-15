@@ -99,7 +99,7 @@ System System(/CELL/MEMBRANE/Ito)
 			[ R :.:R 1 ]
 			[ V :..:Vm      0 ];
 
-		Expression "exp, V.Value / 100.0"; #####
+		Expression "pow(exp, V.Value / 100.0)"; #####
 	}
 
 	Process ExpressionAssignmentProcess( alpha_z )
@@ -110,7 +110,7 @@ System System(/CELL/MEMBRANE/Ito)
 			[ a :.:alpha_z 1 ]
 			[ V :..:Vm      0 ];
 
-		Expression "10.0 * ( exp, ( V.Value - 40.0 ) / 25.0 )) / ( 1.0 + ( exp, ( V.Value - 40.0 ) / 25.0 )))"; #####
+		Expression "(10.0 * pow( exp, (( V.Value - 40.0 ) / 25.0 ))) / ( 1.0 + pow( exp, (( V.Value - 40.0 ) / 25.0 )))"; #####
 	}
 
 	Process ExpressionAssignmentProcess( beta_z )
@@ -121,7 +121,7 @@ System System(/CELL/MEMBRANE/Ito)
 			[ b :.:beta_z 1 ]
 			[ V :..:Vm      0 ];
 
-		Expression "10.0 * ( exp, -(( V.Value + 90.0 ) / 25.0 )) / ( 1.0 + ( exp, - (( V.Value + 90.0 ) / 25.0 )))"; #####
+		Expression "(10.0 * pow( exp, (-1.0 * ( V.Value + 90.0 ) / 25.0 ))) / ( 1.0 + pow( exp, (-1.0 * ( V.Value + 90.0 ) / 25.0 )))"; #####
 	}
 	
 	Process ExpressionAssignmentProcess( alpha_y )
@@ -132,7 +132,7 @@ System System(/CELL/MEMBRANE/Ito)
 			[ a :.:alpha_y 1 ]
 			[ V :..:Vm      0 ];
 
-		Expression "0.015 / ( 1.0 + ( exp, ( V.Value + 60.0 ) / 5.0 )))"; #####
+		Expression "0.015 / ( 1.0 + pow( exp, (( V.Value + 60.0 ) / 5.0) ))"; #####
 	}
 
 	Process ExpressionAssignmentProcess( beta_y )
@@ -143,7 +143,7 @@ System System(/CELL/MEMBRANE/Ito)
 			[ b :.:beta_y 1 ]
 			[ V :..:Vm      0 ];
 
-		Expression "0.1 * ( exp, ( V.Value + 25.0 ) / 5.0 )) / ( 1.0 + ( exp, ( V.Value + 25.0 ) / 5.0 )))"; #####
+		Expression "(0.1 * pow( exp, (( V.Value + 25.0 ) / 5.0 ))) / ( 1.0 + pow( exp, (( V.Value + 25.0 ) / 5.0 )))"; #####
 	}
 
 	Process ExpressionFluxProcess( dzdt )
