@@ -65,13 +65,15 @@ LIBECS_DM_CLASS( DelayProcess, Process )
 
 		if ( _t <= tau ) {
 
-			_theDataSlice = getModel()->getLoggerBroker()->.getLogger( 
-				FullPN( "Variable:/:t:Value" )).getData();
+			_theDataSlice = getModel()->getLoggerBroker().getLogger( 
+				FullPN( "Variable:/:t:Value" )
+				)->getData();
 
 		} else {
 
-			_theDataSlice = getModel()->getLoggerBroker()->getLogger( 
-				FullPN( "Variable:/:t:Value" )).getData( _t - tau, _t );
+			_theDataSlice = getModel()->getLoggerBroker().getLogger( 
+				FullPN( "Variable:/:t:Value" )
+				)->getData( _t - tau, _t );
 
 		}
 
@@ -86,7 +88,7 @@ LIBECS_DM_CLASS( DelayProcess, Process )
 	Real tau;
 
 	//LoggerBroker& theLoggerBroker;
-	Logger* const theLogger;
+	//Logger* const theLogger;
 
 
  private:
