@@ -1,9 +1,9 @@
 Delay Process
 =============
 
-* 時間遅れを表現するProcess。任意のFullPNの、任意の時間遅れの値を、任意のVaiableに書き込む。
-
-* 現在のバージョンは、テストモデルでしか動きません。
+* 時間遅れを表現するProcess。任意のVariableの、任意の時間遅れのValueを、任意のVaiableに書き込む。
+* Processが初期化される際に、記録対象のVariableのLoggerを自動的に作成し、Loggerに記録された過去の値を参照する仕様。
+* ProcessからLoggerを操作するサンプルにもなっている。
 
 Contents 内容
 -------------
@@ -26,5 +26,10 @@ ecell3-dmcでコンパイルする。DelayProcess.soが生成される。
 Specification 仕様
 ------------------
 
-## DelayProcess
+### DelayProcess
 
+Problem 問題点
+------------------
+
+* シミュレーションの経過とともにLoggerのデータが大きくなるため、読み出し時間が増大し、徐々にシミュレーションの進行が遅くなるかもしれない
+* 将来的には、Process内に、時間遅れ分だけのデータを保持するarrayを持たせる仕様に変更した方が効率的だろう。

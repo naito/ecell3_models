@@ -17,28 +17,35 @@ LIBECS_DM_CLASS( DelayProcess, Process )
 		INHERIT_PROPERTIES( Process ); 
 
 		PROPERTYSLOT_SET_GET( Real, tau );
+		PROPERTYSLOT_SET_GET( String, targetProperty );
 	}
 	
 	DelayProcess()
 		:
-		tau( 0.0 )
+		tau( 0.0 ),
+		targetProperty( "Value" )
 	{
 		// do nothing
 	}
 
 	SIMPLE_SET_GET_METHOD( Real, tau );
+	SIMPLE_SET_GET_METHOD( String, targetProperty );
+
+	// FullPN _o_FullPN( (String)"System::/:Size" );
 	
 	virtual void initialize()
 	{
 		Process::initialize();
-
-		getModel()->getLoggerBroker().createLogger( 
-			FullPN( "Variable:/:t:Value" ), 
-			Logger::Policy() 
-		);
 		
 		o = getVariableReference( "original" ).getVariable();
 		d = getVariableReference( "delayed" ).getVariable();
+
+		getModel()->getLoggerBroker().createLogger( 
+			FullPN( o->getFullID(), targetProperty ), 
+			Logger::Policy() 
+		);
+
+		//_o_FullPN = FullPN( o->getFullID(), targetProperty );
 
 	}
 
@@ -47,13 +54,13 @@ LIBECS_DM_CLASS( DelayProcess, Process )
 		_t = getModel()->getCurrentTime();
 
 		if ( _t <= tau ) {
-			_theDataSlice = getModel()->getLoggerBroker().getLogger( 
-				FullPN( "Variable:/:t:Value" )
-				)->getData();
+			_theDataSlice = getModel()->getLoggerBroker().
+				getLogger( FullPN( o->getFullID(), targetProperty ) )->
+				getData();
 		} else {
-			_theDataSlice = getModel()->getLoggerBroker().getLogger( 
-				FullPN( "Variable:/:t:Value" )
-				)->getData( _t - tau, _t );
+			_theDataSlice = getModel()->getLoggerBroker().
+				getLogger( FullPN( o->getFullID(), targetProperty ) )->
+				getData( _t - tau, _t );
 		}
 
 		d->setValue( _theDataSlice->asShort( 0 ).getValue());
@@ -65,6 +72,7 @@ LIBECS_DM_CLASS( DelayProcess, Process )
 	Variable* d;
 
 	Real tau;
+	String targetProperty;
 
  private:
 	

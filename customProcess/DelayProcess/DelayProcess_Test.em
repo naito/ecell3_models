@@ -29,8 +29,8 @@ System System( / )
 	
 	Process ExpressionFluxProcess( t )
 	{
-		VariableReferenceList	[ t :.:t 1 ];
-                Expression "1.0";
+		VariableReferenceList  [ t :.:t 1 ];
+		Expression "1.0";
 	}
 
 	Process DelayProcess( delay )
@@ -38,8 +38,8 @@ System System( / )
 		StepperID	DT;
 
 		VariableReferenceList
-			[ original :.:t 0 ]
-			[ delayed :.:delay_t 1 ];
+			[ original :.:t       0 ]
+			[ delayed  :.:delay_t 1 ];
 
 		tau  20.0;
 	}
