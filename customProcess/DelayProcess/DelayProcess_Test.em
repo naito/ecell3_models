@@ -1,7 +1,3 @@
-#
-# A very simple model with one michaelis-uni-uni reaction.
-#
-
 # Stepper ODEStepper( DE1 )
 Stepper FixedODE1Stepper( ODE )
 {
