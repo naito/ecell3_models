@@ -84,7 +84,7 @@ System System( / )
 			[ x2     :.:x2  2 ]   # 2: 領域内 Fix、      領域外 No Change
 			[ x3     :.:x3  3 ]   # 3: 領域内 Not Fix、  領域外 Fix
 			[ x4     :.:x4  4 ]   # 4: 領域内 Not Fix、  領域外 No Change
-			[ x5     :.:x5  5 ]   # 5: 領域内 No Change、領域外 Not Fix
+			[ x5     :.:x5  5 ]   # 5: 領域内 No Change、領域外 Fix
 			[ x6     :.:x6  6 ];  # 6: 領域内 No Change、領域外 Not Fix
 	}
 }
