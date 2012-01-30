@@ -6,7 +6,9 @@ IbNSC_permeabilityNa = {
 	"EMB" : 5.69E-4,
 	"LAT" : 5.69E-4,
 	"NEO" : 5.69E-4,
-	"SAN" : 0.0023
+	"SAN" : 0.0023,
+	"A" : 5.69E-4,
+#	"A" : 0.0023,
 
 }
 

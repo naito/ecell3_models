@@ -21,6 +21,8 @@ ICaL_permeabilityCa = {
 	"LAT" : 45.0,
 	"NEO" : 45.0,
 	"SAN" : 31.5,
+#	"A" : 31.5,
+	"A" : 45.0,
 }
 }
 

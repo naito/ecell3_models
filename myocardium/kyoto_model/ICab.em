@@ -7,6 +7,7 @@ Cab_permeabilityCa = {
 		   "LAT" : 3.03E-4,
 		   "NEO" : 3.03E-4,
 		   "SAN" : 2.5E-4,
+		   "A" : 3.03E-4,
 }
 
 }

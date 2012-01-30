@@ -9,6 +9,7 @@ ICaT_permeabilityCa = {
 	"LAT" : 4.636,
 	"NEO" : 4.636,
 	"SAN" : 4.636,
+	"A" : 4.636,
 }
 
 }

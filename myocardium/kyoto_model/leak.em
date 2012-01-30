@@ -7,6 +7,7 @@ leak_permeabilityCa = {
 	"LAT" : 0.3e+3,
 	"NEO" : 0.3e+3,
 	"SAN" : 0.0594e+3,
+	"A" : 0.3e+3,
 }
 
 }

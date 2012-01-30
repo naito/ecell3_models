@@ -8,6 +8,7 @@ Ist_permeabilityNa = {
 	"LAT" : 0,
 	"NEO" : 0,
 	"SAN" : 0.007375,
+	"A" : 0.007375,
 }
 # pA/pF/mM
 
@@ -20,6 +21,7 @@ Ist_permeabilityK = {
 	"LAT" : 0,
 	"NEO" : 0,
 	"SAN" : 0.0043125,
+	"A" : 0.0043125,
 }
 # pA/pF/mM
 }

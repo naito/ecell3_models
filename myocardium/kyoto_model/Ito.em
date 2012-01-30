@@ -5,6 +5,7 @@ Ito_permeabilityK = {
 	"LAT" : 2.5e-4,
 	"NEO" : 2.5e-4,
 	"SAN" : 0,
+	"A" : 2.5e-4,
 #	"EMB" : 2.5e-6,
 }
 	

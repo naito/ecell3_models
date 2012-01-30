@@ -10,7 +10,8 @@ Iha_permeabilityK = {
 	"EMB" : 0.05635,
 	"LAT" : 0.05635,
 	"NEO" : 0.05635,
-	"SAN" : 0.05635
+	"SAN" : 0.05635,
+	"A" : 0.05635,
 }
 Iha_permeabilityNa = {
 	"V" : 0.01379,
@@ -18,6 +19,7 @@ Iha_permeabilityNa = {
 	"LAT" : 0.01379,
 	"NEO" : 0.01379,
 	"SAN" : 0.01379,
+	"A" : 0.01379,
 }
 
 }

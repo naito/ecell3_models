@@ -9,6 +9,7 @@ IRyR_permeabilityCa = {
 	"LAT" : 200.0e+3,
 	"NEO" : 200.0e+3,
 	"SAN" : 59.0e+3,
+	"A" : 200.0e+3,
 }
 #		permeabilityCa  200.0e+3;  # 200 pA/pF/mM -> pA/pF/M
 
