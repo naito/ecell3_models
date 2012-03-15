@@ -109,7 +109,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ KiGLYf_GPa :.:KiGLYf_GPa   0 ]
 			[ KiG1P_GPa  :.:KiG1P_GPa    0 ];
 	
-		Expression "( Vmaxf_GPa.Value * KGLYb_GPa.Value * KiG1P_GPa.Value ) / ( KiGLYf_GPa.Value / KPi_GPa.Value / KeqGP.Value )";
+		Expression "( Vmaxf_GPa.Value * KGLYb_GPa.Value * KiG1P_GPa.Value ) / KiGLYf_GPa.Value / KPi_GPa.Value / KeqGP.Value ";
 	}
 
 	Variable Variable( V_GPa_a )
@@ -193,30 +193,30 @@ System System( /CELL/GLYCOGENOLYSIS )
                 Expression " V_GPa_a.Value / V_GPa_b.Value ";
         }
 
-	Process ExpressionFluxProcess ( V_GPa )
-	{
-		StepperID  ODE;
-		Priority   0;
+#	Process ExpressionFluxProcess ( V_GPa )
+#	{
+#		StepperID  ODE;
+#		Priority   0;
 
-		VariableReferenceList
-			[ V_GPa      :.:V_GPa        0 ]
-                        [ V_GPa_a    :.:V_GPa_a      0 ]
-                        [ V_GPa_b    :.:V_GPa_b      0 ]
-			[ Vmaxf_GPa  :.:Vmaxf_GPa    0 ]
-			[ Vmaxr_GPa  :.:Vmaxr_GPa    0 ]
-			[ GLY        :.:GLY         -1 ]
-			[ Pi         :.:Pi          -1 ]
-			[ G1P        :.:G1P          1 ]
-			[ KGLYf_GPa  :.:KGLYf_GPa    0 ]
-			[ KGLYb_GPa  :.:KGLYb_GPa    0 ]
-			[ KiGLYf_GPa :.:KiGLYf_GPa   0 ]
-			[ KiGLYb_GPa :.:KiGLYb_GPa   0 ]
-			[ KPi_GPa    :.:KPi_GPa      0 ]
-			[ KiPi_GPa   :.:KiPi_GPa     0 ]
-			[ KiG1P_GPa  :.:KiG1P_GPa    0 ];
-	
-		Expression"V_GPa.Value";
-	}
+#		VariableReferenceList
+#			[ V_GPa      :.:V_GPa        0 ]
+#                        [ V_GPa_a    :.:V_GPa_a      0 ]
+#                        [ V_GPa_b    :.:V_GPa_b      0 ]
+#			[ Vmaxf_GPa  :.:Vmaxf_GPa    0 ]
+#			[ Vmaxr_GPa  :.:Vmaxr_GPa    0 ]
+#			[ GLY        :.:GLY         -1 ]
+#			[ Pi         :.:Pi          -1 ]
+#			[ G1P        :.:G1P          1 ]
+#			[ KGLYf_GPa  :.:KGLYf_GPa    0 ]
+#			[ KGLYb_GPa  :.:KGLYb_GPa    0 ]
+#			[ KiGLYf_GPa :.:KiGLYf_GPa   0 ]
+#			[ KiGLYb_GPa :.:KiGLYb_GPa   0 ]
+#			[ KPi_GPa    :.:KPi_GPa      0 ]
+#			[ KiPi_GPa   :.:KiPi_GPa     0 ]
+#			[ KiG1P_GPa  :.:KiG1P_GPa    0 ];
+#	
+#		Expression"V_GPa.Value";
+#	}
 
         Variable Variable( KiGLYf_GPb )
         {
@@ -381,36 +381,37 @@ System System( /CELL/GLYCOGENOLYSIS )
                 Expression " V_GPb_a.Value / V_GPb_b.Value ";
         }
 
-	Process ExpressionFluxProcess ( V_GPb )
-	{
-		StepperID  ODE;
-		Priority   0;
+#	Process ExpressionFluxProcess ( V_GPb )
+#	{
+#		StepperID  ODE;
+#		Priority   0;
 
-		VariableReferenceList
-			[ V_GPb      :.:V_GPb        0 ]
-                        [ V_GPb_a    :.:V_GPb_a      0 ]
-                        [ V_GPb_b    :.:V_GPb_b      0 ]
-			[ Vmaxf_GPb  :.:Vmaxf_GPb    0 ]
-			[ Vmaxr_GPb  :.:Vmaxr_GPb    0 ]
-			[ GLY        :.:GLY         -1 ]
-			[ Pi         :.:Pi          -1 ]
-			[ G1P        :.:G1P          1 ]
-			[ AMP        :.:AMP          0 ]
-			[ KiGLYf_GPb :.:KiGLYf_GPb   0 ]
-			[ KiGLYb_GPb :.:KiGLYb_GPb   0 ]
-			[ KPi_GPb    :.:KPi_GPb      0 ]
-			[ KiPi_GPb   :.:KiPi_GPb     0 ]
-			[ KG1P_GPb   :.:KG1P_GPb     0 ]
-			[ KiG1P_GPb  :.:KiG1P_GPb    0 ]
-			[ K_AMP      :.:K_AMP        0 ]
-			[ nH         :.:nH           0 ];
-	
-		Expression"V_GPb.Value";
-	}
+#		VariableReferenceList
+#			[ V_GPb      :.:V_GPb        0 ]
+#                        [ V_GPb_a    :.:V_GPb_a      0 ]
+#                        [ V_GPb_b    :.:V_GPb_b      0 ]
+#			[ Vmaxf_GPb  :.:Vmaxf_GPb    0 ]
+#			[ Vmaxr_GPb  :.:Vmaxr_GPb    0 ]
+#			[ GLY        :.:GLY         -1 ]
+#			[ Pi         :.:Pi          -1 ]
+#			[ G1P        :.:G1P          1 ]
+#			[ AMP        :.:AMP          0 ]
+#			[ KiGLYf_GPb :.:KiGLYf_GPb   0 ]
+#			[ KiGLYb_GPb :.:KiGLYb_GPb   0 ]
+#			[ KPi_GPb    :.:KPi_GPb      0 ]
+#			[ KiPi_GPb   :.:KiPi_GPb     0 ]
+#			[ KG1P_GPb   :.:KG1P_GPb     0 ]
+#			[ KiG1P_GPb  :.:KiG1P_GPb    0 ]
+#			[ K_AMP      :.:K_AMP        0 ]
+#			[ nH         :.:nH           0 ];
+#	
+#		Expression"V_GPb.Value";
+#	}
 #Aoki_120313
+
        Variable Variable( frac_a )
-       {
-                Value 0.4;
+       {	
+		Value 0.4;
         }
 
         Variable Variable( frac_b )
@@ -423,20 +424,53 @@ System System( /CELL/GLYCOGENOLYSIS )
                 Value 0.0;
         }
 
-        Process ExpressionAssignmentProcess ( flux_GP )
-        {
-                StepperID ODE;
-                Priority  1;
+#        Process ExpressionAssignmentProcess ( flux_GP )
+#        {
+#                StepperID ODE;
+#                Priority  1;
+#
+#                VariableReferenceList
+#                        [ flux_GP    :.:flux_GP      1 ]
+#                        [ V_GPa      :.:V_GPa        0 ]
+#                        [ V_GPb      :.:V_GPb        0 ]
+#                        [ frac_a     :.:frac_a       0 ]
+#                        [ frac_b     :.:frac_b       0 ];
 
-                VariableReferenceList
-                        [ flux_GP    :.:flux_GP      1 ]
+#                Expression "frac_a.Value * V_GPa.Value + frac_b.Value * V_GPb.Value";
+#        }
+
+	Process ExpressionFluxProcess ( V_GP )
+	{
+		StepperID  ODE;
+		Priority   0;
+
+		VariableReferenceList
                         [ V_GPa      :.:V_GPa        0 ]
-                        [ V_GPb      :.:V_GPb        0 ]
+			[ V_GPb      :.:V_GPb        0 ]
+                        [ V_GPb_a    :.:V_GPb_a      0 ]
+                        [ V_GPb_b    :.:V_GPb_b      0 ]
                         [ frac_a     :.:frac_a       0 ]
-                        [ frac_b     :.:frac_b       0 ];
+                        [ frac_b     :.:frac_b       0 ]
+			[ Vmaxf_GPb  :.:Vmaxf_GPb    0 ]
+			[ Vmaxr_GPb  :.:Vmaxr_GPb    0 ]
+#			[ GLY        :.:GLY         -1 ]
+			[ GLY        :.:GLY          0 ]
+			[ Pi         :.:Pi          -1 ]
+			[ G1P        :.:G1P          1 ]
+			[ AMP        :.:AMP          0 ]
+			[ KiGLYf_GPb :.:KiGLYf_GPb   0 ]
+			[ KiGLYb_GPb :.:KiGLYb_GPb   0 ]
+			[ KPi_GPb    :.:KPi_GPb      0 ]
+			[ KiPi_GPb   :.:KiPi_GPb     0 ]
+			[ KG1P_GPb   :.:KG1P_GPb     0 ]
+			[ KiG1P_GPb  :.:KiG1P_GPb    0 ]
+			[ K_AMP      :.:K_AMP        0 ]
+			[ nH         :.:nH           0 ];
 
                 Expression "frac_a.Value * V_GPa.Value + frac_b.Value * V_GPb.Value";
-        }
+#		Expression"V_GPb.Value";
+	}
+
 #Aoki_120313
 	Variable Variable( G6P )
 	{
@@ -1321,7 +1355,6 @@ System System( /CELL/GLYCOGENOLYSIS )
 	}
 
 #Toki_120313
-#Aoki120313
 	Variable Variable( _2PG )
 	{
 		Value 0.005;
@@ -1369,9 +1402,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ K2PG_PGM     :.:K2PG_PGM     0 ]
 			[ KeqPGM       :.:KeqPGM       0 ];
 	
-#		Expression "Vmaxf_PGM.Value * K2PG_PGM.Value / ( K3PG_PGM.Value * KeqPGM.Value)";	
-		Expression "Vmaxf_PGM.Value * K2PG_PGM.Value / K3PG_PGM.Value / KeqPGM.Value ";	
-
+		Expression "Vmaxf_PGM.Value * K2PG_PGM.Value / ( K3PG_PGM.Value * KeqPGM.Value)";		
 	}
 
 	Variable Variable( V_PGM )
@@ -1414,7 +1445,6 @@ System System( /CELL/GLYCOGENOLYSIS )
 	}
 
 #Toki_120313
-#Aoki120313
 	Variable Variable( K2PG_EN )
 	{
 		Value 0.1;
@@ -1452,8 +1482,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ K2PG_EN    :.:K2PG_EN    0 ]
 			[ KeqEN    :.:KeqEN    0 ];
 	
-#		Expression "Vmaxf_EN.Value * KPEP_EN.Value / ( K2PG_EN.Value * KeqEN.Value)";		
-		Expression "Vmaxf_EN.Value * KPEP_EN.Value / K2PG_EN.Value / KeqEN.Value ";		
+		Expression "Vmaxf_EN.Value * KPEP_EN.Value / ( K2PG_EN.Value * KeqEN.Value)";		
 	}
 
 	Variable Variable( V_EN )
@@ -1494,7 +1523,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	
 		Expression "V_EN.Value";
 	}
-#Aoki120313
+
 	Variable Variable( PYR )
 	{
 		Value 0.0994;
@@ -1549,8 +1578,7 @@ System System( /CELL/GLYCOGENOLYSIS )
                       [ KATP_PK     :.:KATP_PK    0 ]
          	      [ KeqPK       :.:KeqPK      0 ];
 
-#                Expression "( Vmaxf_PK.Value * KATP_PK.Value * KPYR_PK.Value ) / ( KPEP_PK.Value * KADP_PK.Value * KeqPK.Value )";
-                Expression " Vmaxf_PK.Value * KATP_PK.Value * KPYR_PK.Value / KPEP_PK.Value / KADP_PK.Value / KeqPK.Value ";
+                Expression "( Vmaxf_PK.Value * KATP_PK.Value * KPYR_PK.Value ) / ( KPEP_PK.Value * KADP_PK.Value * KeqPK.Value )";
         }
 
         Variable Variable( V_PK )
@@ -1603,7 +1631,6 @@ System System( /CELL/GLYCOGENOLYSIS )
         }
 
 #Toki_120313
-#Aoki120313
 	Variable Variable( LAC )
 	{
 		Value 1.3;
@@ -1658,8 +1685,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ KLAC         :.:KLAC        0 ]
 			[ KeqLDH       :.:KeqLDH      0 ];
 	
-#		Expression "Vmaxf_LDH.Value * KLAC.Value * KNAD_LDH.Value / ( KPYR_LDH.Value * KNADH_LDH.Value * KeqLDH.Value)";		
-		Expression "Vmaxf_LDH.Value * KLAC.Value * KNAD_LDH.Value / KPYR_LDH.Value / KNADH_LDH.Value / KeqLDH.Value ";		
+		Expression "Vmaxf_LDH.Value * KLAC.Value * KNAD_LDH.Value / ( KPYR_LDH.Value * KNADH_LDH.Value * KeqLDH.Value)";		
 	}
 
 	Variable Variable( V_LDH )
@@ -1727,7 +1753,6 @@ System System( /CELL/GLYCOGENOLYSIS )
 	}
 
 #Toki_120313
-#Aoki120313
 	Variable Variable( PCr )
 	{
 		Value 34.67;
@@ -1794,8 +1819,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ KiADP      :.:KiADP       0 ]
 			[ KeqCK      :.:KeqCK       0 ];
 	
-#		Expression "Vmaxr_CK.Value * KiATP_CK.Value * KCr.Value * KeqCK.Value / ( KiADP.Value * KPCr.Value )";		
-		Expression "Vmaxr_CK.Value * KiATP_CK.Value * KCr.Value * KeqCK.Value / KiADP.Value / KPCr.Value ";		
+		Expression "Vmaxr_CK.Value * KiATP_CK.Value * KCr.Value * KeqCK.Value / ( KiADP.Value * KPCr.Value )";		
 	}
 
 	Variable Variable( V_CK )
@@ -1851,7 +1875,6 @@ System System( /CELL/GLYCOGENOLYSIS )
 	}
 
 #Toki_120313
-#Aoki120313
       Variable Variable( KAMP )
         {
                 Value 0.32;
@@ -1896,7 +1919,6 @@ System System( /CELL/GLYCOGENOLYSIS )
 #                        [ KeqADK      :.:KeqADK      0 ];
 
 #	 Expression "Vmaxf_ADK.Value * pow( KADP_ADK.Value, 2.0 ) / ( KATP_ADK.Value * KAMP.Value * KeqADK.Value )";
-#	 Expression "Vmaxf_ADK.Value * KADP_ADK.Value * KADP_ADK.Value / KATP_ADK.Value / KAMP.Value / KeqADK.Value ";
 #        }
 
 	Variable Variable( V_ADK )
@@ -1921,7 +1943,6 @@ System System( /CELL/GLYCOGENOLYSIS )
 #                        [ KAMP          :.:KAMP          0 ];
 
 #               Expression "((( Vmaxf_ADK.Value * ATP.Value * AMP.Value ) / ( KATP_ADK.Value * KAMP.Value )) - ( Vmaxr_ADK.Value * pow( ADP.Value, 2.0 )) / ( pow( KADP_ADK.Value, 2.0 ))) / ( 1.0 + ( ATP.Value / KATP_ADK.Value ) + ( AMP.Value / KAMP.Value ) + (( ATP.Value * AMP.Value ) / ( KATP_ADK.Value * KAMP.Value )) + ( 2.0 * ADP.Value / KADP_ADK.Value ) + ( pow( ADP.Value, 2.0 )) / ( pow( KADP_ADK.Value, 2.0 )))";
-#               Expression "((( Vmaxf_ADK.Value * ATP.Value * AMP.Value ) / ( KATP_ADK.Value * KAMP.Value )) - ( Vmaxr_ADK.Value * ADP.Value * ADP.Value ) / ( KADP_ADK.Value * KADP_ADK.Value )) / ( 1.0 + ATP.Value / KATP_ADK.Value + AMP.Value / KAMP.Value + ATP.Value * AMP.Value / ( KATP_ADK.Value * KAMP.Value ) + 2 * ADP.Value / KADP_ADK.Value + ADP.Value * ADP.Value / ( KADP_ADK.Value * KADP_ADK.Value ))";
 #       }
 
 #        Process ExpressionFluxProcess ( V_ADK )
@@ -1935,8 +1956,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 #                        [ Vmaxr_ADK     :.:Vmaxr_ADK     0 ]
 #                        [ ATP           :.:ATP           0 ]
 #                        [ ADP           :.:ADP           0 ]
-#                        [ ATP           :.:ATP          -1 ]
-#                        [ ADP           :.:ADP           2 ]
+#                       [ ATP           :.:ATP          -1 ]
+#                       [ ADP           :.:ADP           2 ]
 #                        [ AMP           :.:AMP          -1 ]
 #                        [ KATP_ADK      :.:KATP_ADK      0 ]
 #                        [ KADP_ADK      :.:KADP_ADK      0 ]
@@ -1946,23 +1967,22 @@ System System( /CELL/GLYCOGENOLYSIS )
 #        }
 
 #Toki_120313
-#Aoki120313
-	Variable Variable( ATPase )
-	{
-		Value 0.75;
-	}
+#	Variable Variable( ATPase )
+#	{
+#		Value 0.75;
+#	}
 
-	Variable Variable( V_ATPase )
-	{
-		Value 600.0;
-	}
+#	Variable Variable( V_ATPase )
+#	{
+#		Value 600.0;
+#	}
+
 	Variable Variable( k )
 	{
 		Value 7.5;
-		Value 0.75;
-		Value 0.075;
+#		Value 0.75;
+#		Value 0.075;
 	}
-
 
 #	Process ExpressionAssignmentProcess ( V_ATPase_assign )
 #	{
@@ -1973,12 +1993,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 #			[ V_ATPase      :.:V_ATPase     1 ]
 #			[ ATP           :.:ATP          0 ]
 #			[ ADP           :.:ADP          0 ]
-#                       [ k             :.:k            0 ]
-#		        [ Pi            :.:Pi           0 ];
-
-#		kValue  7.5;
-#		kValue  0.75;
-#		kValue  0.075;
+#			[ k           :.:k          0 ]
+#			[ Pi            :.:Pi           0 ];
 
 #		Expression "k.Value * ATP.Value";		
 #	}
@@ -1998,7 +2014,6 @@ System System( /CELL/GLYCOGENOLYSIS )
 	
 #		Expression "V_ATPase.Value";		
 #	}
-
 
 }
 
