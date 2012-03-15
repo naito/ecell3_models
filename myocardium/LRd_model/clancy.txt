@@ -1,0 +1,8 @@
+	Variable Variable( closedState1 )
+	Variable Variable( closedState2 )
+	Variable Variable( closedState3 )
+	Variable Variable( openState )
+	Variable Variable( fast_inactivationState )
+	Variable Variable( intermediate_inactivationState1 )
+	Variable Variable( closed_inactivationState2 )
+	Variable Variable( closed_inactivationState3 )

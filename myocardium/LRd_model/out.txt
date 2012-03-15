@@ -1,0 +1,66 @@
+	Variable Variable( lower_closedState1 )
+			[ pLC1     :.:lower_closedState1 0 ]
+			[ pLC1   :.:lower_closedState1   -1 ];
+			[ pLC1    :.:lower_closedState1    1 ]
+			[ pLC1     :.:lower_closedState1 -1 ];
+	Variable Variable( lower_closedState2 )
+			[ pLC2     :.:lower_closedState2 0 ]
+			[ pLC2    :.:lower_closedState2 -1 ];
+			[ pLC2   :.:lower_closedState2    1 ]
+			[ pLC2     :.:lower_closedState2 -1 ];
+	Variable Variable( lower_closedState3 )
+			[ pLC3     :.:lower_closedState3 0 ]
+			[ pLC3    :.:lower_closedState3  1 ]
+			[ pLC3     :.:lower_closedState3 -1 ];
+	Variable Variable( lower_openState )
+			[ pLO     :.:lower_openState 0 ]
+			[ pLO     :.:lower_openState      -1 ];
+			[ pLO     :.:lower_openState -1 ];
+			[ pLO     :.:lower_openState        0 ];
+#			[ pLO     :.:lower_openState        0 ];
+	Variable Variable( upper_closedState1 )
+			[ pUC1     :.:upper_closedState1 0 ]
+			[ pUC1   :.:upper_closedState1   -1 ];
+			[ pUC1    :.:upper_closedState1    1 ]
+			[ pUC1     :.:upper_closedState1 -1 ];
+			[ pUC1     :.:upper_closedState1 1 ]
+	Variable Variable( upper_closedState2 )
+			[ pUC2     :.:upper_closedState2 0 ]
+			[ pUC2    :.:upper_closedState2 -1 ];
+			[ pUC2   :.:upper_closedState2    1 ]
+			[ pUC2    :.:upper_closedState2 -1 ];
+			[ pUC2     :.:upper_closedState2 1 ]
+	Variable Variable( upper_closedState3 )
+			[ pUC3     :.:upper_closedState3 0 ]
+			[ pUC3    :.:upper_closedState3  1 ]
+			[ pUC3    :.:upper_closedState3 -1 ];
+			[ pUC3     :.:upper_closedState3 1 ]
+	Variable Variable( upper_openState )
+			[ pUO     :.:upper_openState 0 ]
+			[ pUO     :.:upper_openState      -1 ];
+			[ pUO      :.:upper_openState -1 ];
+			[ pUO     :.:upper_openState 1 ]
+			[ pUO     :.:upper_openState        0 ]
+#			[ pUO     :.:upper_openState        0 ]
+	Variable Variable( upper_fast_inactivationState )
+			[ pUIF     :.:upper_fast_inactivationState           0 ];
+			[ pUIF     :.:upper_fast_inactivationState -1 ];
+			[ pUIF     :.:upper_fast_inactivationState  1 ]
+			[ pUIF     :.:upper_fast_inactivationState 1 ]
+			[ pUIF     :.:upper_fast_inactivationState 1 ]
+	Variable Variable( upper_closed_inactivationState2 )
+			[ pUIC2    :.:upper_closed_inactivationState2        0 ]
+			[ pUIC2     :.:upper_closed_inactivationState2 -1 ];
+			[ pUIC2     :.:upper_closed_inactivationState2  1 ]
+			[ pUIC2   :.:upper_closed_inactivationState2 1 ]
+	Variable Variable( upper_closed_inactivationState3 )
+			[ pUIC3    :.:upper_closed_inactivationState3        0 ]
+			[ pUIC3     :.:upper_closed_inactivationState3  1 ]
+			[ pUIC3   :.:upper_closed_inactivationState3 1 ]
+	Variable Variable( upper_intermediate_inactivationState1 )
+			[ UIM1   :.:upper_intermediate_inactivationState1  0 ]
+			[ UM1     :.:upper_intermediate_inactivationState1 -1 ];
+			[ UIM1     :.:upper_intermediate_inactivationState1 -1 ];
+	Variable Variable( upper_intermediate_inactivationState2 )
+			[ UIM2   :.:upper_intermediate_inactivationState2  1 ]
+			[ UIM2     :.:upper_intermediate_inactivationState2  1 ]

@@ -425,9 +425,9 @@ System System(/CELL/MEMBRANE/INa)
 			[ v        :..:Vm                                    0 ]               
 			[ alpha3   :.:alpha3                                 0 ]
 			[ beta3    :.:beta3                                  0 ]
-			[ UIM2     :.:upper_intermediate_inactivationState2  -1 ]
+			[ UIM2     :.:upper_intermediate_inactivationState2  1 ]
 #			[ UIM2     :.:UIM2  1 ]
-			[ UIM1     :.:upper_intermediate_inactivationState1 1 ];
+			[ UIM1     :.:upper_intermediate_inactivationState1 -1 ];
 
 		Expression "alpha3.Value / 20.0 * UIM2.Value - ( 9.178 * exp( v.Value / 29.68)) / ( 3.5 * pow( 10.0, 4.0 )) * UIM1.Value";
 	}

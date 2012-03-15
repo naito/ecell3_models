@@ -1,4 +1,3 @@
-
 System System(/CELL/MEMBRANE/INa)
 {
 	StepperID	ODE;
@@ -86,11 +85,10 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( UIM2 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	10;
 
 		VariableReferenceList
 			[ UIM2   :.:upper_intermediate_inactivationState2  1 ]
-#			[ UIM2 :..:UIM2  1 ]                                          
 			[ UIM1   :.:upper_intermediate_inactivationState1  0 ]
 			[ pUO     :.:upper_openState 0 ]
 			[ pLO     :.:lower_openState 0 ]
@@ -150,7 +148,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( alpha11 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	5;
 
 		VariableReferenceList
 			[ v :..:Vm  0 ]               
@@ -162,7 +160,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( alpha12 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	5;
 
 		VariableReferenceList
 			[ v :..:Vm  0 ]               
@@ -174,7 +172,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( alpha13 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	5;
 
 		VariableReferenceList
 			[ v :..:Vm  0 ]               
@@ -187,7 +185,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( beta11 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	5;
 
 		VariableReferenceList
 			[ v :..:Vm  0 ]               
@@ -199,7 +197,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( beta12 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	5;
 
 		VariableReferenceList
 			[ v :..:Vm  0 ]               
@@ -211,10 +209,10 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( beta13 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	5;
 
 		VariableReferenceList
-			[ v :..:Vm  0 ]                
+			[ v :..:Vm  0 ]  
 			[ beta13 :.:beta13  1 ];
 
 		Expression "0.22 * exp( -( v.Value - 10.0 ) / 20.3 )"; 
@@ -223,7 +221,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( alpha3 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	5;
 
 		VariableReferenceList
 			[ v :..:Vm          0 ]               
@@ -235,7 +233,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( beta3 ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	5;
 
 		VariableReferenceList
 			[ v :..:Vm  0 ]               
@@ -425,9 +423,9 @@ System System(/CELL/MEMBRANE/INa)
 			[ v        :..:Vm                                    0 ]               
 			[ alpha3   :.:alpha3                                 0 ]
 			[ beta3    :.:beta3                                  0 ]
-			[ UIM2     :.:upper_intermediate_inactivationState2  -1 ]
+			[ UIM2     :.:upper_intermediate_inactivationState2  1 ]
 #			[ UIM2     :.:UIM2  1 ]
-			[ UIM1     :.:upper_intermediate_inactivationState1 1 ];
+			[ UIM1     :.:upper_intermediate_inactivationState1 -1 ];
 
 		Expression "alpha3.Value / 20.0 * UIM2.Value - ( 9.178 * exp( v.Value / 29.68)) / ( 3.5 * pow( 10.0, 4.0 )) * UIM1.Value";
 	}
@@ -441,7 +439,7 @@ System System(/CELL/MEMBRANE/INa)
 			[ pUC3     :.:upper_closedState3 1 ]
 			[ pLC3     :.:lower_closedState3 -1 ];
 
-		Expression "9.5 * pow( 10.0, -4 ) * pLC3.Value - 1.0 * pow( 10.0, -7 ) * pUC3.Value";
+		Expression "9.5 * pow( 10.0, -4.0 ) * pLC3.Value - 1.0 * pow( 10.0, -7.0 ) * pUC3.Value";
 	}
 
 	Process ExpressionFluxProcess( vUC2_LC2 ) 
@@ -453,7 +451,7 @@ System System(/CELL/MEMBRANE/INa)
 			[ pUC2     :.:upper_closedState2 1 ]
 			[ pLC2     :.:lower_closedState2 -1 ];
 
-		Expression "9.5 * pow( 10.0, -4 ) * pLC2.Value - 1.0 * pow( 10.0, -7 ) * pUC2.Value";
+		Expression "9.5 * pow( 10.0, -4.0 ) * pLC2.Value - 1.0 * pow( 10.0, -7.0 ) * pUC2.Value";
 	}
 
 	Process ExpressionFluxProcess( vUC1_LC1 ) 
@@ -465,7 +463,7 @@ System System(/CELL/MEMBRANE/INa)
 			[ pUC1     :.:upper_closedState1 1 ]
 			[ pLC1     :.:lower_closedState1 -1 ];
 
-		Expression "9.5 * pow( 10.0, -4 ) * pLC1.Value - 1.0 * pow( 10.0, -7 ) * pUC1.Value";
+		Expression "9.5 * pow( 10.0, -4.0 ) * pLC1.Value - 1.0 * pow( 10.0, -7.0 ) * pUC1.Value";
 	}
 
 	Process ExpressionFluxProcess( vUO_LO ) 
@@ -490,7 +488,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( openState ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	-1;
 
 		VariableReferenceList
 			[ OS     :.:openState        1 ]
@@ -498,6 +496,7 @@ System System(/CELL/MEMBRANE/INa)
 			[ pLO     :.:lower_openState        0 ];
 
 		Expression "pUO.Value + pLO.Value";
+#		Expression "pUO.Value + pLO.Value * 0.01";
 	}
 
 #	Process ExpressionAssignmentProcess( openState ) 
@@ -539,7 +538,7 @@ System System(/CELL/MEMBRANE/INa)
 	Process ExpressionAssignmentProcess( I ) 
 	{
 		StepperID	PSV;
-		Priority	0;
+		Priority	-5;
 
 		VariableReferenceList
 			[ I     :.:I                  1 ]
@@ -555,7 +554,7 @@ System System(/CELL/MEMBRANE/INa)
 
 	Process ExpressionFluxProcess( jNa ) 
 	{
-		Priority	0;
+		Priority	-10;
 
 		VariableReferenceList
 			[ Nae :/:Na                 1 ]

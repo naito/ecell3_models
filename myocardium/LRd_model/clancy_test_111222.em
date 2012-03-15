@@ -784,7 +784,9 @@ System System( /CELL/CYTOPLASM/NSR )
 @# 細胞膜上のイオンチャネル
 @include( 'Ito_Clancy.em' )
 
-@include( 'INa_1795insD3.em' )        @# Na
+@include( 'INa_1795insD4.em' )        @# Na
+@#include( 'INa_clancy.em' )        @# Na
+
 @include( 'ICaL_LRd.em' )    @# Na, K, Ca
 @include( 'ICaT_LRd.em' )    @#        Ca
 

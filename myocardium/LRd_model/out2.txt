@@ -1,0 +1,37 @@
+	Variable Variable( closedState1 )
+			[ pC1   :.:closedState1   -1 ];
+			[ pC1   :.:closedState1    1 ]
+			[ pC1     :.:closedState1 -1 ];
+			[ pC1     :.:closedState1 1 ]
+			[ pC2     :.:closedState1 1 ]
+			[ pC3     :.:closedState1 1 ]
+	Variable Variable( closedState2 )
+			[ pC2     :.:closedState2 -1 ];
+			[ pC2   :.:closedState2    1 ]
+			[ pC2    :.:closedState2 -1 ];
+	Variable Variable( closedState3 )
+			[ pC3     :.:closedState3  1 ]
+			[ pC3    :.:closedState3 -1 ];
+	Variable Variable( openState )
+			[ pO   :.:openState       -1 ];
+			[ pO      :.:openState -1 ];
+			[ pO   :.:openState       1 ]
+			[ pOpen :.:openState          0 ]  @# ←←← openState に変更
+	Variable Variable( fast_inactivationState )
+			[ pIF     :.:fast_inactivationState -1 ];
+			[ pIF     :.:fast_inactivationState  1 ]
+			[ pIF     :.:fast_inactivationState 1 ]
+			[ pIF     :.:fast_inactivationState 1 ]
+			[ pIF     :.:fast_inactivationState 1 ]
+	Variable Variable( intermediate_inactivationState1 )
+			[ M1     :.:intermediate_inactivationState1 -1 ];
+			[ M1    :.:intermediate_inactivationState1 -1 ];
+	Variable Variable( closed_inactivationState2 )
+			[ pIC2     :.:closed_inactivationState2 -1 ];
+			[ pIC2     :.:closed_inactivationState2  1 ]
+			[ pIC2   :.:closed_inactivationState2 1 ]
+			[ pIC2     :.:closed_inactivationState2 1 ]
+	Variable Variable( closed_inactivationState3 )
+			[ pIC3     :.:closed_inactivationState3  1 ]
+			[ pIC3   :.:closed_inactivationState3 1 ]
+			[ pIC3     :.:closed_inactivationState3 1 ]
