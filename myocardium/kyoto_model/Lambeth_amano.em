@@ -130,7 +130,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Process ExpressionAssignmentProcess ( V_GPa_a_assign )
 	{
 		StepperID  ODE;
-		Priority   1;
+		Priority   3;
 
 		VariableReferenceList
 			[ V_GPa_a    :.:V_GPa_a      1 ]
@@ -150,7 +150,7 @@ System System( /CELL/GLYCOGENOLYSIS )
         Process ExpressionAssignmentProcess ( V_GPa_b_assign )
         {
                 StepperID  ODE;
-                Priority   1;
+                Priority   3;
 
                 VariableReferenceList
                         [ V_GPa_b    :.:V_GPa_b      1 ]
@@ -308,7 +308,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Process ExpressionAssignmentProcess ( V_GPb_a_assign )
 	{
 		StepperID  ODE;
-		Priority   1;
+		Priority   3;
 
 		VariableReferenceList
 			[ V_GPb_a    :.:V_GPb_a      1 ]
@@ -331,7 +331,7 @@ System System( /CELL/GLYCOGENOLYSIS )
         Process ExpressionAssignmentProcess ( V_GPb_b_assign )
         {
                 StepperID  ODE;
-                Priority   1;
+                Priority   3;
 
                 VariableReferenceList
                         [ V_GPb_b    :.:V_GPb_b      1 ]
@@ -514,8 +514,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ KG1P_PGLM     :.:KG1P_PGLM     0 ]
 			[ KeqPGLM       :.:KeqPGLM       0 ];
 	
-#		Expression "( Vmaxf_PGLM.Value * KG6P_PGLM.Value ) / ( KG1P_PGLM.Value * KeqPGLM.Value )";		
-		Expression "( Vmaxf_PGLM.Value * KG6P_PGLM.Value ) / ( KG1P_PGLM.Value / KeqPGLM.Value )";		
+		Expression "( Vmaxf_PGLM.Value * KG6P_PGLM.Value ) / ( KG1P_PGLM.Value * KeqPGLM.Value )";		
+#		Expression "( Vmaxf_PGLM.Value * KG6P_PGLM.Value ) / ( KG1P_PGLM.Value / KeqPGLM.Value )";		
 
 	}
 
@@ -762,8 +762,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ KF6P_PFK    :.:KF6P_PFK      0 ]
 			[ KATP_PFK    :.:KATP_PFK      0 ];
 
-#		Expression "KF6P_PFK.Value * KATP_PFK.Value / ( K_F6P.Value * K_ATP.Value )";
-	     Expression "KF6P_PFK.Value * KATP_PFK.Value / ( K_F6P.Value / K_ATP.Value )";
+		Expression "KF6P_PFK.Value * KATP_PFK.Value / ( K_F6P.Value * K_ATP.Value )";
+#	     Expression "KF6P_PFK.Value * KATP_PFK.Value / ( K_F6P.Value / K_ATP.Value )";
 	}
 
 	Variable Variable( KiATP_PFK )
@@ -877,7 +877,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ L             :.:L           0 ];
 	
 #		Expression "( Vmaxf_PFK.Value * ATP.Value * F6P.Value / ( KATP_PFK.Value * KF6P_PFK.Value ) -  Vmaxr_PFK.Value *  ADP.Value * FBP.Value / ( KADP_PFK.Value * KFBP_PFK.Value )) / delta.Value * ( 1.0 + alpha.Value * L.Value * pow( delta_.Value / delta.Value, 3 )) / ( 1.0 + L.Value * pow (( delta_.Value / delta.Value ), 4))";		
-		Expression "( 1.0 + alpha.Value * L.Value * pow(delta_.Value / delta.Value, 3 )) * (Vmaxf_PFK.Value * ATP.Value * F6P.Value / ( KATP_PFK.Value * KF6P_PFK.Value ) -  Vmaxr_PFK.Value *  ADP.Value * FBP.Value / ( KADP_PFK.Value * KFBP_PFK.Value )) / delta.Value * ( 1.0 + L.Value * pow( delta_.Value / delta.Value, 4 ))";		
+		Expression "( 1.0 + alpha.Value * L.Value * pow(delta_.Value / delta.Value, 3 )) * (Vmaxf_PFK.Value * ATP.Value * F6P.Value / ( KATP_PFK.Value * KF6P_PFK.Value ) -  Vmaxr_PFK.Value *  ADP.Value * FBP.Value / ( KADP_PFK.Value * KFBP_PFK.Value )) / (delta.Value * ( 1.0 + L.Value * pow( delta_.Value / delta.Value, 4 )))";		
 	}
 
 	Process ExpressionFluxProcess ( V_PFK )
@@ -968,8 +968,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ KFBP_ALD    :.:KFBP_ALD      0 ]
 			[ KeqALD    :.:KeqALD          0 ];
 	
-#		Expression "Vmaxf_ALD.Value * KDHAP_ALD.Value * KGAP_ALD.Value / ( KFBP_ALD.Value * KeqALD.Value)";		
-		Expression "Vmaxf_ALD.Value * KDHAP_ALD.Value * KGAP_ALD.Value / ( KFBP_ALD.Value / KeqALD.Value)";		
+		Expression "Vmaxf_ALD.Value * KDHAP_ALD.Value * KGAP_ALD.Value / ( KFBP_ALD.Value * KeqALD.Value)";		
+#		Expression "Vmaxf_ALD.Value * KDHAP_ALD.Value * KGAP_ALD.Value / ( KFBP_ALD.Value / KeqALD.Value)";		
 	}
 
 	Process ExpressionAssignmentProcess ( V_ALD_assign )
@@ -1077,14 +1077,14 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Process ExpressionFluxProcess ( V_TPI )
 	{
 		StepperID  ODE;
-		Priority   1;
+		Priority   0;
 
 		VariableReferenceList
 			[ V_TPI       :.:V_TPI         0 ]
 			[ Vmaxf_TPI   :.:Vmaxf_TPI     0 ]
 			[ Vmaxr_TPI   :.:Vmaxr_TPI     0 ]
 			[ DHAP        :.:DHAP          1 ]
-			[ GAP         :.:GAP          -1 ]			
+			[ GAP         :.:GAP          -1 ]
 			[ KDHAP_TPI   :.:KDHAP_TPI     0 ]
 			[ KGAP_TPI    :.:KGAP_TPI      0 ];
 	
