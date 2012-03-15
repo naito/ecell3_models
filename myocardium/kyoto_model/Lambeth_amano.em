@@ -1735,19 +1735,19 @@ System System( /CELL/GLYCOGENOLYSIS )
 		Expression "V_LDH.Value";
 	}
 
-	Variable Variable( V_OUTPUT )
-	{
-		Value 0.0;
-	}
+#	Variable Variable( V_OUTPUT )
+#	{
+#		Value 0.0;
+#	}
 
-	Process ExpressionAssignmentProcess ( V_OUTPUT )
+	Process ExpressionFluxProcess ( V_OUTPUT )
 	{
 		StepperID  ODE;
-		Priority   1;
+		Priority   0;
 
 		VariableReferenceList
-			[ V_OUTPUT     :.:V_OUTPUT      1 ]
-			[ LAC          :.:LAC           0 ];
+#			[ V_OUTPUT     :.:V_OUTPUT      1 ]
+			[ LAC          :.:LAC           -1 ];
 	
 		Expression "( 0.2 * LAC.Value )";		
 	}
