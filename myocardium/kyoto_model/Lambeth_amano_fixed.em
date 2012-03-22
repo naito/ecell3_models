@@ -28,16 +28,19 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( GLY )
 	{
 		Value 112.0;
+		Fixed 1;
 	}
 
 	Variable Variable( G1P )
 	{
 		Value 0.0589;
+		Fixed 1;
 	}
 
 	Variable Variable( Pi )
 	{
 		Value 4.1;
+		Fixed 1;
 	}
 
 	Variable Variable( KGLYf_GPa )
@@ -192,6 +195,31 @@ System System( /CELL/GLYCOGENOLYSIS )
 
                 Expression " V_GPa_a.Value / V_GPa_b.Value ";
         }
+
+#	Process ExpressionFluxProcess ( V_GPa )
+#	{
+#		StepperID  ODE;
+#		Priority   0;
+
+#		VariableReferenceList
+#			[ V_GPa      :.:V_GPa        0 ]
+#                        [ V_GPa_a    :.:V_GPa_a      0 ]
+#                        [ V_GPa_b    :.:V_GPa_b      0 ]
+#			[ Vmaxf_GPa  :.:Vmaxf_GPa    0 ]
+#			[ Vmaxr_GPa  :.:Vmaxr_GPa    0 ]
+#			[ GLY        :.:GLY         -1 ]
+#			[ Pi         :.:Pi          -1 ]
+#			[ G1P        :.:G1P          1 ]
+#			[ KGLYf_GPa  :.:KGLYf_GPa    0 ]
+#			[ KGLYb_GPa  :.:KGLYb_GPa    0 ]
+#			[ KiGLYf_GPa :.:KiGLYf_GPa   0 ]
+#			[ KiGLYb_GPa :.:KiGLYb_GPa   0 ]
+#			[ KPi_GPa    :.:KPi_GPa      0 ]
+#			[ KiPi_GPa   :.:KiPi_GPa     0 ]
+#			[ KiG1P_GPa  :.:KiG1P_GPa    0 ];
+#	
+#		Expression"V_GPa.Value";
+#	}
 
         Variable Variable( KiGLYf_GPb )
         {
@@ -356,6 +384,32 @@ System System( /CELL/GLYCOGENOLYSIS )
                 Expression " V_GPb_a.Value / V_GPb_b.Value ";
         }
 
+#	Process ExpressionFluxProcess ( V_GPb )
+#	{
+#		StepperID  ODE;
+#		Priority   0;
+
+#		VariableReferenceList
+#			[ V_GPb      :.:V_GPb        0 ]
+#                        [ V_GPb_a    :.:V_GPb_a      0 ]
+#                        [ V_GPb_b    :.:V_GPb_b      0 ]
+#			[ Vmaxf_GPb  :.:Vmaxf_GPb    0 ]
+#			[ Vmaxr_GPb  :.:Vmaxr_GPb    0 ]
+#			[ GLY        :.:GLY         -1 ]
+#			[ Pi         :.:Pi          -1 ]
+#			[ G1P        :.:G1P          1 ]
+#			[ AMP        :.:AMP          0 ]
+#			[ KiGLYf_GPb :.:KiGLYf_GPb   0 ]
+#			[ KiGLYb_GPb :.:KiGLYb_GPb   0 ]
+#			[ KPi_GPb    :.:KPi_GPb      0 ]
+#			[ KiPi_GPb   :.:KiPi_GPb     0 ]
+#			[ KG1P_GPb   :.:KG1P_GPb     0 ]
+#			[ KiG1P_GPb  :.:KiG1P_GPb    0 ]
+#			[ K_AMP      :.:K_AMP        0 ]
+#			[ nH         :.:nH           0 ];
+#	
+#		Expression"V_GPb.Value";
+#	}
 #Aoki_120313
 
        Variable Variable( frac_a )
@@ -404,8 +458,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ Vmaxr_GPb  :.:Vmaxr_GPb    0 ]
 #			[ GLY        :.:GLY         -1 ]
 			[ GLY        :.:GLY          0 ]
-#duck			[ Pi         :.:Pi          -1 ]
-			[ Pi         :.:Pi           0 ]
+			[ Pi         :.:Pi          -1 ]
 			[ G1P        :.:G1P          1 ]
 			[ AMP        :.:AMP          0 ]
 			[ KiGLYf_GPb :.:KiGLYf_GPb   0 ]
@@ -425,6 +478,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( G6P )
 	{
 		Value 0.75;
+		Fixed 1;
 	}
 
 	Variable Variable( KG6P_PGLM )
@@ -511,6 +565,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( F6P )
 	{
 		Value 0.228;
+		Fixed 1;
 	}
 
 	Variable Variable( KF6P_PGI )
@@ -530,8 +585,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Variable Variable( Vmaxr_PGI )
 	{
-		Value 0.88;
-#duck		Value 880.0;
+#		Value 0.88;
+		Value 880.0;
 	}
 
 	Variable Variable( Vmaxf_PGI )
@@ -595,6 +650,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( FBP )
 	{
 		Value 0.0723;
+		Fixed 1;
 	}
 
 	Variable Variable( ATP )
@@ -766,8 +822,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Variable Variable( Vmaxf_PFK )
 	{
-		Value 0.056;
-#duck		Value 56.0;
+#		Value 0.056;
+		Value 56.0;
 	}
 
         Variable Variable( Keq_PFK ) #Aoki_add120313
@@ -860,11 +916,13 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( DHAP )
 	{
 		Value 0.0764;
+		Fixed 1;
 	}
 
 	Variable Variable( GAP )
 	{
 		Value 0.0355;
+		Fixed 1;
 	}
 
 	Variable Variable( KDHAP_ALD )
@@ -1045,6 +1103,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( _13BPG )
 	{
 		Value 0.065;
+		Fixed 1;
 	}
 
 	Variable Variable( KGAP_GAPDH )
@@ -1181,8 +1240,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ Vmaxf_GAPDH    :.:Vmaxf_GAPDH     0 ]
 			[ Vmaxr_GAPDH    :.:Vmaxr_GAPDH     0 ]
 			[ GAP            :.:GAP            -1 ]			
-#duck			[ NAD            :.:NAD            -1 ]
-#duck			[ Pi             :.:Pi             -1 ]
+			[ NAD            :.:NAD            -1 ]
+			[ Pi             :.:Pi             -1 ]
 			[ x13BPG         :.:_13BPG          1 ]
 			[ NADH           :.:NADH            1 ]
 			[ KGAP_GAPDH     :.:KGAP_GAPDH      0 ]
@@ -1199,6 +1258,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( _3PG )
 	{
 		Value 0.052;
+		Fixed 1;
 	}
 
 	Variable Variable( K13BPG_PGK )
@@ -1308,11 +1368,13 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( _2PG )
 	{
 		Value 0.005;
+		Fixed 1;
 	}
 
 	Variable Variable( PEP )
 	{
 		Value 0.0194;
+		Fixed 1;
 	}
 
 	Variable Variable( K3PG_PGM )
@@ -1477,6 +1539,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( PYR )
 	{
 		Value 0.0994;
+		Fixed 1;
 	}
 
 	Variable Variable( KPEP_PK )
@@ -1584,6 +1647,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Variable Variable( LAC )
 	{
 		Value 1.3;
+		Fixed 1;
 	}
 
 	Variable Variable( KPYR_LDH )
