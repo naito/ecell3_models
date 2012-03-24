@@ -77,7 +77,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Variable Variable( KiG1P_GPa )
 	{
-		Value 10.1;
+#		Value 10.1;
+		Value 10.0;
 	}
 
 	Variable Variable( KeqGP )
@@ -225,7 +226,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Variable Variable( AMP )
 	{
-		Value 0.00002;
+#		Value 0.00002;
+		Value 0.00001;
 	}
 
 	Variable Variable( K_AMP )
@@ -879,14 +881,15 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Variable Variable( KFBP_ALD )
 	{
-		Value 0.05;
+#		Value 0.05;
+		Value 0.5;
 	}
 
 	Variable Variable( KeqALD )
 	{
 #		Value @(9.5 * pow( 10.0, -2 ));
-#		Value @(1.0 / ( 9.5 * pow( 10.0, -8 )));
-		Value 0.095;
+		Value @(1.0 / ( 9.5 * pow( 10.0, -8 )));
+#		Value 0.095;
 	}
 
 	Variable Variable( Vmaxf_ALD )
