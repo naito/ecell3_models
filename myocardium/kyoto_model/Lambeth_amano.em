@@ -1,6 +1,7 @@
 Stepper FixedODE1Stepper( ODE )
 {
 	# no property
+	StepInterval 1.0E-6;
 }
 
 Stepper PassiveStepper( PSV )
@@ -406,7 +407,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ Vmaxr_GPb  :.:Vmaxr_GPb    0 ]
 #			[ GLY        :.:GLY         -1 ]
 			[ GLY        :.:GLY          0 ]
-#duck			[ Pi         :.:Pi          -1 ]
+#			[ Pi         :.:Pi          -1 ]
 			[ Pi         :.:Pi           0 ]
 			[ G1P        :.:G1P          1 ]
 			[ AMP        :.:AMP          0 ]
@@ -638,7 +639,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	Process ExpressionAssignmentProcess ( delta )
 	{
 		StepperID  PSV;
-		Priority   5 ;
+		Priority   5;
 
 		VariableReferenceList
 			[ delta       :.:delta         1 ]			
@@ -769,7 +770,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Variable Variable( Vmaxf_PFK )
 	{
-		Value 0.056;
+#		Value 0.056;
+		Value 56.0;
 #duck		Value 56.0;
 	}
 
@@ -1186,7 +1188,9 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ Vmaxr_GAPDH    :.:Vmaxr_GAPDH     0 ]
 			[ GAP            :.:GAP            -1 ]			
 #duck			[ NAD            :.:NAD            -1 ]
+#			[ NAD            :.:NAD            -1 ]
 #duck			[ Pi             :.:Pi             -1 ]
+#			[ Pi             :.:Pi             -1 ]
 			[ x13BPG         :.:_13BPG          1 ]
 			[ NADH           :.:NADH            1 ]
 			[ KGAP_GAPDH     :.:KGAP_GAPDH      0 ]
