@@ -532,7 +532,8 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Variable Variable( Vmaxr_PGI )
 	{
-		Value 0.88;
+#		Value 0.88;
+		Value 880.0;
 #duck		Value 880.0;
 	}
 
