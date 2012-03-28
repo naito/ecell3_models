@@ -411,10 +411,10 @@ System System( /CELL/GLYCOGENOLYSIS )
                         [ frac_b     :.:frac_b       0 ]
 			[ Vmaxf_GPb  :.:Vmaxf_GPb    0 ]
 			[ Vmaxr_GPb  :.:Vmaxr_GPb    0 ]
-#			[ GLY        :.:GLY         -1 ]
-			[ GLY        :.:GLY          0 ]
-#			[ Pi         :.:Pi          -1 ]
-			[ Pi         :.:Pi           0 ]
+			[ GLY        :.:GLY         -1 ]
+#			[ GLY        :.:GLY          0 ]
+			[ Pi         :.:Pi          -1 ]
+#			[ Pi         :.:Pi           0 ]
 			[ G1P        :.:G1P          1 ]
 			[ AMP        :.:AMP          0 ]
 			[ KiGLYf_GPb :.:KiGLYf_GPb   0 ]
@@ -851,10 +851,10 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ Vmaxf_PFK     :.:Vmaxf_PFK   0 ]
 			[ Vmaxr_PFK     :.:Vmaxr_PFK   0 ]
 			[ F6P           :.:F6P        -1 ]
-			[ ATP           :.:ATP         0 ]
-			[ ADP           :.:ADP         0 ]						
-#			[ ATP           :.:ATP        -1 ]
-#			[ ADP           :.:ADP         1 ]			
+#			[ ATP           :.:ATP         0 ]
+#			[ ADP           :.:ADP         0 ]						
+			[ ATP           :.:ATP        -1 ]
+			[ ADP           :.:ADP         1 ]			
 			[ FBP           :.:FBP         1 ]						
 			[ KF6P_PFK      :.:KF6P_PFK    0 ]
 			[ KATP_PFK      :.:KATP_PFK    0 ]
@@ -1194,9 +1194,9 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ Vmaxr_GAPDH    :.:Vmaxr_GAPDH     0 ]
 			[ GAP            :.:GAP            -1 ]			
 #duck			[ NAD            :.:NAD            -1 ]
-#			[ NAD            :.:NAD            -1 ]
+			[ NAD            :.:NAD            -1 ]
 #duck			[ Pi             :.:Pi             -1 ]
-#			[ Pi             :.:Pi             -1 ]
+			[ Pi             :.:Pi             -1 ]
 			[ x13BPG         :.:_13BPG          1 ]
 			[ NADH           :.:NADH            1 ]
 			[ KGAP_GAPDH     :.:KGAP_GAPDH      0 ]
@@ -1306,10 +1306,10 @@ System System( /CELL/GLYCOGENOLYSIS )
 			[ Vmaxr_PGK    :.:Vmaxr_PGK    0 ]
 			[ x13BPG       :.:_13BPG      -1 ]
 			[ x3PG         :.:_3PG         1 ]
-			[ ADP          :.:ADP          0 ]
-			[ ATP          :.:ATP          0 ]
-#			[ ADP          :.:ADP         -1 ]
-#			[ ATP          :.:ATP          1 ]
+#			[ ADP          :.:ADP          0 ]
+#			[ ATP          :.:ATP          0 ]
+			[ ADP          :.:ADP         -1 ]
+			[ ATP          :.:ATP          1 ]
 			[ K13BPG_PGK   :.:K13BPG_PGK   0 ]
 			[ KADP_PGK     :.:KADP_PGK     0 ]
 			[ K3PG_PGK     :.:K3PG_PGK     0 ]
@@ -1582,10 +1582,10 @@ System System( /CELL/GLYCOGENOLYSIS )
                       [ Vmaxr_PK    :.:Vmaxr_PK     0 ]
                       [ PEP         :.:PEP         -1 ]
                       [ PYR         :.:PYR          1 ]
-                      [ ADP         :.:ADP          0 ]
-                      [ ATP         :.:ATP          0 ]
-#                     [ ADP         :.:ADP         -1 ]
-#                     [ ATP         :.:ATP          1 ]
+#                      [ ADP         :.:ADP          0 ]
+#                      [ ATP         :.:ATP          0 ]
+                     [ ADP         :.:ADP         -1 ]
+                     [ ATP         :.:ATP          1 ]
                       [ KPEP_PK     :.:KPEP_PK      0 ]
                       [ KADP_PK     :.:KADP_PK      0 ]
                       [ KPYR_PK     :.:KPYR_PK      0 ]
@@ -1869,66 +1869,66 @@ System System( /CELL/GLYCOGENOLYSIS )
 	        Value 0.0;
 	}
 
-#        Process ExpressionAssignmentProcess ( Vmaxr_ADK )
-#        {
-#	        StepperID  DT;
-#                Priority   5;
+        Process ExpressionAssignmentProcess ( Vmaxr_ADK )
+        {
+	        StepperID  DT;
+                Priority   5;
 
-#                VariableReferenceList
-#                        [ Vmaxr_ADK   :.:Vmaxr_ADK   1 ]
-#			[ Vmaxf_ADK   :.:Vmaxf_ADK   0 ]
-#	                [ KATP_ADK    :.:KATP_ADK    0 ]
-#                        [ KADP_ADK    :.:KADP_ADK    0 ]
-#                        [ KAMP        :.:KAMP        0 ]
-#                        [ KeqADK      :.:KeqADK      0 ];
+                VariableReferenceList
+                        [ Vmaxr_ADK   :.:Vmaxr_ADK   1 ]
+			[ Vmaxf_ADK   :.:Vmaxf_ADK   0 ]
+	                [ KATP_ADK    :.:KATP_ADK    0 ]
+                        [ KADP_ADK    :.:KADP_ADK    0 ]
+                        [ KAMP        :.:KAMP        0 ]
+                        [ KeqADK      :.:KeqADK      0 ];
 
-#	 Expression "Vmaxf_ADK.Value * pow( KADP_ADK.Value, 2.0 ) / ( KATP_ADK.Value * KAMP.Value * KeqADK.Value )";
-#        }
+	 Expression "Vmaxf_ADK.Value * pow( KADP_ADK.Value, 2.0 ) / ( KATP_ADK.Value * KAMP.Value * KeqADK.Value )";
+        }
 
 	Variable Variable( V_ADK )
 	{
                 Value 0.0;
         }
 
-#       Process ExpressionAssignmentProcess ( V_ADK_assign )
-#       {
-#               StepperID  DT;
-#               Priority   1;
+       Process ExpressionAssignmentProcess ( V_ADK_assign )
+       {
+               StepperID  DT;
+               Priority   1;
 
-#                VariableReferenceList
-#                        [ V_ADK         :.:V_ADK         1 ]
-#                        [ Vmaxf_ADK     :.:Vmaxf_ADK     0 ]
-#                        [ Vmaxr_ADK     :.:Vmaxr_ADK     0 ]
+                VariableReferenceList
+                        [ V_ADK         :.:V_ADK         1 ]
+                        [ Vmaxf_ADK     :.:Vmaxf_ADK     0 ]
+                        [ Vmaxr_ADK     :.:Vmaxr_ADK     0 ]
+                        [ ATP           :.:ATP           0 ]
+                        [ ADP           :.:ADP           0 ]
+                        [ AMP           :.:AMP           0 ]
+                        [ KATP_ADK      :.:KATP_ADK      0 ]
+                        [ KADP_ADK      :.:KADP_ADK      0 ]
+                        [ KAMP          :.:KAMP          0 ];
+
+               Expression "((( Vmaxf_ADK.Value * ATP.Value * AMP.Value ) / ( KATP_ADK.Value * KAMP.Value )) - ( Vmaxr_ADK.Value * pow( ADP.Value, 2.0 )) / ( pow( KADP_ADK.Value, 2.0 ))) / ( 1.0 + ( ATP.Value / KATP_ADK.Value ) + ( AMP.Value / KAMP.Value ) + (( ATP.Value * AMP.Value ) / ( KATP_ADK.Value * KAMP.Value )) + ( 2.0 * ADP.Value / KADP_ADK.Value ) + ( pow( ADP.Value, 2.0 )) / ( pow( KADP_ADK.Value, 2.0 )))";
+       }
+
+        Process ExpressionFluxProcess ( V_ADK )
+        {
+                StepperID  ODE;
+                Priority   0;
+
+                VariableReferenceList
+                        [ V_ADK         :.:V_ADK         0 ]
+                        [ Vmaxf_ADK     :.:Vmaxf_ADK     0 ]
+                        [ Vmaxr_ADK     :.:Vmaxr_ADK     0 ]
 #                        [ ATP           :.:ATP           0 ]
 #                        [ ADP           :.:ADP           0 ]
-#                        [ AMP           :.:AMP           0 ]
-#                        [ KATP_ADK      :.:KATP_ADK      0 ]
-#                        [ KADP_ADK      :.:KADP_ADK      0 ]
-#                        [ KAMP          :.:KAMP          0 ];
+                       [ ATP           :.:ATP          -1 ]
+                       [ ADP           :.:ADP           2 ]
+                        [ AMP           :.:AMP          -1 ]
+                        [ KATP_ADK      :.:KATP_ADK      0 ]
+                        [ KADP_ADK      :.:KADP_ADK      0 ]
+                        [ KAMP          :.:KAMP          0 ];
 
-#               Expression "((( Vmaxf_ADK.Value * ATP.Value * AMP.Value ) / ( KATP_ADK.Value * KAMP.Value )) - ( Vmaxr_ADK.Value * pow( ADP.Value, 2.0 )) / ( pow( KADP_ADK.Value, 2.0 ))) / ( 1.0 + ( ATP.Value / KATP_ADK.Value ) + ( AMP.Value / KAMP.Value ) + (( ATP.Value * AMP.Value ) / ( KATP_ADK.Value * KAMP.Value )) + ( 2.0 * ADP.Value / KADP_ADK.Value ) + ( pow( ADP.Value, 2.0 )) / ( pow( KADP_ADK.Value, 2.0 )))";
-#       }
-
-#        Process ExpressionFluxProcess ( V_ADK )
-#        {
-#                StepperID  ODE;
-#                Priority   0;
-
-#                VariableReferenceList
-#                        [ V_ADK         :.:V_ADK         0 ]
-#                        [ Vmaxf_ADK     :.:Vmaxf_ADK     0 ]
-#                        [ Vmaxr_ADK     :.:Vmaxr_ADK     0 ]
-#                        [ ATP           :.:ATP           0 ]
-#                        [ ADP           :.:ADP           0 ]
-#                       [ ATP           :.:ATP          -1 ]
-#                       [ ADP           :.:ADP           2 ]
-#                        [ AMP           :.:AMP          -1 ]
-#                        [ KATP_ADK      :.:KATP_ADK      0 ]
-#                        [ KADP_ADK      :.:KADP_ADK      0 ]
-#                        [ KAMP          :.:KAMP          0 ];
-
-#                Expression "V_ADK.Value";
-#        }
+                Expression "V_ADK.Value";
+        }
 
 #Toki_120313
 #	Variable Variable( ATPase )
@@ -1936,10 +1936,10 @@ System System( /CELL/GLYCOGENOLYSIS )
 #		Value 0.75;
 #	}
 
-#	Variable Variable( V_ATPase )
-#	{
-#		Value 600.0;
-#	}
+	Variable Variable( V_ATPase )
+	{
+		Value 600.0;
+	}
 
 	Variable Variable( k )
 	{
@@ -1948,36 +1948,36 @@ System System( /CELL/GLYCOGENOLYSIS )
 #		Value 0.075;
 	}
 
-#	Process ExpressionAssignmentProcess ( V_ATPase_assign )
-#	{
-#		StepperID  DT;
-#		Priority   1;
+	Process ExpressionAssignmentProcess ( V_ATPase_assign )
+	{
+		StepperID  DT;
+		Priority   1;
 
-#		VariableReferenceList
-#			[ V_ATPase      :.:V_ATPase     1 ]
-#			[ ATP           :.:ATP          0 ]
-#			[ ADP           :.:ADP          0 ]
-#			[ k           :.:k          0 ]
-#			[ Pi            :.:Pi           0 ];
+		VariableReferenceList
+			[ V_ATPase      :.:V_ATPase     1 ]
+			[ ATP           :.:ATP          0 ]
+			[ ADP           :.:ADP          0 ]
+			[ k           :.:k          0 ]
+			[ Pi            :.:Pi           0 ];
 
-#		Expression "k.Value * ATP.Value";		
-#	}
+		Expression "k.Value * ATP.Value";		
+	}
 
-#	Process ExpressionFluxProcess ( V_ATPase )
-#	{
-#		StepperID  ODE;
-#		Priority   0;
+	Process ExpressionFluxProcess ( V_ATPase )
+	{
+		StepperID  ODE;
+		Priority   0;
 
-#		VariableReferenceList
-#			[ V_ATPase      :.:V_ATPase     0 ]
-#			[ ATP           :.:ATP         -1 ]	
-#			[ ADP           :.:ADP          1 ]
+		VariableReferenceList
+			[ V_ATPase      :.:V_ATPase     0 ]
+			[ ATP           :.:ATP         -1 ]	
+			[ ADP           :.:ADP          1 ]
 #			[ ATP           :.:ATP          0 ]	
 #			[ ADP           :.:ADP          0 ]
-#			[ Pi            :.:Pi           1 ];
+			[ Pi            :.:Pi           1 ];
 	
-#		Expression "V_ATPase.Value";		
-#	}
+		Expression "V_ATPase.Value";		
+	}
 
 }
 
