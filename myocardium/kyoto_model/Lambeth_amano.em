@@ -1,7 +1,13 @@
 Stepper FixedODE1Stepper( ODE )
 {
 	# no property
-	StepInterval 1.0E-6;
+	StepInterval 1.0E-7;
+}
+
+Stepper DiscreteTimeStepper( DT )
+{
+	# no property
+	StepInterval 1.0E-7;
 }
 
 Stepper PassiveStepper( PSV )
@@ -99,7 +105,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_GPa )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -131,7 +137,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_GPa_a_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   3;
 
 		VariableReferenceList
@@ -151,7 +157,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
         Process ExpressionAssignmentProcess ( V_GPa_b_assign )
         {
-                StepperID  PSV;
+                StepperID  DT;
                 Priority   3;
 
                 VariableReferenceList
@@ -171,7 +177,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
         Process ExpressionAssignmentProcess ( V_GPa_assign )
         {
-                StepperID  PSV;
+                StepperID  DT;
                 Priority   1;
 
                 VariableReferenceList
@@ -253,7 +259,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_GPb )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -285,7 +291,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_GPb_a_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   3;
 
 		VariableReferenceList
@@ -308,7 +314,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
         Process ExpressionAssignmentProcess ( V_GPb_b_assign )
         {
-                StepperID  PSV;
+                StepperID  DT;
                 Priority   3;
 
                 VariableReferenceList
@@ -333,7 +339,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
         Process ExpressionAssignmentProcess ( V_GPb_assign )
         {
-                StepperID PSV;
+                StepperID DT;
                 Priority  1;
 
                 VariableReferenceList
@@ -378,7 +384,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 #        Process ExpressionAssignmentProcess ( flux_GP )
 #        {
-#                StepperID PSV;
+#                StepperID DT;
 #                Priority  1;
 #
 #                VariableReferenceList
@@ -457,7 +463,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_PGLM )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -479,7 +485,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_PGLM_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -545,7 +551,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxf_PGI )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -565,7 +571,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_PGI_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -638,7 +644,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( delta )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -682,7 +688,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( delta_ )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -706,7 +712,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( alpha )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -752,7 +758,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( L )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -787,7 +793,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_PFK )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -810,7 +816,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_PFK_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -913,7 +919,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_ALD )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -930,7 +936,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_ALD_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -994,7 +1000,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 	}
 	Process ExpressionAssignmentProcess ( Vmaxr_TPI )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -1015,7 +1021,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_TPI_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -1101,7 +1107,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( D_GAPDH )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 		VariableReferenceList
 			[ D_GAPDH       :.:D_GAPDH        1 ]			
@@ -1131,7 +1137,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_GAPDH )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -1155,7 +1161,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_GAPDH_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -1247,7 +1253,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxf_PGK )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -1270,7 +1276,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_PGK_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -1350,7 +1356,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_PGM )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -1370,7 +1376,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_PGM_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -1430,7 +1436,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_EN )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -1450,7 +1456,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_EN_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -1524,7 +1530,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
         Process ExpressionAssignmentProcess ( Vmaxr_PK )
         {
-               StepperID  PSV;
+               StepperID  DT;
 	       Priority   5;
 
                VariableReferenceList
@@ -1546,7 +1552,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
         Process ExpressionAssignmentProcess ( V_PK_assign )
         {
-               StepperID  PSV;
+               StepperID  DT;
                Priority   1;
 
 	       VariableReferenceList
@@ -1631,7 +1637,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxr_LDH )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -1653,7 +1659,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_LDH_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -1764,7 +1770,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( Vmaxf_CK )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   5;
 
 		VariableReferenceList
@@ -1787,7 +1793,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 	Process ExpressionAssignmentProcess ( V_CK_assign )
 	{
-		StepperID  PSV;
+		StepperID  DT;
 		Priority   1;
 
 		VariableReferenceList
@@ -1865,7 +1871,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 #        Process ExpressionAssignmentProcess ( Vmaxr_ADK )
 #        {
-#	        StepperID  PSV;
+#	        StepperID  DT;
 #                Priority   5;
 
 #                VariableReferenceList
@@ -1886,7 +1892,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 #       Process ExpressionAssignmentProcess ( V_ADK_assign )
 #       {
-#               StepperID  PSV;
+#               StepperID  DT;
 #               Priority   1;
 
 #                VariableReferenceList
@@ -1944,7 +1950,7 @@ System System( /CELL/GLYCOGENOLYSIS )
 
 #	Process ExpressionAssignmentProcess ( V_ATPase_assign )
 #	{
-#		StepperID  PSV;
+#		StepperID  DT;
 #		Priority   1;
 
 #		VariableReferenceList
