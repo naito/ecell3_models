@@ -290,7 +290,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		//setMetalEquilibrium( kD_ADP, ADPtmit, Mg, ADPMg, ADPfmit );
 
 		NAD->setValue(   NAD_H_total   * _SizeN_A - NADH->getValue()  );
-		// needs modification 120701
+		// needs modification 120702
 		UQ->setValue(    UQ_H2_total   * _SizeN_A - UQH2->getValue()  );
 		Cytc3->setValue( Cytc_23_total * _SizeN_A - Cytc2->getValue() );
 		//setComponent( NAD_H_total,   NAD,     NADH    );
