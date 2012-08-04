@@ -118,6 +118,7 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		// 以下、筋収縮の代数方程式求根
 
 		max_iter = 100;
+		search_range = 0.01;
 
 		// パラメータ内容を代入
 		params.push_back( TCaCB->getMolarConc() * 1000.0 );
@@ -129,18 +130,13 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		params.push_back( L0 );
 		params.push_back( A );
 		
-		// FDFに関数、導関数、パラメータを指定する
-		FDF.f      = &IsotonicContractionAssignmentProcess::the_f; 
-		FDF.df     = &IsotonicContractionAssignmentProcess::the_df; 
-		FDF.fdf    = &IsotonicContractionAssignmentProcess::the_fdf; 
-		FDF.params = &params; 
+		// Fに関数、導関数、パラメータを指定する
+		F.function = &IsotonicContractionAssignmentProcess::the_function; 
+		F.params   = &params; 
 
 		// 求根法のインスタンスsを生成する。simBioではsecant method
-		//theSolver = gsl_root_fdfsolver_secant;
-		theSolver = gsl_root_fdfsolver_steffenson;
-		//theSolver = gsl_root_fdfsolver_newton;
-
-		s = gsl_root_fdfsolver_alloc( theSolver ); 
+		// ここでは、収束が保証される囲い込み法（Brent法）
+		solver_T = gsl_root_fsolver_brent;
 
 	}
 
@@ -159,7 +155,7 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 
 		// 筋収縮の代数方程式求根 start
 
-		iter = 0; 
+		iter = 0;
 
 		// パラメータ内容を代入
 		//params = t->getValue();
@@ -170,36 +166,35 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 
 		// x  = L->getValue(); 
 
-		// x1に相当する値を計算してx0に格納
-		x0 = _L - ( the_f( _L, &params ) / the_df( _L, &params ) );
 
-		// Secant法のインスタンスsを関数FDFに適用するために初期化し、探索点の初期値をxに設定する。
-		gsl_root_fdfsolver_set( s, &FDF, _L ); 
+		// Brent法のインスタンスsを関数Fに適用するために初期化し、探索区間を設定する。
+		s = gsl_root_fsolver_alloc( solver_T ); 
+		gsl_root_fsolver_set( s, &F, _L - search_range, _L + search_range ); 
 
-		for ( iter = 0; iter < max_iter; iter++ )
+		do
 		{
-			if ( gsl_root_test_delta ( _L, x0, epsabs, epsrel ) == GSL_SUCCESS ) break;
-	
-			// 求根法の繰り返し計算を１回実行。
-	
-			//printf( "\nx0  = %12.10f", x0 );
-			//printf( "\nx   = %12.10f", x  );
-			//printf( "\ndx  = %e", x - x0 );
-	
-			status = gsl_root_fdfsolver_iterate( s );
-			if ( status ) {
-				
-				if ( status  == GSL_EBADFUNC ) printf( "gsl_root_fdfsolver_iterate: GSL_EBADFUNC" ); 
-				if ( status  == GSL_EZERODIV ) printf( "gsl_root_fdfsolver_iterate: GSL_EZERODIV" ); 
-			}
+			iter++;
+			status = gsl_root_fsolver_iterate (s);
+			r = gsl_root_fsolver_root (s);
+			//x_lo = gsl_root_fsolver_x_lower (s);
+			//x_hi = gsl_root_fsolver_x_upper (s);
+			status = gsl_root_test_interval (x_lo, x_hi, 0, 0.001);
 			
-			//printf( "\nstatus: %d\n", status );
-	
-			x0 = _L; 
-			_L = gsl_root_fdfsolver_root( s ); 
+			/*
+			if (status == GSL_SUCCESS)
+				printf ("Converged:\n");
+			
+			printf ("%5d [%.7f, %.7f] %.7f %+.7f %.7f\n",
+				iter, x_lo, x_hi,
+				r, r - r_expected, 
+				x_hi - x_lo);
+			*/
 		}
-	
-	
+		while (status == GSL_CONTINUE && iter < max_iter);
+		
+		gsl_root_fsolver_free (s);
+		
+		_L = r;
 		L->setValue( _L );
 		setActivity( _L );
 
@@ -292,22 +287,20 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 	int iter;
 	int max_iter;
 	
-	Real x0;
+	Real r, search_range, x_lo, x_hi;	// r: 根　search_range: 探索区間の幅
 	// Real x;
 	
-	// Pointer of a derivative-based solver instance of type theSolver
-	const gsl_root_fdfsolver_type *theSolver; 
-	gsl_root_fdfsolver *s; 
+	// Pointer of a derivative-based solver instance of type solver_T
+	const gsl_root_fsolver_type *solver_T; 
+	gsl_root_fsolver *s; 
 	
 	// A general function with parameters and its first derivative.
-	gsl_function_fdf FDF; 
+	gsl_function F; 
 	
 	// Defintion of parameters of the function.
 	std::vector< Real > params;
 	
-	// Prototypes of the function to solve (f), its derivative (df), and set of f & df (fdf)
-	// They are set as static because their POINTERs will be called by a gsl_function_fdf instance. 
-	static Real the_f (Real x, void *params)
+	static Real the_function (Real x, void *params)
 	{
 		std::vector< Real > *p = ( std::vector< Real > * ) params;
 		Real cTCaCB   = p->at( 0 );
@@ -333,53 +326,6 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		*/
 	}
 
-	static Real the_df (Real x, void *params)
-	{
-		std::vector< Real > *p = ( std::vector< Real > * ) params;
-		Real cTCaCB   = p->at( 0 );
-		Real cTCB     = p->at( 1 );
-		Real ex       = p->at( 2 );
-		Real forceExt = p->at( 3 );
-		Real K        = p->at( 4 );
-		Real Kl       = p->at( 5 );
-		Real L0       = p->at( 6 );
-		Real A        = p->at( 7 );
-	
-		return - 5.0 * K * pow( x - L0, 4.0 ) - Kl - A * (cTCaCB + cTCB);
-	
-		/*
-		double df =  - 5.0 * K * pow( x - L0, 4.0 ) - Kl - A * (cTCaCB + cTCB);
-		printf( "   df  = %1.12e", df );
-		return df;
-		*/
-	}
-
-	static void the_fdf (Real x, void *params, Real *y, Real *dy)
-	{
-		/*
-		*y  = the_f(  x, params);
-		*dy = the_df( x, params);
-		*/
-		
-		std::vector< Real > *p = ( std::vector< Real > * ) params;
-		Real cTCaCB   = p->at( 0 );
-		Real cTCB     = p->at( 1 );
-		Real ex       = p->at( 2 );
-		Real forceExt = p->at( 3 );
-		Real K        = p->at( 4 );
-		Real Kl       = p->at( 5 );
-		Real L0       = p->at( 6 );
-		Real A        = p->at( 7 );
-	
-		double strain = x - L0;
-		double dforceNonLinear = 5.0 * K * pow( strain, 4.0 );
-	
-		double dforceB = A * (cTCaCB + cTCB);
-	
-		*y  = forceExt - dforceNonLinear / 5.0 * strain - Kl * strain - dforceB * (x - ex);
-		*dy = - dforceNonLinear - Kl - dforceB;
-		
-	}
 
 };
 
