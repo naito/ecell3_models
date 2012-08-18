@@ -933,12 +933,7 @@ System System( /CELL/CYTOPLASM )
 			[ WaterFlux    :.:WaterFlux              1 ]
 			[ vAK          :.:vAK                    1 ]
 			[ vCK          :.:vCK                    1 ]
-			[ calmodulin   :.:calmodulin             1 ]
-			[ Tt           :.:Tt                     0 ]
-			[ T            :.:T                      1 ]
-			[ TCa          :.:TCa                    0 ]
-			[ TCaCB        :.:TCaCB                  0 ]
-			[ TCB          :.:TCB                    0 ];
+			[ calmodulin   :.:calmodulin             1 ];
 
 
 		# Vn              3200.0;          # the osmotically inactive cell volume (um^3)
