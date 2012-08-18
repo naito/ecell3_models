@@ -30,7 +30,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 	
 	CytoplasmAssignmentProcess()
 		:
-		Vn_L( 3200.0e-15 ),
+		Vn_L( 3200.0e-15 ),        // Vn, the osmotically inactive cell volume (L, liter)
 		Vt0i( 53898653951.9 ),
 		ActivityFactor( 1.0 ),
 		kD_ATP( 0.024e-3 ),
@@ -125,10 +125,10 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 
 		_SizeN_A = getSuperSystem()->getSizeN_A();
 
-//		_Vt = Vi->getValue() + Vn_L;
 //		Vt->setValue( _Vt );
+		_Vt = Vi->getValue() + Vn_L;
 		
-		Volume_ratio->setValue( _Vt * Vt0i );
+		Volume_ratio->setValue( _Vt * Vt0i );  // simBio: org.simBio.bio.terashima_et_al_2006.experiment.VolumeRatio
 		
 		_Proton_MolarConc = Proton->getMolarConc();
 		pH->setValue( -log10( ActivityFactor * _Proton_MolarConc) );
