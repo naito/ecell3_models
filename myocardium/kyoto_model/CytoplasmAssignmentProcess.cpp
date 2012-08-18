@@ -125,9 +125,8 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 
 		_SizeN_A = getSuperSystem()->getSizeN_A();
 
-		// E-Cell calculates with number-of-molecule base during simBio calc with conc base.
+//		Vt->setValue( _Vt );
 		_Vt = Vi->getValue() + Vn_L;
-		Vt->setValue( _Vt );  // simBio: org.simBio.bio.terashima_et_al_2006.function.TotalVolume
 		
 		Volume_ratio->setValue( _Vt * Vt0i );  // simBio: org.simBio.bio.terashima_et_al_2006.experiment.VolumeRatio
 		
