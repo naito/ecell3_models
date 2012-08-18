@@ -398,7 +398,7 @@ def setCurrents( totalCurrent, *eachCurrent ):
 @# 連続Stepperの名称は「ODE」中身は切り替え可能
 
 Stepper FixedODE1Stepper( ODE ){ StepInterval   @StepInterval; }
-#Stepper ODEStepper( ODE ){}
+Stepper ODEStepper( ODE2 ){}
 #Stepper ODE45Stepper( ODE ){}
 
 @# 離散イベントはPassiveStepper「PSV」で処理。これでほとんど問題ないはず

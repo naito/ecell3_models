@@ -1,7 +1,7 @@
 
 System System( /CELL/CYTOPLASM/Contraction )
 {
-	StepperID	ODE;
+	StepperID	ODE2;
 
 	Variable Variable( X )
 	{
@@ -20,11 +20,13 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Variable Variable( qb )
 	{
+		Name  "Q1"
 		Value 11682.9802486;
 	}
 
 	Variable Variable( qa1 )
 	{
+		Name  "1st term of Q2"
 		Value 27934.9978915;
 	}
 
@@ -35,16 +37,19 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Variable Variable( qa2 )
 	{
+		Name  "2nd term of Q2"
 		Value 3020.27474759;
 	}
 
 	Variable Variable( qr )
 	{
+		Name  "Q3"
 		Value 25998.2753404;
 	}
 
 	Variable Variable( qd )
 	{
+		Name  "1st term of Q4"
 		Value 26291.9677744;
 	}
 
@@ -55,11 +60,13 @@ System System( /CELL/CYTOPLASM/Contraction )
 
 	Variable Variable( qd1 )
 	{
+		Name  "2nd term of Q4"
 		Value 0.00499476562636;
 	}
 
 	Variable Variable( qd2 )
 	{
+		Name  "Q5"
 		Value 0.0176544874505;
 	}
 
@@ -79,7 +86,7 @@ System System( /CELL/CYTOPLASM/Contraction )
 			[ forceExt  :/:forceExt              0 ]
 			[ TCaCB     :..:TCaCB                0 ]
 			[ TCB       :..:TCB                  0 ]
-			[ qb        :.:qb                    1 ]
+			[ qb        :.:qb                    1 ]    # Q1
 			[ T         :..:T                    1 ]
 			[ Tt        :..:Tt                   0 ]
 			[ TCa       :..:TCa                  0 ]

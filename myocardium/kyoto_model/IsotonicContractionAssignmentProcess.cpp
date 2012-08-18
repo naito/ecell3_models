@@ -49,18 +49,18 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		Kl( 200 ),
 		epsabs( 0.0 ),
 		epsrel( 1.0e-6 ),
-		Y1( 31200.0 ),
-		Z1( 0.06 ),
-		Y2( 0.0039 ),
-		La( 1.17 ),
-		KmPi( 1.83e-3 ),
-		KmATP( 0.1e-3 ),
-		Z2( 0.0039 ),
-		Y3( 0.06 ),
-		Z3( 1248000.0 ),
-		Y4( 0.12 ),
+		Y1( 31200.0 ),         // α1 = 39 * bias1 * 1000
+		Z1( 0.06 ),            // β1 = 0.03 * bias2
+		Y2( 0.0039 ),          // for α2
+		La( 1.17 ),            
+		KmPi( 1.83e-3 ),       // (M)
+		KmATP( 0.1e-3 ),       // (M)
+		Z2( 0.0039 ),          // for β2
+		Y3( 0.06 ),            // α3 = 0.03 * bias2
+		Z3( 1248000.0 ),       // β3 = 1560 * bias1 * 1000
+		Y4( 0.12 ),            // for α4
 		dXdtFactor( 50.0 ),
-		Yd( 8000.0 )
+		Yd( 8000.0 )           // for α5
 	{
 		// do nothing
 	}
@@ -130,7 +130,7 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		params.push_back( L0 );
 		params.push_back( A );
 		
-		// Fに関数、導関数、パラメータを指定する
+		// Fに関数、パラメータを指定する
 		F.function = &IsotonicContractionAssignmentProcess::the_function; 
 		F.params   = &params; 
 
@@ -163,22 +163,27 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		params[ 1 ] = _TCB / _SizeN_A * 1000.0;
 		params[ 2 ] = X->getValue();
 		params[ 3 ] = forceExt->getValue();
+		//printf ( "cTCaCB = %.7f\n", params[ 0 ] );
+		//printf ( "cTCB   = %.7f\n", params[ 1 ] );
 
 		// x  = L->getValue(); 
 
 
 		// Brent法のインスタンスsを関数Fに適用するために初期化し、探索区間を設定する。
 		s = gsl_root_fsolver_alloc( solver_T ); 
-		gsl_root_fsolver_set( s, &F, _L - search_range, _L + search_range ); 
+		x_lo = _L - search_range;
+		x_hi = _L + search_range;
+		// printf ("Solver Setting: [%.7f, %.7f]\n", x_lo, x_hi );
+		gsl_root_fsolver_set( s, &F, x_lo, x_hi ); 
 
 		do
 		{
 			iter++;
 			status = gsl_root_fsolver_iterate (s);
 			r = gsl_root_fsolver_root (s);
-			//x_lo = gsl_root_fsolver_x_lower (s);
-			//x_hi = gsl_root_fsolver_x_upper (s);
-			status = gsl_root_test_interval (x_lo, x_hi, 0, 0.001);
+			x_lo = gsl_root_fsolver_x_lower (s);
+			x_hi = gsl_root_fsolver_x_upper (s);
+			status = gsl_root_test_interval (x_lo, x_hi, 1e-12, 0 );
 			
 			/*
 			if (status == GSL_SUCCESS)
@@ -195,6 +200,7 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		gsl_root_fsolver_free (s);
 		
 		_L = r;
+		// printf ( "Solver Answer: %.7f\n", _L );
 		L->setValue( _L );
 		setActivity( _L );
 
@@ -203,18 +209,24 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		T->setValue( Tt->getValue() - _TCa - _TCaCB - _TCB );
 		CBL->setValue( _CBL );
 		dXdt->setValue( _dXdt );
+		// Q1
 		qb->setValue( Y1 * _Ca_MolarConc * T->getValue() - Z1 * _TCa );
-		qa1->setValue( Y2 * (0.54 * KmPi / (KmPi + Pi->getMolarConc() ) + 0.46) * _TCa * exp(-20.0 * ( _L - La ) * ( _L - La )) );
+		// 1st term of Q2
+		qa1->setValue( Y2 * (0.54 * KmPi / (KmPi + Pi->getMolarConc() ) + 0.46) * _TCa * exp(-20.0 * gsl_pow_2( _L - La )));
 		//ATPfactor->setValue( 1.0 / (1.0 + pow( KmATP / ATP->getMolarConc(), 3 )) );
 
-		_ATPfactor = 1.0 / (1.0 + pow( KmATP / ATP->getMolarConc(), 3 ));
-		_cbFactor = _dXdt * _dXdt / (( abs( _dXdt ) / _dXdt ) * ( dXdtFactor - 1.0 ) / 2.0 + (( dXdtFactor + 1.0 ) / 2.0 ));
+		_ATPfactor = 1.0 / (1.0 + gsl_pow_3( KmATP / ATP->getMolarConc() ));
+		_cbFactor = gsl_pow_2( _dXdt ) / ( Real( GSL_SIGN( _dXdt )) * ( dXdtFactor - 1.0 ) / 2.0 + (( dXdtFactor + 1.0 ) / 2.0 ));
 
+		// 2nd term of Q2
 		qa2->setValue( Z2 * _ATPfactor * TCaCB->getValue() );
+		// Q3
 		qr->setValue( Y3 * TCaCB->getValue() - Z3 * _Ca_MolarConc * _TCB );
+		// 1st term of Q4
 		qd->setValue( Y4 * _ATPfactor * _TCB );
-		//cbFactor->setValue( _dXdt * _dXdt / (( abs( _dXdt ) / _dXdt ) * ( dXdtFactor - 1.0 ) / 2.0 + (( dXdtFactor + 1.0 ) / 2.0 )) );
+		// 2nd term of Q4
 		qd1->setValue( Yd * _ATPfactor * _cbFactor * _TCB );
+		// Q5
 		qd2->setValue( Yd * _ATPfactor * _cbFactor * TCaCB->getValue() );
 
 	}
@@ -313,7 +325,7 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		Real A        = p->at( 7 );
 	
 		double strain = x - L0;
-		double dforceNonLinear = K * pow( strain, 4.0 );
+		double dforceNonLinear = K * gsl_pow_4( strain );
 	
 		double dforceB = A * (cTCaCB + cTCB);
 	
