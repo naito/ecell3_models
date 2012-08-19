@@ -1,6 +1,5 @@
 *.so
 *.eml
-*.ecd
 *.pyc
 *.zip
 .DS_Store
