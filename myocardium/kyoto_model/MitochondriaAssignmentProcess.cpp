@@ -251,8 +251,8 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		_SizeN_A = getSuperSystem()->getSizeN_A();
 		//		printf("Mit: %12.10f\n",_SizeN_A);
 
-		Rcm->setValue( 1.0 / ratio->getValue() );
-		_Rcm = Rcm->getValue();
+		_Rcm = 1.0 / ratio->getValue();
+		Rcm->setValue( _Rcm );
 		Pi->setValue( PiTotal->getValue() - PCr->getValue() - 3.0 * ATPtcell->getValue() - 2.0 * ADPtcell->getValue() - AMP->getValue() - 3.0 * _ATPtmit - 2.0 * ADPtmit->getValue() - Pimit->getValue() );
 
 		_z = 2.303 * R_F * T->getValue();
@@ -381,6 +381,14 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		vLK->setValue( _vLK );
 		jLK->setValue( _vLK * _v2j / _rbuffer );
 
+		/*
+		std::cout << std::endl;
+		std::cout << "Amp  = " << Amp  << std::endl;
+		std::cout << "kDH  = " << kDH  << std::endl;
+		std::cout << "KmN  = " << KmN  << std::endl;
+		std::cout << "PD   = " << PD   << std::endl;
+		std::cout << "_vDH = " << _vDH << std::endl;
+		*/
 		_vDH = Amp * kDH / pow( 1.0 + KmN * NADH->getValue() / NAD->getValue(), PD );
 		vDH->setValue( _vDH );
 		jDH->setValue( _vDH * _v2j / 5.0 );

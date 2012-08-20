@@ -1,7 +1,7 @@
 
 System System( /CELL/CYTOPLASM/Contraction )
 {
-	StepperID	ODE2;
+	StepperID	ODE;
 
 	Variable Variable( X )
 	{

@@ -31,11 +31,19 @@ LIBECS_DM_CLASS( ZeroVariableAsFluxProcess, ContinuousProcess )
 
 	virtual void fire()
 	{
+		/* DEBUG
+		_value = ( *theZeroVariableReferenceIterator ).getVariable()->getValue();
+		std::cout << getFullID().asString() << ": " << _value << std::endl;
+		setFlux( _value * k );
+		*/
 		setFlux( ( *theZeroVariableReferenceIterator ).getVariable()->getValue() * k );
 	}
 
  protected:
 	Real k;
+
+ private:
+	// Real _value;  // DEBUG
 };
 
 LIBECS_DM_INIT( ZeroVariableAsFluxProcess, Process );

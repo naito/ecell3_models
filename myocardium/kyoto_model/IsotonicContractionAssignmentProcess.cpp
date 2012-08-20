@@ -206,6 +206,21 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 
 		// 筋収縮の代数方程式求根 end
 
+		/* // DEBUG
+		std::cout << std::endl;
+		std::cout << "T    : " << T->getValue()     << std::endl;
+		std::cout << "TCa  : " << TCa->getValue() << std::endl;
+		std::cout << "TCB  : " << TCB->getValue() << std::endl;
+		std::cout << "TCaCB: " << TCaCB->getValue() << std::endl;
+		std::cout << "qa1  : " << qa1->getValue() << std::endl;
+		std::cout << "qa2  : " << qa2->getValue() << std::endl;
+		std::cout << "qb   : " << qb->getValue() << std::endl;
+		std::cout << "qr   : " << qr->getValue() << std::endl;
+		std::cout << "qd   : " << qd->getValue() << std::endl;
+		std::cout << "qd1  : " << qd1->getValue() << std::endl;
+		std::cout << "qd2  : " << qd2->getValue() << std::endl;
+		*/
+
 		T->setValue( Tt->getValue() - _TCa - _TCaCB - _TCB );
 		CBL->setValue( _CBL );
 		dXdt->setValue( _dXdt );

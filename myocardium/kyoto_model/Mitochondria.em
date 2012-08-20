@@ -524,7 +524,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		Value @Mitochondria_vC1;
 	}
 
-	Variable Variable( jC1 )
+	Variable Variable( jC1 )  # jC1 は、量論係数の都合上 vC1 の 1/5 になっている
 	{
 		Name "jC1";
 		Value 201118.214403;
@@ -538,8 +538,8 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 
 		VariableReferenceList
 			[ j     :.:jC1     0 ]
-			[ NADH  :.:NADH   -1 ]
-			[ UQH2  :.:UQH2    5 ];
+			[ NADH  :.:NADH   -1 ]   # ≡ - vC1 / 5
+			[ UQH2  :.:UQH2    5 ];  # ≡ vC1
 	}
 
 	@{'''
