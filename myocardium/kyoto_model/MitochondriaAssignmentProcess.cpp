@@ -334,20 +334,20 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 			_vC4 = Amp * ( _kC4 / ( 1.0 + pow( CN->getMolarConc() / KmC4, nC4 ))) * ( Cyta2->getMolarConc() * 1000.0 ) * ( Cytc2->getMolarConc() * 1000.0 ) * ( O2->getMolarConc() / ( O2->getMolarConc() + KmOC4 ));
 		}
 
-		_v2j = _Rcm / 1000.0 * _SizeN_A;
+		_Rcm_SizeN_A = _Rcm / 1000.0 * _SizeN_A;
 
 		vC1->setValue( _vC1 );
 		vC3->setValue( _vC3 );
 		vC4->setValue( _vC4 );
 
-		jC1->setValue( _vC1 * _v2j / 5.0 );
-		jC3->setValue( _vC3 * _v2j );
-		jC4->setValue( _vC4 * _v2j );
+		jC1->setValue( _vC1 * _Rcm_SizeN_A / 5.0 );
+		jC3->setValue( _vC3 * _Rcm_SizeN_A );
+		jC4->setValue( _vC4 * _Rcm_SizeN_A );
 
 		_vSN1 = pow( 10.0, ( nASN * _dP - ( _vSN0 + _z * log10( ATPtmit->getMolarConc() / ADPtmit->getMolarConc() / Pimit->getMolarConc() ))) / _z );
 		_vSN = Amp * kSN * ( _vSN1 - 1.0) / ( _vSN1 + 1.0);
 		vSN->setValue( _vSN );
-		jSN->setValue( _vSN * _v2j );
+		jSN->setValue( _vSN * _Rcm_SizeN_A );
 
 		/*
 		ePsimito = pow( 10, (-_dPsimit  / _z ));
@@ -366,7 +366,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		//_ATPfmit_M  = ATPfmit->getMolarConc();
 		_vANT = Amp * kEX * (( _ADPfcell / (_ADPfcell + pow( 10.0, ( -_dPsicell / _z )) * _ATPfcell )) - ( _ADPfmit / (_ADPfmit + pow( 10.0, ( -_dPsimit / _z )) * _ATPfmit ))) / ( 1.0 + KmADP / ADPfcell->getMolarConc() );
 		vANT->setValue( _vANT );
-		jANT->setValue( _vANT * _v2j );
+		jANT->setValue( _vANT * _Rcm_SizeN_A );
 		
 		// org.simBio.bio.matsuoka_et_al_2004.molecule.Transporter.PhosphateCarrier
 		_vPI = Amp * kPI * ( \
@@ -375,11 +375,11 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 			(( Pimit->getMolarConc() * 1000.0 / ( 1.0 + pow( 10.0, ( pH->getValue() - pKa )))) * \
 			Proton->getMolarConc() * 1000.0 ));
 		vPI->setValue( _vPI );
-		jPI->setValue( _vPI * _v2j );
+		jPI->setValue( _vPI * _Rcm_SizeN_A );
 
 		_vLK = Amp * kLK1_0 * ( 1.0 + 1.0e+4 * FCCP->getMolarConc() / ( FCCP->getMolarConc() + 1.0e-7 )) * ( exp( kLK2 * _dP ) - 1.0 );
 		vLK->setValue( _vLK );
-		jLK->setValue( _vLK * _v2j / _rbuffer );
+		jLK->setValue( _vLK * _Rcm_SizeN_A / _rbuffer );
 
 		/*
 		std::cout << std::endl;
@@ -391,9 +391,9 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		*/
 		_vDH = Amp * kDH / pow( 1.0 + KmN * NADH->getValue() / NAD->getValue(), PD );
 		vDH->setValue( _vDH );
-		jDH->setValue( _vDH * _v2j / 5.0 );
+		jDH->setValue( _vDH * _Rcm_SizeN_A / 5.0 );
 
-		jO2->setValue( ( - (( 2.0 * ( 2.0 + 2.0 * dP_myu ) * _vC4 ) + (( 4.0 - 2.0 * dP_myu ) * _vC3 ) + ( 4.0 * _vC1 )) + nASN * _vSN + dP_myu * _vANT + ( 1.0 - dP_myu ) * _vPI ) * _v2j / _rbuffer );
+		jO2->setValue( ( - (( 2.0 * ( 2.0 + 2.0 * dP_myu ) * _vC4 ) + (( 4.0 - 2.0 * dP_myu ) * _vC3 ) + ( 4.0 * _vC1 )) + nASN * _vSN + dP_myu * _vANT + ( 1.0 - dP_myu ) * _vPI ) * _Rcm_SizeN_A / _rbuffer );
 	}
 
  protected:
@@ -561,7 +561,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	Real _vDH;
 	Real _SizeN_A;
 	Real _Rcm;
-	Real _v2j;
+	Real _Rcm_SizeN_A;
 
 	Real _ADPfcell;
 	Real _ATPfcell;
