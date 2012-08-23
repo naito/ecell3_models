@@ -234,7 +234,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		_F  = F->getValue() / 1000.0;         // C/mmol  （simBio内では C/mM と表記）
 		R_F = R->getValue() / F->getValue();  // (C mV/K/mol)/(C/mol) = mV/K
 
-		_vSN0 = dGp0 * 1000.0 / _F;           // (J/mmol)/()   = C V /mmol
+		_vSN0 = dGp0 * 1000.0 / _F;           // (mJ/mmol)/(C/mmol) = (C mV/mmol)/(C/mmol) = mV
 
 		// simBioでは体積の変動につれて、総濃度が維持されて、
 		// 総量が変化するモデルになっているが、それは不合理なので
