@@ -437,7 +437,7 @@ System System( / )
 
 	Variable Variable( R )
 	{
-		Name "Gas constant (C mV/K/mol)";
+		Name "Gas constant (C mV/K/mol)";  # (mJ/K/mol)
 		Value 8.3143e+3;
 	}
 

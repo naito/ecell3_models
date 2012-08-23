@@ -162,7 +162,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		kC4_0           0.06;     #  1/mM/ms, CN/initial
 		KmC4            0.12e-3;  #  (M)
 		nC4             5.0;
-		dGp0            31.9;  # J/mmol
+		dGp0            31.9;  # J/mmol = C V /mmol
 		kSN             5.7193e-4;  # mM/ms
 		nASN            2.5;  # nA of vSN
 		kEX             9.0953e-4;  #  mM/ms

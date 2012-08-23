@@ -231,10 +231,10 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		jDH = getVariableReference( "jDH" ).getVariable();
 
 
-		_F  = F->getValue() / 1000.0;
-		R_F = R->getValue() / F->getValue();
+		_F  = F->getValue() / 1000.0;         // C/mmol  （simBio内では C/mM と表記）
+		R_F = R->getValue() / F->getValue();  // (C mV/K/mol)/(C/mol) = mV/K
 
-		_vSN0 = dGp0 * 1000.0 / _F;
+		_vSN0 = dGp0 * 1000.0 / _F;           // (J/mmol)/()   = C V /mmol
 
 		// simBioでは体積の変動につれて、総濃度が維持されて、
 		// 総量が変化するモデルになっているが、それは不合理なので
@@ -264,14 +264,14 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		_rbuffer = cbuffer / ( (pow(10.0, - _pH) - pow(10.0, (-_pH - dpH))) / dpH );
 		rbuffer->setValue( _rbuffer );
 
-		_dpH = _z * ( _pH - pHcell->getValue() );
-		_dP = _dpH * 1.0 / ( 1.0 - dP_myu );
+		_dpH = _z * ( _pH - pHcell->getValue() );  // className="org.simBio.bio.matsuoka_et_al_2004.function.GradientpH"
+		_dP = _dpH * 1.0 / ( 1.0 - dP_myu );       // className="org.simBio.bio.matsuoka_et_al_2004.function.GradientP"
 
-		_dPsi = -( _dP - _dpH );	// className="org.simBio.bio.matsuoka_et_al_2004.function.MembranePotential"
+		_dPsi = -( _dP - _dpH );                   // className="org.simBio.bio.matsuoka_et_al_2004.function.MembranePotential"
 		dPsi = _dPsi;
-		_dPsimit = _dPsi * dPsi_ratio;
+		_dPsimit = _dPsi * dPsi_ratio;             // className="org.simBio.bio.matsuoka_et_al_2004.function.PartialPotential"
 		dPsimit = _dPsimit;
-		_dPsicell = -( _dPsi - _dPsimit );
+		_dPsicell = -( _dPsi - _dPsimit );         // className="org.simBio.bio.matsuoka_et_al_2004.function.PartialPotential"
 		dPsicell = _dPsicell;
 
 		_ADPtmit = ANP_total * _SizeN_A - _ATPtmit;
