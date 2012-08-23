@@ -345,7 +345,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		jC4->setValue( _vC4 * _Rcm_SizeN_A );
 
 		_vSN1 = pow( 10.0, ( nASN * _dP - ( _vSN0 + _z * log10( ATPtmit->getMolarConc() / ADPtmit->getMolarConc() / Pimit->getMolarConc() ))) / _z );
-		_vSN = Amp * kSN * ( _vSN1 - 1.0) / ( _vSN1 + 1.0);
+		_vSN = 0.0;
 		vSN->setValue( _vSN );
 		jSN->setValue( _vSN * _Rcm_SizeN_A );
 
@@ -364,7 +364,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		//_ATPfcell_M = ATPfcell->getMolarConc();
 		//_ADPfmit_M  = ADPfmit->getMolarConc();
 		//_ATPfmit_M  = ATPfmit->getMolarConc();
-		_vANT = Amp * kEX * (( _ADPfcell / (_ADPfcell + pow( 10.0, ( -_dPsicell / _z )) * _ATPfcell )) - ( _ADPfmit / (_ADPfmit + pow( 10.0, ( -_dPsimit / _z )) * _ATPfmit ))) / ( 1.0 + KmADP / ADPfcell->getMolarConc() );
+		_vANT = 0.0;
 		vANT->setValue( _vANT );
 		jANT->setValue( _vANT * _Rcm_SizeN_A );
 		
