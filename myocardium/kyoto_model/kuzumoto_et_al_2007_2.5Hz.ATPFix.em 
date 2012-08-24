@@ -1759,7 +1759,7 @@ System System( /CELL/CYTOPLASM/SRUP )
 		MolarConc 0.07920338500674862e-3;
 	}
 
-	@include( 'PLB.em' )
+	@include( 'PLB.ATPFix.em' )
 
 }
 
