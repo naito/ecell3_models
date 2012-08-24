@@ -1842,7 +1842,7 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 }
 
 @# ミトコンドリア｛ /CELL/CYTOPLASM/MITOCHONDRIA ｝
-@include( 'Mitochondria.em' )
+@include( 'Mitochondria.ATPFix.em' )
 
 @# 筋収縮
 @include( 'IsotonicContraction.em' )
