@@ -1859,7 +1859,7 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 @include( 'IKACh.em' )   @#     K
 @include( 'INaK.ATPFix.em' )    @# Na, K
 @include( 'INaCa.em' )   @# Na,    Ca
-@include( 'IPMCA.em' )   @#        Ca
+@include( 'IPMCA.ATPFix.em' )   @#        Ca
 @include( 'ILCCa.em' )   @# Na, K
 @include( 'IKATP.em' )   @#     K
 @include( 'IKpl.em' )    @#     K
