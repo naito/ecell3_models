@@ -1857,7 +1857,7 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 @include( 'IKs.em' )     @# Na, K
 @include( 'Ito.em' )     @# Na, K
 @include( 'IKACh.em' )   @#     K
-@include( 'INaK.em' )    @# Na, K
+@include( 'INaK.ATPFix.em' )    @# Na, K
 @include( 'INaCa.em' )   @# Na,    Ca
 @include( 'IPMCA.em' )   @#        Ca
 @include( 'ILCCa.em' )   @# Na, K
