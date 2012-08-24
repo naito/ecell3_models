@@ -1875,7 +1875,7 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 @# 筋小胞体
 @include( 'IRyR.em' )
 @include( 'leak.em' )
-@include( 'ISRCA.em' )
+@include( 'ATPFix.em' )
 
 
 @# 実験装置 /Pipette
