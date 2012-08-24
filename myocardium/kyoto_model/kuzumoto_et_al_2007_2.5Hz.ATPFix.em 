@@ -1845,7 +1845,7 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 @include( 'Mitochondria.ATPFix.em' )
 
 @# 筋収縮
-@include( 'IsotonicContraction.em' )
+@include( 'IsotonicContraction.ATPFix.em' )
 
 @# 細胞膜上のイオンチャネル
 @include( 'INa.em' )     @# Na, K
