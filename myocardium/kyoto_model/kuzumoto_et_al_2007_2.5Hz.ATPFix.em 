@@ -1143,22 +1143,6 @@ System System( /CELL/CYTOPLASM )
 		Value -139.834886511;
 	}
 
-	Process ZeroVariableAsFluxProcess( vAK ) 
-	{
-		Name "Adenylate Kinase";
-
-		Priority	15;
-
-		VariableReferenceList
-			[ vAK    :.:vAK     0 ]
-			[ ADPtotal :.:ADPtotal -2 ]
-			#[ ADPfree  :.:ADPfree   0 ]
-			#[ ADPmg    :.:ADPmg     0 ]
-			[ ATPtotal :.:ATPtotal  1 ];
-			#[ ATPmg    :.:ATPmg     0 ]
-			#[ AMP      :.:AMP       0 ];
-	}
-
 
 	@# <CreatineKinase name="vCK" className="org.simBio.bio.matsuoka_et_al_2004.molecule.enzyme.CK">
 
@@ -1166,21 +1150,6 @@ System System( /CELL/CYTOPLASM )
 	{
 		Name "Creatine Kinase";
 		Value -663549.73707;
-	}
-
-	Process ZeroVariableAsFluxProcess( vCK ) 
-	{
-		Name "Creatine Kinase";
-
-		Priority	15;
-
-		VariableReferenceList
-			[ vCK       :.:vCK  0 ]
-			#[ Cr       :.:Creatine  0 ]
-			[ PCr      :.:PCr      -1 ]
-			[ ADPtotal :.:ADPtotal -1 ]
-			[ ATPtotal :.:ATPtotal  1 ];
-			#[ Proton   :.:Proton    0 ];
 	}
 
 
