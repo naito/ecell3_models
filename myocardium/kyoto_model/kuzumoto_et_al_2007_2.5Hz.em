@@ -23,7 +23,8 @@ SRFactor = {
 }
 
 Vi_SIZE = {
-	"V" : 12800.0e-15,
+#	"V" : 12800.0e-15,
+	"V" : 15353.339029443347e-15,
 #	"EMB" : 12800.0e-15,
 	"EMB" : 1697.0e-15,
 	"LAT" : 2121.2e-15,
@@ -287,11 +288,11 @@ SRtrans_permeabilityCa = {
 		       "EMB" : 5.0e+3,
 		       "LAT" : 5.0e+3,
 		       "NEO" : 5.0e+3,
-		       "SAN" : 0.99e+3,		       
+		       "SAN" : 0.99e+3,
 }
 
 CurrentClamp_amplitude = -8000.0
-CurrentClamp_onset     =  50.0
+CurrentClamp_onset     =  50.11     #.10 0.139861909006, 11 0.139861465623
 CurrentClamp_offset    =  52.0
 CurrentClamp_interval  =  400.0
 
@@ -920,6 +921,11 @@ System System( /CELL/CYTOPLASM )
 			[ ATPtotal_mt  :./MITOCHONDRIA:ATPtotal  0 ]
 			[ ADPtotal_mt  :./MITOCHONDRIA:ADPtotal  0 ]
 			[ Pi_mt        :./MITOCHONDRIA:Pi        0 ]
+			[ T            :.:T                      1 ]
+			[ Tt           :.:Tt                     0 ]
+			[ TCa          :.:TCa                    0 ]
+			[ TCaCB        :.:TCaCB                  0 ]
+			[ TCB          :.:TCB                    0 ]
 			[ totalIonin   :.:TotalIon               1 ]
 			[ Na           :.:Na                     0 ]
 			[ K            :.:K                      0 ]
