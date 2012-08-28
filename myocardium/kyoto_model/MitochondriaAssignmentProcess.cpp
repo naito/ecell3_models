@@ -56,6 +56,8 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		PROPERTYSLOT_SET_GET( Real, kDH );        // 未使用 kLK1 or kLK1_0 で十分？
 		PROPERTYSLOT_SET_GET( Real, KmN );
 		PROPERTYSLOT_SET_GET( Real, PD );
+		PROPERTYSLOT_SET_GET( Real, StopgapStepInterval );
+		PROPERTYSLOT_SET_GET( Real, conc_epsilon );
 	}
 	
 	MitochondriaAssignmentProcess()
@@ -103,7 +105,9 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		kLK2( 0.038 ),
 		kDH( 4.679e-4 ),
 		KmN( 100.0 ),
-		PD( 0.8 )
+		PD( 0.8 ),
+		StopgapStepInterval( 0.01 ),
+		conc_epsilon( 1.0e-12 )
 	{
 		// do nothing
 	}
@@ -152,6 +156,8 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	SIMPLE_SET_GET_METHOD( Real, kDH );
 	SIMPLE_SET_GET_METHOD( Real, KmN );
 	SIMPLE_SET_GET_METHOD( Real, PD );
+	SIMPLE_SET_GET_METHOD( Real, StopgapStepInterval );
+	SIMPLE_SET_GET_METHOD( Real, conc_epsilon );
 	
 	virtual void initialize()
 	{
@@ -289,10 +295,22 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		//setMetalEquilibrium( kD_ATP, ATPtmit, Mg, ATPMg, ATPfmit );
 		//setMetalEquilibrium( kD_ADP, ADPtmit, Mg, ADPMg, ADPfmit );
 
-		NAD->setValue(   NAD_H_total   * _SizeN_A - NADH->getValue()  );
-		// needs modification 120702
-		UQ->setValue(    UQ_H2_total   * _SizeN_A - UQH2->getValue()  );
-		Cytc3->setValue( Cytc_23_total * _SizeN_A - Cytc2->getValue() );
+		if ( NAD_H_total <= NADH->getMolarConc() ) {
+			NAD->setValue( NAD_H_total * _SizeN_A * conc_epsilon );
+		} else {
+			NAD->setValue(   NAD_H_total   * _SizeN_A - NADH->getValue()  );
+		}
+		if ( UQ_H2_total <= UQH2->getMolarConc() ) {
+			UQ->setValue( UQ_H2_total * _SizeN_A * conc_epsilon );
+		} else {
+			UQ->setValue(    UQ_H2_total   * _SizeN_A - UQH2->getValue()  );
+		}
+		if ( Cytc_23_total <= Cytc2->getMolarConc() ) {
+			Cytc3->setValue( Cytc_23_total * _SizeN_A * conc_epsilon );
+		} else {
+			Cytc3->setValue( Cytc_23_total * _SizeN_A - Cytc2->getValue() );
+		}
+
 		//setComponent( NAD_H_total,   NAD,     NADH    );
 		//setComponent( UQ_H2_total,   UQ,      UQH2    );
 		//setComponent( Cytc_23_total, Cytc3,   Cytc2   );
@@ -334,20 +352,9 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 			_vC4 = Amp * ( _kC4 / ( 1.0 + pow( CN->getMolarConc() / KmC4, nC4 ))) * ( Cyta2->getMolarConc() * 1000.0 ) * ( Cytc2->getMolarConc() * 1000.0 ) * ( O2->getMolarConc() / ( O2->getMolarConc() + KmOC4 ));
 		}
 
-		_Rcm_SizeN_A = _Rcm / 1000.0 * _SizeN_A;
-
-		vC1->setValue( _vC1 );
-		vC3->setValue( _vC3 );
-		vC4->setValue( _vC4 );
-
-		jC1->setValue( _vC1 * _Rcm_SizeN_A / 5.0 );
-		jC3->setValue( _vC3 * _Rcm_SizeN_A );
-		jC4->setValue( _vC4 * _Rcm_SizeN_A );
-
 		_vSN1 = pow( 10.0, ( nASN * _dP - ( _vSN0 + _z * log10( ATPtmit->getMolarConc() / ADPtmit->getMolarConc() / Pimit->getMolarConc() ))) / _z );
 		_vSN = Amp * kSN * ( _vSN1 - 1.0) / ( _vSN1 + 1.0);
-		vSN->setValue( _vSN );
-		jSN->setValue( _vSN * _Rcm_SizeN_A );
+		// _vSN = 0.0;
 
 		/*
 		ePsimito = pow( 10, (-_dPsimit  / _z ));
@@ -365,19 +372,68 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		//_ADPfmit_M  = ADPfmit->getMolarConc();
 		//_ATPfmit_M  = ATPfmit->getMolarConc();
 		_vANT = Amp * kEX * (( _ADPfcell / (_ADPfcell + pow( 10.0, ( -_dPsicell / _z )) * _ATPfcell )) - ( _ADPfmit / (_ADPfmit + pow( 10.0, ( -_dPsimit / _z )) * _ATPfmit ))) / ( 1.0 + KmADP / ADPfcell->getMolarConc() );
-		vANT->setValue( _vANT );
-		jANT->setValue( _vANT * _Rcm_SizeN_A );
-		
+		// _vANT = 0.0;
+
 		// org.simBio.bio.matsuoka_et_al_2004.molecule.Transporter.PhosphateCarrier
 		_vPI = Amp * kPI * ( \
 			(( Pi->getMolarConc() * 1000.0 / ( 1.0 + pow( 10.0, ( pHcell->getValue() - pKa )))) * \
 			Hcell->getMolarConc() * 1000.0 ) - \
 			(( Pimit->getMolarConc() * 1000.0 / ( 1.0 + pow( 10.0, ( pH->getValue() - pKa )))) * \
 			Proton->getMolarConc() * 1000.0 ));
+
+		_vLK = Amp * kLK1_0 * ( 1.0 + 1.0e+4 * FCCP->getMolarConc() / ( FCCP->getMolarConc() + 1.0e-7 )) * ( exp( kLK2 * _dP ) - 1.0 );
+
+		_vDH = Amp * kDH / pow( 1.0 + KmN * NADH->getValue() / NAD->getValue(), PD );
+
+		_Rcm_SizeN_A = _Rcm / 1000.0 * _SizeN_A;
+
+		_jC1 = _vC1 * _Rcm_SizeN_A / 5.0;
+		_jC3 = _vC3 * _Rcm_SizeN_A;
+		_jC4 = _vC4 * _Rcm_SizeN_A;
+		_jDH = _vDH * _Rcm_SizeN_A / 5.0;
+		
+		if ( ( NADH->getValue() + (( _jC1 * ( -1.0 ) + _jDH * (  1.0 )) * StopgapStepInterval )) >= \
+			( NAD_H_total * _SizeN_A * ( 1.0 - conc_epsilon )))
+		{
+			_vC1 = 0.0;
+			_jC1 = 0.0;
+			_vDH = 0.0;
+			_jDH = 0.0;
+		}
+		if ( ( UQH2->getValue() + (( _jC1 * (  5.0 ) + _jC3 * ( -1.0 ) ) * StopgapStepInterval )) >= \
+			( UQ_H2_total * _SizeN_A * ( 1.0 - conc_epsilon )))
+		{
+			_vC1 = 0.0;
+			_jC1 = 0.0;
+			_vC3 = 0.0;
+			_jC3 = 0.0;
+		}
+		if ( ( Cytc2->getValue() + (( _jC3 * (  2.0 ) + _jC4 * ( -4.0 ) ) * StopgapStepInterval )) >= \
+			( Cytc_23_total  * _SizeN_A * ( 1.0 - conc_epsilon )))
+		{
+			_vC3 = 0.0;
+			_jC3 = 0.0;
+			_vC4 = 0.0;
+			_jC4 = 0.0;
+		}
+
+		vC1->setValue( _vC1 );
+		vC3->setValue( _vC3 );
+		vC4->setValue( _vC4 );
+
+		jC1->setValue( _jC1 );
+		jC3->setValue( _jC3 );
+		jC4->setValue( _jC4 );
+
+		vSN->setValue( _vSN );
+		jSN->setValue( _vSN * _Rcm_SizeN_A );
+
+		vANT->setValue( _vANT );
+		jANT->setValue( _vANT * _Rcm_SizeN_A );
+		
 		vPI->setValue( _vPI );
 		jPI->setValue( _vPI * _Rcm_SizeN_A );
 
-		_vLK = Amp * kLK1_0 * ( 1.0 + 1.0e+4 * FCCP->getMolarConc() / ( FCCP->getMolarConc() + 1.0e-7 )) * ( exp( kLK2 * _dP ) - 1.0 );
 		vLK->setValue( _vLK );
 		jLK->setValue( _vLK * _Rcm_SizeN_A / _rbuffer );
 
@@ -389,9 +445,8 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		std::cout << "PD   = " << PD   << std::endl;
 		std::cout << "_vDH = " << _vDH << std::endl;
 		*/
-		_vDH = Amp * kDH / pow( 1.0 + KmN * NADH->getValue() / NAD->getValue(), PD );
 		vDH->setValue( _vDH );
-		jDH->setValue( _vDH * _Rcm_SizeN_A / 5.0 );
+		jDH->setValue( _jDH );
 
 		jO2->setValue( ( - (( 2.0 * ( 2.0 + 2.0 * dP_myu ) * _vC4 ) + (( 4.0 - 2.0 * dP_myu ) * _vC3 ) + ( 4.0 * _vC1 )) + nASN * _vSN + dP_myu * _vANT + ( 1.0 - dP_myu ) * _vPI ) * _Rcm_SizeN_A / _rbuffer );
 	}
@@ -529,6 +584,13 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	Real KmN;
 	Real PD;
 
+	/*
+	NAD, UQ, Cytc がマイナス濃度をとらないための閾値
+	この値をStepIntervalと仮定して、最大値を超えるよう
+	なら速度ゼロとする。規定値は 0.01
+	*/
+	Real StopgapStepInterval;
+	Real conc_epsilon;
 
  private:
 	Real R_F;
@@ -551,6 +613,9 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	Real _vC1;
 	Real _vC3;
 	Real _vC4;
+	Real _jC1;
+	Real _jC3;
+	Real _jC4;
 	Real _kC4;
 	Real _vSN;
 	Real _vSN0;
@@ -559,6 +624,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	Real _vPI;
 	Real _vLK;
 	Real _vDH;
+	Real _jDH;
 	Real _SizeN_A;
 	Real _Rcm;
 	Real _Rcm_SizeN_A;
@@ -578,7 +644,6 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	Real ATPratio_cell;
 	Real ADPFactor;
 	*/
-	
 /*
 	void setComponent( Real total, VariableReference self, VariableReference other )
 	{
