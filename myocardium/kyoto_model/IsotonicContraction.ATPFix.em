@@ -174,9 +174,9 @@ System System( /CELL/CYTOPLASM/Contraction )
 			[ qa2   :.:qa2         0 ]
 			[ TCa   :..:TCa        1 ]
 			[ TCaCB :..:TCaCB     -1 ]
-			[ ATP   :..:ATPtotal -14 ]
-			[ ADP   :..:ADPtotal  14 ];
-			#[ Pi   :..:Pi        14 ];
+			[ ATP   :..:ATPtotal   0 ]
+			[ ADP   :..:ADPtotal   0 ];
+			#[ Pi   :..:Pi         0 ];
 	}
 
 	Process ZeroVariableAsFluxProcess( qr ) 
@@ -198,9 +198,9 @@ System System( /CELL/CYTOPLASM/Contraction )
 		VariableReferenceList
 			[ qd  :.:qd          0 ]
 			[ TCB :..:TCB       -1 ]
-			[ ATP :..:ATPtotal -14 ]
-			[ ADP :..:ADPtotal  14 ];
-			#[ Pi :..:Pi        14 ];
+			[ ATP :..:ATPtotal   0 ]
+			[ ADP :..:ADPtotal   0 ];
+			#[ Pi :..:Pi         0 ];
 	}
 
 	Process ZeroVariableAsFluxProcess( qd1 ) 
@@ -210,9 +210,9 @@ System System( /CELL/CYTOPLASM/Contraction )
 		VariableReferenceList
 			[ qd1 :.:qd1         0 ]
 			[ TCB :..:TCB       -1 ]
-			[ ATP :..:ATPtotal -14 ]
-			[ ADP :..:ADPtotal  14 ];
-			#[ Pi :..:Pi        14 ];
+			[ ATP :..:ATPtotal   0 ]
+			[ ADP :..:ADPtotal   0 ];
+			#[ Pi :..:Pi         0 ];
 	}
 
 	Process ZeroVariableAsFluxProcess( qd2 ) 
@@ -224,9 +224,9 @@ System System( /CELL/CYTOPLASM/Contraction )
 			[ TCaCB   :..:TCaCB     -1 ]
 			#[ Ca      :..:Ca         1 ]    @{''' 物質収支で代数計算 '''}
 			[ CaTotal :..:CaTotal    1 ]
-			[ ATP     :..:ATPtotal -14 ]
-			[ ADP     :..:ADPtotal  14 ];
-			#[ Pi     :..:Pi        14 ];
+			[ ATP     :..:ATPtotal   0 ]
+			[ ADP     :..:ADPtotal   0 ];
+			#[ Pi     :..:Pi         0 ];
 	}
 
 }

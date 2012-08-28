@@ -988,7 +988,7 @@ System System( /CELL/CYTOPLASM )
 	{
 		Name "Total ATP";
 		MolarConc 6.96248492200143e-3;
-		# Fixed 1;
+		Fixed 1;
 	}
 
 
@@ -998,6 +998,7 @@ System System( /CELL/CYTOPLASM )
 	{
 		Name "Free ATP";
 		MolarConc 2.677878816154396e-4;
+		Fixed 1;
 	}
 
 
@@ -1017,13 +1018,14 @@ System System( /CELL/CYTOPLASM )
 	{
 		Name "Total ADP";
 		MolarConc 3.6781238986170604e-5;
-		# Fixed 1;
+		Fixed 1;
 	}
 
 	Variable Variable( ADPfree )
 	{
 		Name "Free ADP";
 		MolarConc 1.3477391687646462e-5;
+		Fixed 1;
 	}
 
 
@@ -1066,13 +1068,13 @@ System System( /CELL/CYTOPLASM )
 	{
 		Name "Inorganic phosphate";
 		MolarConc 2.1272277723005484e-3;
-		# Fixed 1;
+		Fixed 1;
 	}
 
 	Variable Variable( PiTotal )
 	{
 		MolarConc 46.0e-3;
-		# Fixed 1;
+		Fixed 1;
 	}
 
 #	Process ExpressionAssignmentProcess( Pi ) 

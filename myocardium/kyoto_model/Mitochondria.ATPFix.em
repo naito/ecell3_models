@@ -291,6 +291,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "Total ATP";
 		MolarConc @Mitochondria_ATPtotal;
+		Fixed 1;
 	}
 
 	@{'''
@@ -304,6 +305,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "Free ATP";
 		MolarConc @Mitochondria_ATPfree;
+		Fixed 1;
 	}
 
 	@{'''
@@ -330,6 +332,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "Total ADP";
 		MolarConc @Mitochondria_ADPtotal;
+		Fixed 1;
 	}
 
 	@{'''
@@ -343,6 +346,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "Free ADP";
 		MolarConc @Mitochondria_ADPfree;
+		Fixed 1;
 	}
 
 	@{'''
@@ -362,6 +366,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "Pi";
 		MolarConc @Mitochondria_Pi;
+		Fixed 1;
 	}
 
 	@# <variable name="NADH" initial_value="0.8948906751612181" units="mM" />
@@ -720,9 +725,9 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 
 		VariableReferenceList
 			[ j        :.:jSN       0 ]
-			[ ATPtmito :.:ATPtotal  1 ]
-			#[ ADPtmito :.:ADPtotal -1 ]    @{''' 物質収支で代数計算されている（MitochondriaAssignmentProcess） '''}
-			[ Pitmito  :.:Pi       -1 ];
+			[ ATPtmito :.:ATPtotal  0 ]
+			#[ ADPtmito :.:ADPtotal 0 ]    @{''' 物質収支で代数計算されている（MitochondriaAssignmentProcess） '''}
+			[ Pitmito  :.:Pi        0 ];
 	}
 
 	@{'''
@@ -768,9 +773,9 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 
 		VariableReferenceList
 			[ j        :.:jANT       0 ]
-			[ ATPtcell :..:ATPtotal  1 ]
-			[ ADPtcell :..:ADPtotal -1 ]
-			[ ATPtmito :.:ATPtotal  -1 ];
+			[ ATPtcell :..:ATPtotal  0 ]
+			[ ADPtcell :..:ADPtotal  0 ]
+			[ ATPtmito :.:ATPtotal   0 ];
 	}
 
 	@{'''
@@ -825,7 +830,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 
 		VariableReferenceList
 			[ j       :.:jPI 0 ]
-			[ Pitmito :.:Pi  1 ];
+			[ Pitmito :.:Pi  0 ];
 	}
 
 	@{'''

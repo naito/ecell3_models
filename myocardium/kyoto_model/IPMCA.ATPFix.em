@@ -86,8 +86,8 @@ System System(/CELL/MEMBRANE/IPMCA)
 		VariableReferenceList
 			[ Cae :/:Ca                      1 ]
 			[ Cai :../../CYTOPLASM:CaTotal  -1 ]
-			[ ATP :../../CYTOPLASM:ATPtotal -1 ]
-			[ ADP :../../CYTOPLASM:ADPtotal  1 ]
+			[ ATP :../../CYTOPLASM:ATPtotal  0 ]
+			[ ADP :../../CYTOPLASM:ADPtotal  0 ]
 			#[ Pi  :../../CYTOPLASM:Pi        1 ]
 			[ i   :.:I                       0 ]
 			[ N_A :/:N_A                     0 ]

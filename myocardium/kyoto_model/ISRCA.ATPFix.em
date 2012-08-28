@@ -93,9 +93,9 @@ System System(/CELL/CYTOPLASM/SRUP/ISRCA)
 		VariableReferenceList
 			[ out :../..:CaTotal   2 ]  #  Ca2+ concentration in cytoplasm
 			[ in  :..:Ca          -2 ]  #  Ca2+ concentration in SR (uptake site compartment)
-			[ ATP :../..:ATPtotal  1 ]
-			[ ADP :../..:ADPtotal -1 ]
-			#[ Pi :../..:Pi       -1 ]
+			[ ATP :../..:ATPtotal  0 ]
+			[ ADP :../..:ADPtotal  0 ]
+			#[ Pi :../..:Pi        0 ]
 			[ i   :.:I             0 ]
 			[ N_A :/:N_A           0 ]
 			[ F   :/:F             0 ]
