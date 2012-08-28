@@ -175,6 +175,7 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		kDH             4.679e-4;  # mM/ms
 		KmN             100.0;  # dimensionless
 		PD              0.8;  # dimensionless
+		StopgapStepInterval 0.05;
 	}
 
 	@{'''
