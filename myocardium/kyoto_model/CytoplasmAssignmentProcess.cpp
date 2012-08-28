@@ -109,11 +109,11 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 		vCK  = getVariableReference( "vCK" ).getVariable();
 		calmodulin  = getVariableReference( "calmodulin" ).getVariable();
 
-		//Tt  = getVariableReference( "Tt" ).getVariable();
-		//T  = getVariableReference( "T" ).getVariable();
-		//TCa  = getVariableReference( "TCa" ).getVariable();
-		//TCaCB  = getVariableReference( "TCaCB" ).getVariable();
-		//TCB  = getVariableReference( "TCB" ).getVariable();
+		Tt  = getVariableReference( "Tt" ).getVariable();
+		T  = getVariableReference( "T" ).getVariable();
+		TCa  = getVariableReference( "TCa" ).getVariable();
+		TCaCB  = getVariableReference( "TCaCB" ).getVariable();
+		TCB  = getVariableReference( "TCB" ).getVariable();
 	}
 
 	virtual void fire()
@@ -167,7 +167,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 		Ca->setValue( _Ca );
 		calmodulin->setValue( CaTotal->getValue() - _Ca );
 
-		// T->setValue( Tt->getValue() - TCa->getValue() - TCaCB->getValue() - TCB->getValue() );
+		T->setValue( Tt->getValue() - TCa->getValue() - TCaCB->getValue() - TCB->getValue() );
 	}
 
  protected:
@@ -213,11 +213,11 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 	Variable* vCK;
 	Variable* calmodulin;
 
-	//Variable* Tt;
-	//Variable* T;
-	//Variable* TCa;
-	//Variable* TCaCB;
-	//Variable* TCB;
+	Variable* Tt;
+	Variable* T;
+	Variable* TCa;
+	Variable* TCaCB;
+	Variable* TCB;
 
 	Real Vn_L;
 	Real Vt0i;
