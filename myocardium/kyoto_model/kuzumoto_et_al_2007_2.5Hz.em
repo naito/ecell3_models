@@ -297,7 +297,7 @@ SRtrans_permeabilityCa = {
 }
 
 CurrentClamp_amplitude = -8000.0
-CurrentClamp_onset     =  50.11     #.10 0.139861909006, 11 0.139861465623
+CurrentClamp_onset     =  50.00
 CurrentClamp_offset    =  52.0
 CurrentClamp_interval  =  400.0
 
