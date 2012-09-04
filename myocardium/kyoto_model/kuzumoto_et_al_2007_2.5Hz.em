@@ -36,6 +36,11 @@ active_volume = 0.8
 Vt_SIZE = Vi_SIZE[SimulationMode] / active_volume
 Vn_SIZE = Vt_SIZE - Vi_SIZE[SimulationMode]
 
+# kuzumoto
+
+Vt_SIZE = 18553.33902944335e-15
+Vn_SIZE = 3200.0e-15
+
 SRREL_SIZE_init = Vi_SIZE[SimulationMode] * 0.02 * SRFactor[SimulationMode]
 SRUP_SIZE_init  = Vi_SIZE[SimulationMode] * 0.05 * SRFactor[SimulationMode]
 
