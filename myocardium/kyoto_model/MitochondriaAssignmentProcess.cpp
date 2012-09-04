@@ -330,12 +330,36 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		Cyta2->setValue( _Cyta2 );
 		Cyta3->setValue( Cyta_total * _SizeN_A - _Cyta2 );
 
-		_vC1 = 0.0;
-		_vC3 = 0.0;
-		_vC4 = 0.0;
+		// _vC1 = 0.0;
+		// _vC3 = 0.0;
+		// _vC4 = 0.0;
 
 		_kC4 = kC4_0 / (1.0 + pow( CN->getMolarConc() / 0.12e-3, 5.0 ));
+		_vC4 = Amp * ( _kC4 / ( 1.0 + pow( CN->getMolarConc() / KmC4, nC4 ))) * ( Cyta2->getMolarConc() * 1000.0 ) * ( Cytc2->getMolarConc() * 1000.0 ) * ( O2->getMolarConc() / ( O2->getMolarConc() + KmOC4 ));
 
+		if ( _vC4 < 0.0 ) {
+			_vC1 = 0.0;
+			_vC3 = 0.0;
+			_vC4 = 0.0;
+
+		} else {
+			_vC3 = Amp * kC3 * ( Emc->getValue() - EmU->getValue() - _dP * ( 4.0 - 2.0 * dP_myu ) / 2.0 );
+
+			if ( _vC3 < 0.0 ) {
+				_vC1 = 0.0;
+				_vC3 = 0.0;
+
+			} else {
+			
+				_vC1 = Amp * kC1 * ( EmU->getValue() - EmN->getValue() - _dP * 2.0 );
+			
+				if ( _vC1 < 0.0 ) {
+					_vC1 = 0.0;
+				}
+			}
+		}
+		
+		/*
 		if ( vC4->getValue() >= 0.0 ) {
 		
 			if ( vC3->getValue() >= 0.0 ) {
@@ -343,6 +367,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 				if ( vC1->getValue() >= 0.0 ) {
 				
 					_vC1 = Amp * kC1 * ( EmU->getValue() - EmN->getValue() - _dP * 2.0 );
+					// _vC1 = 0.0;
 				}
 			
 				_vC3 = Amp * kC3 * ( Emc->getValue() - EmU->getValue() - _dP * ( 4.0 - 2.0 * dP_myu ) / 2.0 );
@@ -351,6 +376,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 
 			_vC4 = Amp * ( _kC4 / ( 1.0 + pow( CN->getMolarConc() / KmC4, nC4 ))) * ( Cyta2->getMolarConc() * 1000.0 ) * ( Cytc2->getMolarConc() * 1000.0 ) * ( O2->getMolarConc() / ( O2->getMolarConc() + KmOC4 ));
 		}
+		*/
 
 		_vSN1 = pow( 10.0, ( nASN * _dP - ( _vSN0 + _z * log10( ATPtmit->getMolarConc() / ADPtmit->getMolarConc() / Pimit->getMolarConc() ))) / _z );
 		_vSN = Amp * kSN * ( _vSN1 - 1.0) / ( _vSN1 + 1.0);
