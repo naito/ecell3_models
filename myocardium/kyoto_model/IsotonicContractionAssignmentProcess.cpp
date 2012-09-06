@@ -37,6 +37,8 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		PROPERTYSLOT_SET_GET( Real, Y4 );
 		PROPERTYSLOT_SET_GET( Real, dXdtFactor );
 		PROPERTYSLOT_SET_GET( Real, Yd );
+		PROPERTYSLOT_SET_GET( Real, StopgapStepInterval );
+		PROPERTYSLOT_SET_GET( Real, conc_epsilon );
 	}
 	
 	IsotonicContractionAssignmentProcess()
@@ -60,7 +62,9 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		Z3( 1248000.0 ),       // β3 = 1560 * bias1 * 1000
 		Y4( 0.12 ),            // for α4
 		dXdtFactor( 50.0 ),
-		Yd( 8000.0 )           // for α5
+		Yd( 8000.0 ),          // for α5
+		StopgapStepInterval( 0.02 ),
+		conc_epsilon( 1.0e-12 )
 	{
 		// do nothing
 	}
@@ -85,6 +89,8 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 	SIMPLE_SET_GET_METHOD( Real, Y4 );
 	SIMPLE_SET_GET_METHOD( Real, dXdtFactor );
 	SIMPLE_SET_GET_METHOD( Real, Yd );
+	SIMPLE_SET_GET_METHOD( Real, StopgapStepInterval );
+	SIMPLE_SET_GET_METHOD( Real, conc_epsilon );
 
 	virtual void initialize()
 	{
@@ -149,6 +155,7 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		_L = L->getValue();
 		_TCB = TCB->getValue();
 		_TCaCB = TCaCB->getValue();
+		_Tt = Tt->getValue();
 
 		_CBL = _L - X->getValue();
 		_dXdt = B * ( _CBL - hc );
@@ -221,28 +228,59 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		std::cout << "qd2  : " << qd2->getValue() << std::endl;
 		*/
 
-		T->setValue( Tt->getValue() - _TCa - _TCaCB - _TCB );
+		_T = _Tt - _TCa - _TCaCB - _TCB;
+		if ( _T <= ( _Tt * conc_epsilon )) {
+			T->setValue( _Tt * conc_epsilon );
+		} else {
+			T->setValue( _T );
+		}
+
 		CBL->setValue( _CBL );
 		dXdt->setValue( _dXdt );
+
 		// Q1
-		qb->setValue( Y1 * _Ca_MolarConc * T->getValue() - Z1 * _TCa );
+		_qb = Y1 * _Ca_MolarConc * T->getValue() - Z1 * _TCa;
 		// 1st term of Q2
-		qa1->setValue( Y2 * (0.54 * KmPi / (KmPi + Pi->getMolarConc() ) + 0.46) * _TCa * exp(-20.0 * gsl_pow_2( _L - La )));
+		_qa1 = Y2 * (0.54 * KmPi / (KmPi + Pi->getMolarConc() ) + 0.46) * _TCa * exp(-20.0 * gsl_pow_2( _L - La ));
 		//ATPfactor->setValue( 1.0 / (1.0 + pow( KmATP / ATP->getMolarConc(), 3 )) );
 
 		_ATPfactor = 1.0 / (1.0 + gsl_pow_3( KmATP / ATP->getMolarConc() ));
 		_cbFactor = gsl_pow_2( _dXdt ) / ( Real( GSL_SIGN( _dXdt )) * ( dXdtFactor - 1.0 ) / 2.0 + (( dXdtFactor + 1.0 ) / 2.0 ));
 
 		// 2nd term of Q2
-		qa2->setValue( Z2 * _ATPfactor * TCaCB->getValue() );
+		_qa2 = Z2 * _ATPfactor * TCaCB->getValue();
 		// Q3
-		qr->setValue( Y3 * TCaCB->getValue() - Z3 * _Ca_MolarConc * _TCB );
+		_qr = Y3 * TCaCB->getValue() - Z3 * _Ca_MolarConc * _TCB;
 		// 1st term of Q4
-		qd->setValue( Y4 * _ATPfactor * _TCB );
+		_qd = Y4 * _ATPfactor * _TCB;
 		// 2nd term of Q4
-		qd1->setValue( Yd * _ATPfactor * _cbFactor * _TCB );
+		_qd1 = Yd * _ATPfactor * _cbFactor * _TCB;
 		// Q5
-		qd2->setValue( Yd * _ATPfactor * _cbFactor * TCaCB->getValue() );
+		_qd2 = Yd * _ATPfactor * _cbFactor * TCaCB->getValue();
+
+		/* // DEBUG
+		std::cout << std::endl;
+		std::cout << "next TCB: " << _TCB + (( _qr * ( 1.0 ) + _qd * ( -1.0 ) + _qd1 * ( -1.0 )) * StopgapStepInterval );
+		std::cout << "\tTCB: "    << _TCB;
+		std::cout << "\tqr: "     << _qr;
+		std::cout << "\tqd: "     << _qd;
+		std::cout << "\tqd1: "    << _qd1 << std::endl;
+		*/
+
+		if ( ( _TCB + (( _qr * ( 1.0 ) + _qd * ( -1.0 ) + _qd1 * ( -1.0 )) * StopgapStepInterval )) <= ( _Tt * conc_epsilon ))
+		{
+			if ( _qr  <= 0.0 ) _qr  = 0.0;
+			if ( _qd  >= 0.0 ) _qd  = 0.0;
+			if ( _qd1 >= 0.0 ) _qd1 = 0.0;
+		}
+
+		qb->setValue( _qb );
+		qa1->setValue( _qa1 );
+		qa2->setValue( _qa2 );
+		qr->setValue( _qr );
+		qd->setValue( _qd );
+		qd1->setValue( _qd1 );
+		qd2->setValue( _qd2 );
 
 	}
 
@@ -294,18 +332,32 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 	Real dXdtFactor;  // 50.0
 	Real Yd;  // 8000.0
 
+	Real StopgapStepInterval;
+	Real conc_epsilon;
+
  private:
 
 	Real _SizeN_A;
 	Real _CBL;
 	Real _L;
 	Real _Ca_MolarConc;
+	Real _T;
 	Real _TCa;
 	Real _ATPfactor;
 	Real _cbFactor;
 	Real _TCB;
 	Real _TCaCB;
+	Real _Tt;
 	Real _dXdt;
+
+	Real _qb;
+	Real _qa1;
+	Real _qa2;
+	Real _qr;
+	Real _qd;
+	Real _qd1;
+	Real _qd2;
+
 
 	// 以下、筋収縮の代数方程式求根
 
