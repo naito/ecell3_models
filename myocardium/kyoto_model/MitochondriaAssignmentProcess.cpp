@@ -106,7 +106,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		kDH( 4.679e-4 ),
 		KmN( 100.0 ),
 		PD( 0.8 ),
-		StopgapStepInterval( 0.01 ),
+		StopgapStepInterval( 0.02 ),
 		conc_epsilon( 1.0e-12 )
 	{
 		// do nothing
