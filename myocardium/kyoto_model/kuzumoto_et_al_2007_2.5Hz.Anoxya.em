@@ -36,6 +36,11 @@ active_volume = 0.8
 Vt_SIZE = Vi_SIZE[SimulationMode] / active_volume
 Vn_SIZE = Vt_SIZE - Vi_SIZE[SimulationMode]
 
+# kuzumoto
+
+Vt_SIZE = 18553.33902944335e-15
+Vn_SIZE = 3200.0e-15
+
 SRREL_SIZE_init = Vi_SIZE[SimulationMode] * 0.02 * SRFactor[SimulationMode]
 SRUP_SIZE_init  = Vi_SIZE[SimulationMode] * 0.05 * SRFactor[SimulationMode]
 
@@ -292,7 +297,7 @@ SRtrans_permeabilityCa = {
 }
 
 CurrentClamp_amplitude = -8000.0
-CurrentClamp_onset     =  50.11     #.10 0.139861909006, 11 0.139861465623
+CurrentClamp_onset     =  50.00
 CurrentClamp_offset    =  52.0
 CurrentClamp_interval  =  400.0
 
@@ -398,13 +403,13 @@ def setCurrents( totalCurrent, *eachCurrent ):
 @# 連続Stepperの名称は「ODE」中身は切り替え可能
 
 Stepper FixedODE1Stepper( ODE ){ StepInterval   @StepInterval; }
-#Stepper ODEStepper( ODE ){}
+#Stepper ODEStepper( ODE2 ){}
 #Stepper ODE45Stepper( ODE ){}
 
 @# 離散イベントはPassiveStepper「PSV」で処理。これでほとんど問題ないはず
 
 Stepper PassiveStepper( PSV ){}
-#Stepper DiscreteTimeStepper( PSV ){ StepInterval   @StepInterval; }
+#Stepper DiscreteTimeStepper( PSV ){}
 
 #Stepper DiscreteTimeStepper( DSC ){}
 
@@ -548,7 +553,6 @@ System System( / )
 	Variable Variable( Oxygen )
 	{
 		Name "Extracellular Oxygen";
-		# MolarConc 0.24e-3;
 		MolarConc 0.0;
 		Fixed 1;
 	}
