@@ -109,24 +109,24 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 		vCK  = getVariableReference( "vCK" ).getVariable();
 		calmodulin  = getVariableReference( "calmodulin" ).getVariable();
 
-		//Tt  = getVariableReference( "Tt" ).getVariable();
-		//T  = getVariableReference( "T" ).getVariable();
-		//TCa  = getVariableReference( "TCa" ).getVariable();
-		//TCaCB  = getVariableReference( "TCaCB" ).getVariable();
-		//TCB  = getVariableReference( "TCB" ).getVariable();
+		Tt  = getVariableReference( "Tt" ).getVariable();
+		T  = getVariableReference( "T" ).getVariable();
+		TCa  = getVariableReference( "TCa" ).getVariable();
+		TCaCB  = getVariableReference( "TCaCB" ).getVariable();
+		TCB  = getVariableReference( "TCB" ).getVariable();
 	}
 
 	virtual void fire()
 	{
 	  //		printf(" Vi : %e\n", Vi->getValue());
 		
-		Vi->setValue( Vt->getValue() * active_volume->getValue());
+		//Vi->setValue( Vt->getValue() * active_volume->getValue());
 		//		printf("->settedVi : %e\n", Vi->getValue());
 
 		_SizeN_A = getSuperSystem()->getSizeN_A();
 
 //		Vt->setValue( _Vt );
-		_Vt = Vi->getValue() + Vn_L;
+		//_Vt = Vi->getValue() + Vn_L;
 		
 		Volume_ratio->setValue( _Vt * Vt0i );  // simBio: org.simBio.bio.terashima_et_al_2006.experiment.VolumeRatio
 		
@@ -156,7 +156,8 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 		_totalIonin = Na->getValue() + K->getValue() + Cl->getValue() + Ca->getValue() + LA->getValue();
 		totalIonin->setValue( _totalIonin );
 		
-		WaterFlux->setValue( f * Cm->getValue() * ( _totalIonin / _SizeN_A - totalIonex->getMolarConc() ) );
+		//WaterFlux->setValue( f * Cm->getValue() * ( _totalIonin / _SizeN_A - totalIonex->getMolarConc() ) );
+		WaterFlux->setValue( 0.0 );
 
 		vAK->setValue( (( kfAK * _ADPfree * _ADPmg ) - (kbAK * _ATPmg * _AMP )) / _SizeN_A );
 		vCK->setValue( (kfCK * _ADPtotal * PCr->getMolarConc() * _Proton_MolarConc ) - (kbCK * _ATPtotal * _Creatine / _SizeN_A ) );
@@ -167,7 +168,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 		Ca->setValue( _Ca );
 		calmodulin->setValue( CaTotal->getValue() - _Ca );
 
-		// T->setValue( Tt->getValue() - TCa->getValue() - TCaCB->getValue() - TCB->getValue() );
+		T->setValue( Tt->getValue() - TCa->getValue() - TCaCB->getValue() - TCB->getValue() );
 	}
 
  protected:
@@ -213,11 +214,11 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 	Variable* vCK;
 	Variable* calmodulin;
 
-	//Variable* Tt;
-	//Variable* T;
-	//Variable* TCa;
-	//Variable* TCaCB;
-	//Variable* TCB;
+	Variable* Tt;
+	Variable* T;
+	Variable* TCa;
+	Variable* TCaCB;
+	Variable* TCB;
 
 	Real Vn_L;
 	Real Vt0i;

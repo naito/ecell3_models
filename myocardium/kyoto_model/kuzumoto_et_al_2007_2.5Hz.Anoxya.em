@@ -553,7 +553,7 @@ System System( / )
 	Variable Variable( Oxygen )
 	{
 		Name "Extracellular Oxygen";
-		MolarConc 0.24e-3;
+		MolarConc 0.0;
 		Fixed 1;
 	}
 

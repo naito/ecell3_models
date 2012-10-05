@@ -64,119 +64,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		Value @(MITOCHONDRIA_SIZE_init);
 	}
 
-	Process MitochondriaAssignmentProcess( _assignment ) 
-	{
-		Name "mitochondria assingnment";
-
-		StepperID	PSV;
-		Priority	18;
-
-		VariableReferenceList
-			[ volume     :.:SIZE               1 ]
-			[ total      :/CELL/CYTOPLASM:SIZE 0 ]
-			[ ratio      :.:volumeRatio        0 ]
-			[ Rcm        :.:Rcm                1 ]
-			[ Pi         :..:Pi                1 ]
-			[ PiTotal    :..:PiTotal           0 ]
-			[ PCr        :..:PCr               0 ]
-			[ ATPtcell   :..:ATPtotal          0 ]
-			[ ADPtcell   :..:ADPtotal          0 ]
-			[ AMP        :..:AMP               0 ]
-			[ ATPtmit    :.:ATPtotal           0 ]
-			[ ADPtmit    :.:ADPtotal           1 ]
-			[ ATPfcell   :..:ATPfree           0 ]
-			[ ADPfcell   :..:ADPfree           0 ]
-			[ ATPfmit    :.:ATPfree            1 ]
-			[ ADPfmit    :.:ADPfree            1 ]
-			[ Pimit      :.:Pi                 0 ]
-			[ Mg         :.:Mg                 0 ]
-			[ ATPMg      :.:ATPmg              1 ]
-			[ ADPMg      :.:ADPmg              1 ]
-			#[ z         :.:Zvalue             0 ]
-			[ T          :/:T                  0 ]
-			[ R          :/:R                  0 ]
-			[ F          :/:F                  0 ]
-			[ Proton     :.:Proton             0 ]
-			[ Hcell      :..:Proton            0 ]
-			[ pH         :.:pH                 1 ]
-			[ pHcell     :..:pH                0 ]
-			[ rbuffer    :.:rbuffer            1 ]
-			[ NADH       :.:NADH               0 ]
-			[ NAD        :.:NAD                1 ]
-			[ UQH2       :.:UQH2               0 ]
-			[ UQ         :.:UQ                 1 ]
-			[ Cytc2      :.:Cytc2              0 ]
-			[ Cytc3      :.:Cytc3              1 ]
-			[ EmN        :.:EmN                1 ]
-			[ EmU        :.:EmU                1 ]
-			[ Emc        :.:Emc                1 ]
-			[ Ema        :.:Ema                1 ]
-			#[ Cyta_total :.:Cyta_total         0 ]
-			[ Cyta2      :.:Cyta2              1 ]
-			[ Cyta3      :.:Cyta3              1 ]
-			[ vC1        :.:vC1                1 ]
-			[ vC3        :.:vC3                1 ]
-			[ vC4        :.:vC4                1 ]
-			[ jC1        :.:jC1                1 ]
-			[ jC3        :.:jC3                1 ]
-			[ jC4        :.:jC4                1 ]
-			[ O2         :/:Oxygen             0 ]
-			[ CN         :/:CN                 0 ]
-			[ jO2        :.:jO2                1 ]
-			[ vSN        :.:vSN                1 ]
-			[ vANT       :.:vANT               1 ]
-			[ vPI        :.:vPI                1 ]
-			[ vLK        :.:vLK                1 ]
-			[ jSN        :.:jSN                1 ]
-			[ jANT       :.:jANT               1 ]
-			[ jPI        :.:jPI                1 ]
-			[ jLK        :.:jLK                1 ]
-			[ FCCP       :/:FCCP               0 ]
-			[ vDH        :.:vDH                1 ]
-			[ jDH        :.:jDH                1 ];
-
-		#PiTotal 46.0e-3;  # (M)
-		ActivityFactor  1.0;
-		cbuffer         0.022;  # (mM Proton / pH)
-		dpH             0.001;  # HBuffering.javaの内部パラメータ、gradientpH dpHとは別物
-		dP_myu          0.861;
-		dPsi_ratio      0.65;
-		ANP_total       @Mitochondria_ANP_total;
-		kD_ATP          0.017e-3;
-		kD_ADP          0.282e-3;
-		NAD_H_total     @Mitochondria_NAD_H_total;
-		UQ_H2_total     @Mitochondria_UQ_H2_total;
-		Cytc_23_total   @Mitochondria_Cytc_23_total;
-		Cyta_total      @Mitochondria_Cyta_total;
-		ZscaleN         1.0;
-		ZscaleU         1.0;
-		Zscalec         2.0;
-		EmN0           -320.0;  # mV
-		EmU0            85.0;  # mV
-		Emc0            250.0;  # mV
-		Ema0            540.0;  # mV
-		Amp             @Mitochondria_Amp;
-		kC1             3.9825E-6;  # mM/mV/ms
-		kC3             2.2735e-6;  # mM/mV/ms
-		KmOC4           0.0008e-3;   #  (M)
-		kC4_0           0.06;     #  1/mM/ms, CN/initial
-		KmC4            0.12e-3;  #  (M)
-		nC4             5.0;
-		dGp0            31.9;  # J/mmol = C V /mmol
-		kSN             5.7193e-4;  # mM/ms
-		nASN            2.5;  # nA of vSN
-		kEX             9.0953e-4;  #  mM/ms
-		KmADP           0.0035e-3;  #  (M)
-		kPI             1.157016667;  # 1/mM/ms
-		pKa             6.8;  # dimensionless
-		kLK1            4.16667e-8;  # mM/ms
-		kLK1_0          4.16667e-8;  # mM/ms
-		kLK2            0.038;  # 1/mV
-		kDH             4.679e-4;  # mM/ms
-		KmN             100.0;  # dimensionless
-		PD              0.8;  # dimensionless
-		StopgapStepInterval 0.05;
-	}
 
 	@{'''
 	<volumeratio name="Rcm" initial_value="4.3478260869565215" units="dimensionless"
@@ -531,18 +418,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		Value 201118.214403;
 	}
 
-	Process ZeroVariableAsFluxProcess( NADH_UQOxidoreductase ) 
-	{
-		Name "NADH UQ Oxidoreductase (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ j     :.:jC1     0 ]
-			[ NADH  :.:NADH   -1 ]   # ≡ - vC1 / 5
-			[ UQH2  :.:UQH2    5 ];  # ≡ vC1
-	}
-
 	@{'''
 	<Cytochrome_bc1 name="vC3" initial_value="1.1175267504158818E-4" units="mM/ms"
 		className="org.simBio.bio.matsuoka_et_al_2004.molecule.RespiratoryChain.ComplexIII">
@@ -566,18 +441,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "jC3";
 		Value 1033264.18784;
-	}
-
-	Process ZeroVariableAsFluxProcess( Cytochrome_bc1 ) 
-	{
-		Name "Cytochrome bc1 (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ j     :.:jC3    0 ]
-			[ UQH2  :.:UQH2  -1 ]
-			[ Cytc2 :.:Cytc2  2 ];
 	}
 
 	@{'''
@@ -607,17 +470,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "jC4";
 		Value 517182.348127;
-	}
-
-	Process ZeroVariableAsFluxProcess( CytochromecOxidase ) 
-	{
-		Name "Cytochrome c oxidase (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ j     :.:jC4     0 ]
-			[ Cytc2 :.:Cytc2  -4 ];
 	}
 
 	@{'''
@@ -670,17 +522,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		Value -9.22582150713;
 	}
 
-	Process ZeroVariableAsFluxProcess( vO2 ) 
-	{
-		Name "Delta H (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ Hmito       :.:Proton  1 ]
-			[ j           :.:jO2     0 ];
-	}
-
 	@{'''
 	<ATPsynthase name="vSN" initial_value="2.636388261805263E-4" units="mM/ms"
 		className="org.simBio.bio.matsuoka_et_al_2004.molecule.RespiratoryChain.ATPsynthase">
@@ -711,19 +552,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "jSN";
 		Value 2437602.12017;
-	}
-
-	Process ZeroVariableAsFluxProcess( ATPsynthase ) 
-	{
-		Name "ATP synthase (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ j        :.:jSN       0 ]
-			[ ATPtmito :.:ATPtotal  1 ]
-			#[ ADPtmito :.:ADPtotal -1 ]    @{''' 物質収支で代数計算されている（MitochondriaAssignmentProcess） '''}
-			[ Pitmito  :.:Pi       -1 ];
 	}
 
 	@{'''
@@ -759,19 +587,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "jANT";
 		Value 1728725.18287;
-	}
-
-	Process ZeroVariableAsFluxProcess( ATPADPExchanger ) 
-	{
-		Name "ATP/ADP exchanger, Adenine Nucleotide Transporter (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ j        :.:jANT       0 ]
-			[ ATPtcell :..:ATPtotal  1 ]
-			[ ADPtcell :..:ADPtotal -1 ]
-			[ ATPtmito :.:ATPtotal  -1 ];
 	}
 
 	@{'''
@@ -818,17 +633,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		Value 2334064.60115;
 	}
 
-	Process ZeroVariableAsFluxProcess( PhosphateCarrier ) 
-	{
-		Name "phosphate carrier (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ j       :.:jPI 0 ]
-			[ Pitmito :.:Pi  1 ];
-	}
-
 	@{'''
 	<ProtonLeak name="vLK" initial_value="2.4173630507944038E-4" units="mM/ms"
 		className="org.simBio.bio.matsuoka_et_al_2004.molecule.Transporter.ProtonLeak">
@@ -860,17 +664,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		Value 8.89134086618;
 	}
 
-	Process ZeroVariableAsFluxProcess( ProtonLeak ) 
-	{
-		Name "proton leak (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ Hmito       :.:Proton   1 ]
-			[ j           :.:jLK      0 ];
-	}
-
 	@{'''
 	<SubstrateDehydrogenation name="vDH" initial_value="1.1307728142212603E-4" units="mM/ms"
 		className="org.simBio.bio.matsuoka_et_al_2004.molecule.SubstrateDehydrogenation">
@@ -895,17 +688,6 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 	{
 		Name "jDH";
 		Value 209102.297208;
-	}
-
-	Process ZeroVariableAsFluxProcess( SubstrateDehydrogenation ) 
-	{
-		Name "substrate dehydrogenation in mitochondria (1/ms)";
-
-		Priority	12;
-
-		VariableReferenceList
-			[ j    :.:jDH  0 ]
-			[ NADH :.:NADH 1 ];
 	}
 
 	@# <parameter name="Amp" initial_value="5.0" units="dimension_less" />

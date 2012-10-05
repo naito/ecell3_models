@@ -57,13 +57,13 @@ LIBECS_DM_CLASS( CurrentClampAssignmentProcess, Process )
 	{
 		_t = t->getValue();
 
-		if ( _t >= _nextOnset && _t <= _nextOffset ) {
+		if ( _t >= _nextOnset && _t < _nextOffset ) {
 
 			I->setValue( amplitude );
 
 		} else I->setValue( 0.0 );
 
-		if ( _t >= _nextOffset ) {
+		if ( _t > _nextOffset ) {
 			_nextOnset  += interval;
 			_nextOffset += interval;
 		}

@@ -296,8 +296,8 @@ SRtrans_permeabilityCa = {
 		       "SAN" : 0.99e+3,
 }
 
-CurrentClamp_amplitude = -8000.0
-CurrentClamp_onset     =  50.00
+CurrentClamp_amplitude =  0.0
+CurrentClamp_onset     =  50.00  # 50.11     #.10 0.139861909006, 11 0.139861465623
 CurrentClamp_offset    =  52.0
 CurrentClamp_interval  =  400.0
 
@@ -1853,10 +1853,10 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 }
 
 @# ミトコンドリア｛ /CELL/CYTOPLASM/MITOCHONDRIA ｝
-@include( 'Mitochondria.em' )
+@include( 'Mitochondria_Null.em' )
 
 @# 筋収縮
-@include( 'IsotonicContraction.em' )
+@#include( 'IsotonicContraction.em' )
 
 @# 細胞膜上のイオンチャネル
 @include( 'INa.em' )     @# Na, K
