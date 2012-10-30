@@ -19,6 +19,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 		PROPERTYSLOT_SET_GET( Real, kD_ADP );
 		PROPERTYSLOT_SET_GET( Real, TotalAdenosine );
 		PROPERTYSLOT_SET_GET( Real, TotalCreatine );
+		PROPERTYSLOT_SET_GET( Real, NAD_H_total );
 		PROPERTYSLOT_SET_GET( Real, f );
 		PROPERTYSLOT_SET_GET( Real, kfAK );
 		PROPERTYSLOT_SET_GET( Real, kbAK );
@@ -36,7 +37,8 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 		kD_ATP( 0.024e-3 ),
 		kD_ADP( 0.347e-3 ),
 		TotalAdenosine( 7.0e-3 ),
-		TotalCreatine( 25.0e-3 ),
+	        TotalCreatine( 25.0e-3 ),
+	        NAD_H_total( 0.000594 ),
 		f( 1.3743e-17 ),
 		kfAK( 783.0 ),
 		kbAK( 683.0 ),
@@ -55,6 +57,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 	SIMPLE_SET_GET_METHOD( Real, kD_ADP );
 	SIMPLE_SET_GET_METHOD( Real, TotalAdenosine );
 	SIMPLE_SET_GET_METHOD( Real, TotalCreatine );
+	SIMPLE_SET_GET_METHOD( Real, NAD_H_total );
 	SIMPLE_SET_GET_METHOD( Real, f );
 	SIMPLE_SET_GET_METHOD( Real, kfAK );
 	SIMPLE_SET_GET_METHOD( Real, kbAK );
@@ -87,6 +90,9 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 
 		PCr  = getVariableReference( "PCr" ).getVariable();
 		Creatine  = getVariableReference( "Creatine" ).getVariable();
+
+		NAD  = getVariableReference( "NAD" ).getVariable();
+		NADH  = getVariableReference( "NADH" ).getVariable();
 
 		Pi  = getVariableReference( "Pi" ).getVariable();
 		PiTotal  = getVariableReference( "PiTotal" ).getVariable();
@@ -150,6 +156,8 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 
 		_Creatine = TotalCreatine * _SizeN_A - PCr->getValue();
 		Creatine->setValue( _Creatine );
+		
+		NADH->setValue( NAD_H_total * _SizeN_A - NAD->getValue() ); //ducky121026
 
 		Pi->setValue( PiTotal->getValue() - PCr->getValue() - 3.0 * _ATPtotal - 2.0 * _ADPtotal - _AMP - 3.0 * ATPtotal_mt->getValue() - 2.0 * ADPtotal_mt->getValue() - Pi_mt->getValue() );
 
@@ -194,6 +202,9 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 	Variable* PCr;
 	Variable* Creatine;
 
+	Variable* NAD;
+	Variable* NADH;
+
 	Variable* Pi;
 	Variable* PiTotal;
 	Variable* ATPtotal_mt;
@@ -227,6 +238,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, Process )
 	Real kD_ADP;
 	Real TotalAdenosine;
 	Real TotalCreatine;
+	Real NAD_H_total;
 	Real f;
 	Real kfAK;
 	Real kbAK;
