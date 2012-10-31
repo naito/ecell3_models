@@ -12,7 +12,7 @@ Lambeth = {
 	"OFF" : 0.0
 }
 kfCK = {
-	"ON" : 8.025e+5,
+	"ON" : 8.025e+4,
 	"OFF" :16.05e+6,
 }
 kbCK = {
