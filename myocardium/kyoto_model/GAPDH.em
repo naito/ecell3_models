@@ -25,8 +25,8 @@
 			[ Pi            :.:Pi          -1 ]
 			[ BPG13         :.:BPG13       1 ]
 			[ GX            :.:VGAPDH_GX   0 ]
-#			[ NADH          :.:NADH        1 ];
-			[ NADH          :.:NADH        0 ];
+			[ NADH          :.:NADH        1 ];
+#			[ NADH          :.:NADH        0 ];
 	
 			KGAPDH_GAP 0.0025;
 			KGAPDH_NAD 0.09;

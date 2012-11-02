@@ -56,7 +56,7 @@ LIBECS_DM_CLASS( HK_Process, Process )
 
 	  //Real V_HK = 1.0 + FBP->getMolarConc()*1000.0 / KALD_FBP + DHAP->getMolarConc()*1000.0 / KALD_DHAP + GAP->getMolarConc()*1000.0 / KALD_GAP;
 
-	  Real V_HK = ( Vf->getValue() * ATP->getMolarConc()*1000.0 * Glc->getMolarConc() - Vf->getValue() * ADP->getMolarConc()*1000.0 * G6P->getMolarConc()*1000.0 / Kapp ) / ( ATP->getMolarConc()*1000.0 * Glc->getMolarConc()*1000.0 + KATP * Glc->getMolarConc()*1000.0 + KGlc * ATP->getMolarConc()*1000.0 + KiATP * KGlc * ( 1.0 + G6P->getMolarConc()*1000.0 / KiG6P + ADP->getMolarConc()*1000.0 / KiADP + ADP->getMolarConc()*1000.0 * G6P->getMolarConc()*1000.0 / ( KiADP * KG6P )));
+	  Real V_HK = ( Vf->getValue() * ATP->getMolarConc()*1000.0 * Glc->getMolarConc()*1000.0 - Vf->getValue() * ADP->getMolarConc()*1000.0 * G6P->getMolarConc()*1000.0 / Kapp ) / ( ATP->getMolarConc()*1000.0 * Glc->getMolarConc()*1000.0 + KATP * Glc->getMolarConc()*1000.0 + KGlc * ATP->getMolarConc()*1000.0 + KiATP * KGlc * ( 1.0 + G6P->getMolarConc()*1000.0 / KiG6P + ADP->getMolarConc()*1000.0 / KiADP + ADP->getMolarConc()*1000.0 * G6P->getMolarConc()*1000.0 / ( KiADP * KG6P )));
 
 	  setFlux(GX->getValue() * _SizeN_A * V_HK / 60000.0 /1000.0);
 	  //	  setFlux( V_HK );

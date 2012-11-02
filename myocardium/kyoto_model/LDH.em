@@ -19,8 +19,8 @@
 		VariableReferenceList
 			[ VLDH_maxf     :.:VLDH_maxf   0 ]
 			[ PYR           :.:PYR        -1 ]
-#			[ NADH          :.:NADH       -1 ]
-			[ NADH          :.:NADH        0 ]
+			[ NADH          :.:NADH       -1 ]
+#			[ NADH          :.:NADH        0 ]
 			[ LAC           :.:LAC         1 ]
 			[ GX            :.:VLDH_GX     0 ]
 			[ NAD           :.:NAD         1 ];
