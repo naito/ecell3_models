@@ -1,9 +1,9 @@
 #include "libecs.hpp"
-#include "Process.hpp"
+#include "ContinuousProcess.hpp"
 
 USE_LIBECS;
 
-LIBECS_DM_CLASS( CK_Process, Process )
+LIBECS_DM_CLASS( CK_Process, ContinuousProcess )
 {
 
  public:
@@ -55,6 +55,9 @@ LIBECS_DM_CLASS( CK_Process, Process )
 	  Real CK_b = 1.0 + ADP->getMolarConc()*1000.0 / KCK_iADP + PCr->getMolarConc()*1000.0 / KCK_iPCr + ADP->getMolarConc()*1000.0 * PCr->getMolarConc()*1000.0 / (KCK_iADP * KCK_PCr) + ATP->getMolarConc()*1000.0 / KCK_iATP + Cr->getMolarConc()*1000.0 / KCK_Cr + ATP->getMolarConc()*1000.0 * Cr->getMolarConc()*1000.0 / (KCK_iATP * KCK_Cr);
 	  
 	  setFlux(GX->getValue() * _SizeN_A * CK_a / CK_b / 60000.0 /1000.0);
+	  
+	  //	  Real V_CK = 16.05 * PCr->getMolarConc()*1000.0 * ADP->getMolarConc()*1000.0 - 9.67e-6 * ATP->getMolarConc()*1000.0 * Cr->getMolarConc()*1000.0;
+	  //	  setFlux(V_CK * _SizeN_A / 60000.0 / 1000.0);
 	  //	  setFlux(CK_a / CK_b );
 	  //V_CK.setValue(CK_a / CK_b / unit);
 	  

@@ -1,11 +1,10 @@
 #include "libecs.hpp"
-#include "Process.hpp"
+#include "ContinuousProcess.hpp"
 
 USE_LIBECS;
 
-LIBECS_DM_CLASS( TPI_Process, Process )
+LIBECS_DM_CLASS( TPI_Process, ContinuousProcess )
 {
-
  public:
 
 	LIBECS_DM_OBJECT( TPI_Process, Process )

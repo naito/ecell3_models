@@ -1,9 +1,9 @@
 #include "libecs.hpp"
-#include "Process.hpp"
+#include "ContinuousProcess.hpp"
 
 USE_LIBECS;
 
-LIBECS_DM_CLASS( ADK_Process, Process )
+LIBECS_DM_CLASS( ADK_Process, ContinuousProcess )
 {
 
  public:
@@ -49,7 +49,13 @@ LIBECS_DM_CLASS( ADK_Process, Process )
 
 	  Real ADK_b = 1.0 + ATP->getMolarConc()*1000.0 / KADK_ATP + AMP->getMolarConc()*1000.0 / KADK_AMP + ATP->getMolarConc()*1000.0 * AMP->getMolarConc()*1000.0 / (KADK_ATP * KADK_AMP) + 2.0 * ADP->getMolarConc()*1000.0 / KADK_ADP + ADP->getMolarConc()*1000.0 * ADP->getMolarConc()*1000.0 / (KADK_ADP * KADK_ADP);
 
-	  setFlux( GX->getValue() * _SizeN_A * ADK_a / ADK_b / 60000.0 / 1000.0);
+	  Real velocity = GX->getValue() * _SizeN_A * ADK_a / ADK_b / 60000.0 / 1000.0;
+	  //	  if(velocity < 0){
+	  //velocity = 0;
+	    //}
+	  setFlux(velocity);
+
+	  //	  setFlux( GX->getValue() * _SizeN_A * ADK_a / ADK_b / 60000.0 / 1000.0);
 
 	  //	  setFlux(ADK_a / ADK_b );
 	  //V_ADK.setValue(ADK_a / ADK_b / unit);

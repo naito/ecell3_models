@@ -1,9 +1,9 @@
 #include "libecs.hpp"
-#include "Process.hpp"
+#include "ContinuousProcess.hpp"
 
 USE_LIBECS;
 
-LIBECS_DM_CLASS( PGI_Process, Process )
+LIBECS_DM_CLASS( PGI_Process, ContinuousProcess )
 {
 
  public:
