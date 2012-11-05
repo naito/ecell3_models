@@ -1,6 +1,6 @@
 @include('SetOptions.em')
 
-@{SimulationMode = 'M'}
+@{SimulationMode = 'V'}
 
 @{
 CYTOPLASM_SIZE   = 2.584e-11
@@ -13,11 +13,6 @@ NSR_SIZE         = 2.098e-12
 #INa
 Nav1_5 = {
 	"V" : 1.0,
-	"EPI" : 1.1,
-	"EPI_L" : 1.0,
-	"EPI_R" : 1.0,
-	"END" : 1.0,
-	"M" : 1.0,
 	"EMB" : 0.07,
 #	"EMB" : 0.0769,
 	"LAT" : 1.0,
@@ -27,23 +22,14 @@ Nav1_5 = {
 #ICaL
 Cav1_2 = {
 	"V" : 1.0,
-	"EPI" : 1.0,
-	"EPI_L" : 1.0,
-	"EPI_R" : 1.0,
-	"END" : 1.0,
-	"M" : 1.0,
 	"EMB" : 0.46,
 	"LAT" : 0.78,
 	"NEO" : 0.78,
 }
+
 #ICaT
 Cav3_1 = {
 	"V" : 1.0,
-	"EPI" : 1.0,
-	"EPI_L" : 1.0,
-	"EPI_R" : 1.0,
-	"END" : 1.0,
-	"M" : 1.0,
 #	"EMB" : 4.5,
 	"EMB" : 1.0,
 	"LAT" : 4.5,
@@ -53,11 +39,6 @@ Cav3_1 = {
 #Iha
 HCN = {
 	"V" : 0,
-	"EPI" : 1.0,
-	"EPI_L" : 0,
-	"EPI_R" : 0,
-	"END" : 0,
-	"M" : 0,
 	"EMB" : 1.0,
 	"LAT" : 0,
 	"NEO" : 0,
@@ -67,11 +48,6 @@ HCN = {
 #IK1
 Kir2_1 = {
 	"V" : 1.0,
-	"EPI" : 1.0,
-	"EPI_L" : 1.0,
-	"EPI_R" : 1.0,
-	"END" : 1.0,
-	"M" : 1.0,
 	"EMB" : 0.11,
 	"LAT" : 1.0,
 	"NEO" : 1.0,
@@ -81,11 +57,6 @@ Kir2_1 = {
 #IKr
 erg1 = {
        "V" : 1.0,
-       "EPI" : 1.0,
-       "EPI_L" : 1.0,
-       "EPI_R" : 1.0,
-       "END" : 1.0,
-       "M" : 1.0,
        "EMB" : 2.0,
        "LAT" : 2.0,
        "NEO" : 1.5,
@@ -95,25 +66,39 @@ erg1 = {
 #IKs
 KCNQ1 = {
        "V" : 1.0,
-       "EPI" : 0.9908,
-       "EPI_L" : 0.9908,
-       "EPI_R" : 0.9908,
-       "END" : 0.8185,
-       "M" : 0.7323,
        "EMB" : 0.01,
        "LAT" : 0.01,
        "NEO" : 2.0,
        "SAN" : 1.0
 }
 
+#IKATP
+Kir6_2 = {
+	"V" : 1.0,
+	"EMB" : 1.0,
+	"LAT" : 1.0,
+	"NEO" : 1.0,
+}
+
+#IKNa
+KNa = {
+	"V" : 1.0,
+	"EMB" : 1.0,
+	"LAT" : 1.0,
+	"NEO" : 1.0,
+}
+
+#I_ns_Ca
+ns_Ca = {
+	"V" : 1.0,
+	"EMB" : 1.0,
+	"LAT" : 1.0,
+	"NEO" : 1.0,
+}
+
 #INaK
 NaK_ATPase = {
 	"V" : 1.0,
- 	"EPI" : 1.0,
-	"EPI_L" : 1.0,
-	"EPI_R" : 1.0,
-	"END" : 1.0,
-	"M" : 1.0,
 	"EMB" : 1.0,
 	"LAT" : 1.0,
 	"NEO" : 1.0,
@@ -123,11 +108,6 @@ NaK_ATPase = {
 #INaCa
 NCX1 = {
      	"V" : 1.0,
-	"EPI" : 1.0,
-     	"EPI_L" : 1.0,
-     	"EPI_R" : 1.0,
-     	"END" : 1.0,
-     	"M" : 1.0,
 #	"EMB" : 4.95,
 	"EMB" : 1.0,
 	"LAT" : 1.74,
@@ -138,11 +118,6 @@ NCX1 = {
 #Ibg
 Ibg_gene = {
 	 "V" : 1.0,
-         "EPI" : 1.0,
-	 "EPI_L" : 1.0,
-	 "EPI_R" : 1.0,
-	 "END" : 1.0,
-	 "M" : 1.0,
 	 "EMB" : 1.0,
 	 "LAT" : 1.0,
 	 "NEO" : 1.0,
@@ -152,11 +127,6 @@ Ibg_gene = {
 #Ibg
 PCaPump_gene = {
 	 "V" : 1.0,
-         "EPI" : 1.0,
-	 "EPI_L" : 1.0,
-	 "EPI_R" : 1.0,
-	 "END" : 1.0,
-	 "M" : 1.0,
 	 "EMB" : 1.0,
 	 "LAT" : 1.0,
 	 "NEO" : 1.0,
@@ -166,41 +136,14 @@ PCaPump_gene = {
 #KPlateau
 Kpl_gene = {
 	 "V" : 1.0,
-	 "EPI" : 1.0,
-	 "EPI_L" : 1.0,
-	 "EPI_R" : 1.0,
-	 "END" : 1.0,
-	 "M" : 1.0,
 	 "EMB" : 1.0,
 	 "LAT" : 1.0,
 	 "NEO" : 1.0,
 	 "SAN" : 1.0
 }
 
-#Ito
-g_Ito = {
-	 "V" : 0.0,
-	 "EPI" : 1.1,
-	 "EPI_L" : 0.5,
-	 "EPI_R" : 1.1,
-	 "END" : 0.05,
-	 "M" : 0.5,
-	 "EMB" : 0,
-	 "LAT" : 0,
-	 "NEO" : 0,
-#	 "EMB" : 0.01,
-#	 "LAT" : 0.27,
-#	 "NEO" : 1.0,
-	 "SAN" : 0
-}
-
 SR_activity = {
 	  "V" : 1.0,
-   	  "EPI" : 1.0,
-	  "EPI_L" : 1.0,
-	  "EPI_R" : 1.0,
-	  "END" : 1.0,
-	  "M" : 1.0,
 	  "EMB" : 0.04,
 	  "LAT" : 0.3,
 	  "NEO" : 0.3,
@@ -210,11 +153,6 @@ SR_activity = {
 #IRyR
 RyR1 = {
 	  "V" : 1.0,
-	  "EPI" : 1.0,
-	  "EPI_L" : 1.0,
-	  "EPI_R" : 1.0,
-	  "END" : 1.0,
-	  "M" : 1.0,
 	  "EMB" : 1.0,
 	  "LAT" : 1.0,
 	  "NEO" : 1.0,
@@ -229,11 +167,6 @@ RyR1 = {
 #ISRCa
 SERCA = {
 	  "V" : 1.0,
-	  "EPI" : 1.0,
-	  "EPI_L" : 1.0,
-	  "EPI_R" : 1.0,
-	  "END" : 1.0,
-	  "M" : 1.0,
 	  "EMB" : 1.0,
 	  "LAT" : 1.0,
 	  "NEO" : 1.0,
@@ -248,11 +181,6 @@ SERCA = {
 #Ileak
 leak_act = {
 	  "V" : 1.0,
-	  "EPI" : 1.0,
-	  "EPI_L" : 1.0,
-	  "EPI_R" : 1.0,
-	  "END" : 1.0,
-	  "M" : 1.0,
 	  "EMB" : 1.0,
 	  "LAT" : 1.0,
 	  "NEO" : 1.0,
@@ -265,11 +193,6 @@ leak_act = {
 
 transfer_act = {
 	  "V" : 1.0,
-	  "EPI" : 1.0,
-	  "EPI_L" : 1.0,
-	  "EPI_R" : 1.0,
-	  "END" : 1.0,
-	  "M" : 1.0,
 	  "EMB" : 1.0,
 	  "LAT" : 1.0,
 	  "NEO" : 1.0,
@@ -281,11 +204,11 @@ transfer_act = {
 }
 
 
-CurrentClamp_amplitude = -80.0
-#CurrentClamp_amplitude = 0.0
-CurrentClamp_onset     =  10.0
-CurrentClamp_offset    =  10.5
-CurrentClamp_interval  =  300.0
+#CurrentClamp_amplitude = -80.0
+CurrentClamp_amplitude = 0.0
+CurrentClamp_onset     =  100.0
+CurrentClamp_offset    =  102.0
+CurrentClamp_interval  =  1000.0
 
 ''' メソッド '''
 
@@ -384,7 +307,6 @@ def setCurrents( totalCurrent, *eachCurrent ):
 	return IonFluxEM + MembranePotential( totalCurrent[ 0 ], aCoefficient ) + CurrentEM + addToTotalCurrent( 'current', totalCurrent[ 0 ] )
 
 }
-
 
 
 @# 連続Stepperの名称は「ODE」中身は切り替え可能
@@ -750,7 +672,7 @@ System System( /CELL/CYTOPLASM/JSR )
 	}
 
 	Variable Variable( CSQNt )
-	{	
+	{
 		Name "CSQN total";
 		MolarConc 1.0e-2;
 	}
@@ -782,15 +704,17 @@ System System( /CELL/CYTOPLASM/NSR )
 
 
 @# 細胞膜上のイオンチャネル
-@include( 'Ito_Clancy.em' )
-
-@include( 'INa_1795insD.em' )        @# Na
+@include( 'INa_LRd.em' )     @# Na
 @include( 'ICaL_LRd.em' )    @# Na, K, Ca
 @include( 'ICaT_LRd.em' )    @#        Ca
 
-@#include( 'Iha_LRd.em' )     @# Na, K
+@include( 'Iha_LRd.em' )    @# Na, K
 
 @include( 'IK1_LRd.em' )     @#     K
+
+@include( 'IKATP_LRd.em' )     @#     K
+@include( 'IKNa_LRd.em' )     @#     K
+@include( 'I_ns_Ca_LRd.em' )     @#     K
 
 @include( 'IKr_LRd.em' )     @# K
 @include( 'IKs_LRd.em' )     @# K
@@ -799,8 +723,8 @@ System System( /CELL/CYTOPLASM/NSR )
 @include( 'INaCa_LRd.em' )   @# Na, Ca
 @include( 'INaK_LRd.em' )    @# Na, K
 
-@include( 'Ibg_LRd.em' )     @# Na, Ca
-@include( 'IPCa_LRd.em' )    @# Ca 
+@include( 'Ibg_LRd.em' )   @# Na, Ca
+@include( 'IPCa_LRd.em' )  @# Ca 
 
 @# 筋小胞体
 @include( 'IRyR_LRd.em' )

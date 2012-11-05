@@ -46,8 +46,7 @@ System System(/CELL/MEMBRANE/Iha)
 		Value 0;
 	}
 
-
-	Process IhaAssignmentProcess_Kurata( I )
+	Process IhaAssignmentProcess( I )
 	{
 		StepperID	PSV;
 		Priority	20;
@@ -94,6 +93,7 @@ System System(/CELL/MEMBRANE/Iha)
 	 		P_K 0.2201619;
 
 	}
+
 
 	Process ZeroVariableAsFluxProcess( HCNGt )
 	{
