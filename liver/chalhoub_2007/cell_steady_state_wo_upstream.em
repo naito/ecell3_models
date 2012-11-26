@@ -17,18 +17,14 @@ def C( x ):
 def umol_gww( umol_gww ):
 	return umol_gww / 1000.0
 
-# mM → M
-def mM( mM ):
-	return mM / 1000.0
-
 
 ##### Table 1 #####
 
 # Metabolite concentrations, umol/qww hep
 
 Glc_tissue  = 6.3
-# Glc_blood   = 5.55    # in paper
-Glc_blood   = 5.26      # steady stateより逆算
+# Glc_blood   = 5.55
+Glc_blood   = 5.2627868852459017
 F6P         = 0.039
 F16P        = 0.0023
 G6P         = 0.087
@@ -36,11 +32,9 @@ Glycogen    = 109.0
 GAP         = 0.015
 GR3P        = 0.25
 PEP         = 0.0061
-# PYR_Blood   = 0.024   # in paper
-PYR_Blood   = 0.0246    # steady stateより逆算
+PYR_Blood   = 0.024
 PYR_Tissue  = 0.023
-# LAC_Blood   = 0.59    # in paper
-LAC_Blood   = 0.60      # steady stateより逆算
+LAC_Blood   = 0.59
 LAC_Tissue  = 0.46
 AcAc_Blood  = 1.47
 AcAc_Tissue = 1.61
@@ -84,33 +78,20 @@ TCA             =  1.37        #  1.37     ◎
 J_TG_bt_net     =  0.03
 PDC             =  0.0023      #  0.00446  △
 
-# upstream blood concentrations, mM, Table 1 legend
+# upstream blood concentrations, mM
 
-# C_star_Glc  = 4.6   # in paper
-C_star_Glc  = 4.37    # steady stateより逆算
-# C_star_LAC  = 1.7   # in paper
-C_star_LAC  = 1.63    # steady stateより逆算
-# C_star_PYR  = 0.12  # in paper
-C_star_PYR  = 0.118   # steady stateより逆算
-# C_star_FFA  = 1.5   # in paper
-C_star_FFA  = 1.38    # steady stateより逆算
-# C_star_AcAc = 0.43  # in paper
-C_star_AcAc = 0.44    # steady stateより逆算
-# C_star_BHB  = 1.2   # in paper
-C_star_BHB  = 1.21    # steady stateより逆算
-
-C_star_GLR  = 0.128   # steady stateより逆算
-C_star_TG   = 0.0     # steady stateより逆算
-C_star_ALA  = 0.72    # steady stateより逆算
-
+C_star_Glc  = 4.6
+C_star_LAC  = 1.7
+C_star_PYR  = 0.12
+C_star_FFA  = 1.5
+C_star_AcAc = 0.43
+C_star_BHB  = 1.2
 
 # physical parameters
 
-F_blood     =   6.57   # ml/min
-V_tissue    =   5.25   # cm^3
-V_blood     =   1.03   # cm^3
-F_perfusate =  50.0    # ml/min
-V_perfusate = 100.0    # cm^3
+F_blood  = 6.57     # ml/min
+V_tissue = 5.25     # cm^3
+V_blood  = 1.03     # cm^3
 
 
 ##### Table S1 #####
@@ -143,14 +124,10 @@ Km_GAP_F16BP   = 0.0194  # umol/gww hep
 # R_GLR_GR3P
 Vmax_GLR_GR3P = 0.79       # umol/gww hep/min
 Km_GLR_GR3P   = 0.125      # umol/qww hep
-# GLR = Km_GLR_GR3P / 3.0    # R_GLR_GR3P,ss = 0.099 より
-GLR           = 0.0417    # R_GLR_GR3P,ss = 0.099 より
+GLR = Km_GLR_GR3P / 3.0    # R_GLR_GR3P,ss = 0.099 より
 
 FFA = 0.36     # umol/qww hep, Km,FFA,AcCoAより
 TG  = 0.0071   # umol/qww hep, Km,TG,FFAより
-
-NADHm = 0.01   # umol/qww hep, written in R_BHBdh
-NADm = NADHm / NADHm_NADm
 
 O2  = 7.3      # umol/qww hep, Km,OxPhosより
 
@@ -166,14 +143,13 @@ Km_LAC_bt   = 1.2      # umol/gww hep
 Vmax_FFA_bt = 4.7      # umol/gww hep/min
 Km_FFA_bt   = 0.67     # umol/gww hep
 
-FFA_Blood   = 0.68  # umol/gww hep
+FFA_Blood   = 0.67574412532637074  # umol/gww hep
 
 #J_GLR_bt_net
 Vmax_GLR_bt = 2.53     # umol/gww hep/min
 Km_GLR_bt   = 0.16     # umol/gww hep
 
-# GLR_Blood   = 0.051264037250068478  # umol/gww hep
-GLR_Blood   = 0.0513  # umol/gww hep
+GLR_Blood   = 0.051264037250068478  # umol/gww hep
 
 #J_TG_bt_net
 Vmax_TG_bt = 0.044     # umol/gww hep/min
@@ -388,16 +364,6 @@ System System( /TISSUE )
 	Variable Variable( GLR )
 	{
 		MolarConc  @umol_gww( GLR );
-	}
-
-	Variable Variable( NADm )
-	{
-		MolarConc  @umol_gww( NADm );
-	}
-
-	Variable Variable( NADHm )
-	{
-		MolarConc  @umol_gww( NADHm );
 	}
 
 	Variable Variable( O2 )
@@ -779,14 +745,12 @@ omega_PC = "( 1.0 / ( 1.0 + pow( %s, n3 ) / Ka_AcCoA ) + K_ATP / Ki_ADP_ATP * %s
 	Process ExpressionFluxProcess( R_BHBdh ) @# Table S1
 	{
 		VariableReferenceList
-			[ AcAc  :.:AcAc  -1 ]
-			[ NADH  :.:NADH  -1 ]
-			[ NADHm :.:NADHm  0 ]
-			[ BHB   :.:BHB    1 ]
-			[ NAD   :.:NAD    1 ]
-			[ NADm  :.:NADm   0 ];
+			[ AcAc :.:AcAc -1 ]
+			[ NADH :.:NADH -1 ]
+			[ BHB  :.:BHB   1 ]
+			[ NAD  :.:NAD   1 ];
 
-		Expression  "Vmax / Km_AcAc * ( AcAc.Value * @C( 'NADHm' ) - BHB.Value * @C( 'NADm' ) / Keq ) / ( 1.0 + @C( 'AcAc' ) * @C( 'NADHm' ) / Km_AcAc + @C( 'BHB' ) * @C( 'NADm' ) / Km_BHB )";
+		Expression  "Vmax / Km_AcAc * ( AcAc.Value * @C( 'NADH' ) - BHB.Value * @C( 'NAD' ) / Keq ) / ( 1.0 + @C( 'AcAc' ) * @C( 'NADH' ) / Km_AcAc + @C( 'BHB' ) * @C( 'NAD' ) / Km_BHB )";
 
 		Vmax     60.0;    @# umol/gww hep/min
 		Km_AcAc  0.0071;  @# umol/gww hep
@@ -960,245 +924,68 @@ System System( /BLOOD )
 		Value	@( V_blood/1000.0 );  @# cm^3 → L
 	}
 
-	Variable Variable( F )
-	{
-		Value	@( F_blood/1000.0 );  @# ml/min → L/min
-	}
-
 	Variable Variable( GLC )
 	{
 		MolarConc  @umol_gww( Glc_blood );
-		Fixed  0;
+		Fixed  1;
 	}
 
 	Variable Variable( PYR )
 	{
 		MolarConc  @umol_gww( PYR_Blood );
-		Fixed  0;
+		Fixed  1;
 	}
 
 	Variable Variable( LAC )
 	{
 		MolarConc  @umol_gww( LAC_Blood );
-		Fixed  0;
+		Fixed  1;
 	}
 
 	Variable Variable( AcAc )
 	{
 		MolarConc  @umol_gww( AcAc_Blood );
-		Fixed  0;
+		Fixed  1;
 	}
 
 	Variable Variable( BHB )
 	{
 		MolarConc  @umol_gww( BHB__Blood );
-		Fixed  0;
+		Fixed  1;
 	}
 
 	Variable Variable( ALA )
 	{
 		MolarConc  @umol_gww( ALA_Blood );
-		Fixed  0;
+		Fixed  1;
 	}
 
 	Variable Variable( FFA )
 	{
 		MolarConc  @umol_gww( FFA_Blood );
-		Fixed  0;
+		Fixed  1;
 	}
 
 	Variable Variable( GLR )
 	{
 		MolarConc  @umol_gww( GLR_Blood );
-		Fixed  0;
+		Fixed  1;
 	}
 
 	Variable Variable( TG )
 	{
 		MolarConc  @umol_gww( TG_Blood );
-		Fixed  0;
+		Fixed  1;
 	}
-
-	##### Perfusate <--> Blood Transport Rate Based on Equation 2 #####
-
-	Process ExpressionFluxProcess( J_GLC_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:GLC_star -1 ]
-			[ b  :/BLOOD:GLC           1 ]
-			[ Vb :.:SIZE               0 ]
-			[ Fb :.:F                  0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	Process ExpressionFluxProcess( J_LAC_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:LAC_star -1 ]
-			[ b  :/BLOOD:LAC           1 ]
-			[ Vb :.:SIZE               0 ]
-			[ Fb :.:F                  0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	Process ExpressionFluxProcess( J_PYR_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:PYR_star -1 ]
-			[ b  :/BLOOD:PYR           1 ]
-			[ Vb :.:SIZE               0 ]
-			[ Fb :.:F                  0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	Process ExpressionFluxProcess( J_FFA_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:FFA_star -1 ]
-			[ b  :/BLOOD:FFA           1 ]
-			[ Vb :.:SIZE               0 ]
-			[ Fb :.:F                  0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	Process ExpressionFluxProcess( J_AcAc_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:AcAc_star -1 ]
-			[ b  :/BLOOD:AcAc           1 ]
-			[ Vb :.:SIZE                0 ]
-			[ Fb :.:F                   0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	Process ExpressionFluxProcess( J_BHB_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:BHB_star -1 ]
-			[ b  :/BLOOD:BHB           1 ]
-			[ Vb :.:SIZE               0 ]
-			[ Fb :.:F                  0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	Process ExpressionFluxProcess( J_GLR_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:GLR_star -1 ]
-			[ b  :/BLOOD:GLR           1 ]
-			[ Vb :.:SIZE               0 ]
-			[ Fb :.:F                  0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	Process ExpressionFluxProcess( J_TG_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:TG_star -1 ]
-			[ b  :/BLOOD:TG           1 ]
-			[ Vb :.:SIZE              0 ]
-			[ Fb :.:F                 0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	Process ExpressionFluxProcess( J_ALA_pb_net ) @# Table S1
-	{
-		VariableReferenceList
-			[ p  :/PERFUSATE:ALA_star -1 ]
-			[ b  :/BLOOD:ALA           1 ]
-			[ Vb :.:SIZE               0 ]
-			[ Fb :.:F                  0 ];
-
-		Expression  "Fb.Value / Vb.Value * (p.MolarConc - b.MolarConc) * self.getSuperSystem().SizeN_A";
-
-	}
-
-	##### Perfusate <--> Blood Transport Rate Based on Equation 3 #####
-
 }
 
 System System( /PERFUSATE )
 {
 	StepperID	ODE;
 
+
 	Variable Variable( SIZE )
 	{
-		Value	@( V_perfusate/1000.0 );  @# cm^3 → L
+		Value	1.0; @# とりあえずの値 論文の値に修正すること
 	}
-
-	Variable Variable( F )
-	{
-		Value	@( F_perfusate/1000.0 );  @# ml/min → L/min
-	}
-
-	Variable Variable( GLC_star )
-	{
-		MolarConc  @mM( C_star_Glc );
-		Fixed  1;
-	}
-
-	Variable Variable( LAC_star )
-	{
-		MolarConc  @mM( C_star_LAC );
-		Fixed  1;
-	}
-
-	Variable Variable( ALA_star )
-	{
-		MolarConc  @mM( C_star_ALA );
-		Fixed  1;
-	}
-
-	Variable Variable( AcAc_star )
-	{
-		MolarConc  @mM( C_star_AcAc );
-		Fixed  1;
-	}
-
-	Variable Variable( BHB_star )
-	{
-		MolarConc  @mM( C_star_BHB );
-		Fixed  1;
-	}
-
-	Variable Variable( GLR_star )
-	{
-		MolarConc  @mM( C_star_GLR );
-		Fixed  1;
-	}
-
-	Variable Variable( TG_star )
-	{
-		MolarConc  @mM( C_star_TG );
-		Fixed  1;
-	}
-
-	Variable Variable( FFA_star )
-	{
-		MolarConc  @mM( C_star_FFA );
-		Fixed  1;
-	}
-
-	Variable Variable( PYR_star )
-	{
-		MolarConc  @mM( C_star_PYR );
-		Fixed  1;
-	}
-
 }
