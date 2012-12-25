@@ -34,7 +34,7 @@ Specification 仕様
 * isFromBelow: 整数で1か0に設定する。1の場合、target.Valueが増加しながら閾値を超えたとき、flag.Valueが1となる。0の場合、target.Valueが減少しながら閾値を下回ったとき、flag.Valueが1となる。
 * delay: 閾値を上（下）回ってからflag.Valueが1に書き換えられる（フラグが立つ）までの時間。0.0とすれば、閾値を上（下）回るのと同時にフラグが立つ。
 
-### ecell3-em2eml 
+### CrossFireProcess_Test 
 
 * Variable:/:t 現在時刻
 * Process:/:clock 時計。時間経過とともにtを増加させる。
