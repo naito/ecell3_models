@@ -40,37 +40,47 @@ LIBECS_DM_CLASS( CrossFireProcess, Process )
 	{
 		Process::initialize();
 		
-		o  = getVariableReference( "object" ).getVariable();
-		sw = getVariableReference( "switch" ).getVariable();
+		target = getVariableReference( "target" ).getVariable();
+		flag   = getVariableReference( "flag" ).getVariable();
 
-		rockOn = false;
-		nextFire = 0.0
-		if ( isFromBelow != 1 ) isFromBelow = -1;
-
+		_rockOn = false;
+		_nextFire = 0.0;
+		_lastValue = target->getValue();
 	}
 
 	virtual void fire()
 	{
 		_t = getModel()->getCurrentTime();
 
-		if ( rockOn == false ) {
-			if ((o.getValue() >= threshold) && ( o.getVelocity() * Real(isFromBelow) >= 0.0)) {
-				rockOn = true;
-				nextFire = _t + delay;
+		if ( _rockOn == false ) {
+			if ( flag->getValue() == 1.0 ) flag->setValue( 0.0 );
+
+			if ( isFromBelow == 1 ) {
+				if ((target->getValue() >= threshold) && ( _lastValue < threshold)) {
+					_rockOn = true;
+					_nextFire = _t + delay;
+				}
+			} else {
+				if ((target->getValue() <= threshold) && ( _lastValue > threshold)) {
+					_rockOn = true;
+					_nextFire = _t + delay;
+				}
 			}
 		}
 
-		if (( rockOn == true ) && ( _t >= nextFire )) {
-			sw->setValue( 1.0 );
-			rockOn = false;
+		if (( _rockOn == true ) && ( _t >= _nextFire )) {
+			flag->setValue( 1.0 );
+			_rockOn = false;
 		}
+
+		_lastValue = target->getValue();
 
 	}
 
  protected:
 
-	Variable* o;
-	Variable* sw;
+	Variable* target;
+	Variable* flag;
 
 	Real    delay;
 	Real    threshold;
@@ -79,9 +89,10 @@ LIBECS_DM_CLASS( CrossFireProcess, Process )
 
  private:
 	
-	std::bool rockOn;
+	bool _rockOn;
 	Real _t;
-	Real nextFire;
+	Real _nextFire;
+	Real _lastValue;
 };
 
 LIBECS_DM_INIT( CrossFireProcess, Process );
