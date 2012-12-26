@@ -49,24 +49,24 @@ public:
    virtual void initialize()
      {
 	Process::initialize();
-	Glu1= getVariableReference( "Glu" );  
-	acCoA2= getVariableReference( "acCoA" ); 
-	CoA3= getVariableReference( "CoA" );  
-	NAG4= getVariableReference( "NAG" ); 
-	Arg5= getVariableReference( "Arg" );  
-	AGS6= getVariableReference( "AGS" ); 
+	Glu1= getVariableReference( "Glu" ).getVariable();  
+	acCoA2= getVariableReference( "acCoA" ).getVariable(); 
+	CoA3= getVariableReference( "CoA" ).getVariable();  
+	NAG4= getVariableReference( "NAG" ).getVariable(); 
+	Arg5= getVariableReference( "Arg" ).getVariable();  
+	AGS6= getVariableReference( "AGS" ).getVariable(); 
 	//velocity=N_A/60;
      }
 
    virtual void fire()
    {
-Real Glu( Glu1.getVariable()->getMolarConc() );
-Real acCoA( acCoA2.getVariable()->getMolarConc() );
-Real CoA( CoA3.getVariable()->getMolarConc() );
-Real NAG( NAG4.getVariable()->getMolarConc() );
-Real Arg( Arg5.getVariable()->getMolarConc() );
-Real AGS( AGS6.getVariable()->getMolarConc() );
-Real size(Glu1.getSuperSystem()->getSize());
+Real Glu( Glu1->getMolarConc() );
+Real acCoA( acCoA2->getMolarConc() );
+Real CoA( CoA3->getMolarConc() );
+Real NAG( NAG4->getMolarConc() );
+Real Arg( Arg5->getMolarConc() );
+Real AGS( AGS6->getMolarConc() );
+Real size( Glu1->getSuperSystem()->getSize());
 
 Real velocity = kcat * AGS * acCoA * Glu;
 
@@ -94,12 +94,12 @@ protected:
    Real	Ki_CoA 		;
    Real	Ki_NAG 	;
    Real	kcat ;
-   VariableReference	Glu1;  
-   VariableReference	acCoA2; 
-   VariableReference	CoA3; 
-   VariableReference	NAG4; 
-   VariableReference	Arg5; 
-   VariableReference	AGS6; 
+   Variable*	Glu1;  
+   Variable*	acCoA2; 
+   Variable*	CoA3; 
+   Variable*	NAG4; 
+   Variable*	Arg5; 
+   Variable*	AGS6; 
  private:
 
 };
