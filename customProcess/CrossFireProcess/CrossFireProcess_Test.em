@@ -45,7 +45,7 @@ System System( / )
 		Value	0.0;
 	}
 
-	Process CrossFireProcess( flag )
+	Process CrossFireProcess( checker )
 	{
 		StepperID  DT;
 
