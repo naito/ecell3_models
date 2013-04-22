@@ -36,6 +36,12 @@ Mitochondria_vPI = 2.52434188981354e-4
 Mitochondria_vLK = 2.4173630507944038E-4
 Mitochondria_vDH = 1.1307728142212603E-4
 Mitochondria_Amp = 5.0
+Mitochondria_Km_coeff = 1.0e-1
+
+Cytoplasm_ATPtotal = 6.96248492200143e-3
+Cytoplasm_ADPtotal = 3.6781238986170604e-5
+
+
 
 #Mitochondria_Amp = {
 #	"V" : 5.0,
@@ -175,6 +181,15 @@ System System( /CELL/CYTOPLASM/MITOCHONDRIA )
 		kDH             4.679e-4;  # mM/ms
 		KmN             100.0;  # dimensionless
 		PD              0.8;  # dimensionless
+		Km_NAD          @( Mitochondria_NAD      * Mitochondria_Km_coeff );  # M
+		Km_UQ           @( Mitochondria_UQ       * Mitochondria_Km_coeff );  # M
+		Km_Cytc3        @( Mitochondria_Cytc3    * Mitochondria_Km_coeff );  # M
+		Km_Pi           @( Mitochondria_Pi       * Mitochondria_Km_coeff );  # M
+		Km_Proton       @( Mitochondria_Proton   * Mitochondria_Km_coeff );  # M
+		Km_ATPcell      @( Cytoplasm_ATPtotal    * Mitochondria_Km_coeff );  # M
+		Km_ADPcell      @( Cytoplasm_ADPtotal    * Mitochondria_Km_coeff );  # M
+		Km_ATPmit       @( Mitochondria_ATPtotal * Mitochondria_Km_coeff );  # M
+		Km_ADPmit       @( Mitochondria_ADPtotal * Mitochondria_Km_coeff );  # M
 		StopgapStepInterval 0.05;
 	}
 
