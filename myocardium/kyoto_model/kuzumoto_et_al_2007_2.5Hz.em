@@ -432,39 +432,39 @@ System System( / )
 	Variable Variable( N_A )
 	{
 		Name "Avogadro number (mol^-1)";
-		Value 6.0221367e+23;
+		Value @( N_A );
 	}
 
 	Variable Variable( F )
 	{
 		Name "Faraday's constant (C/mol)";
-		Value 96.4867e+3;
+		Value @( F * 1.0e+3 );
 	}
 
 	Variable Variable( R )
 	{
 		Name "Gas constant (C mV/K/mol)";  # (mJ/K/mol)
-		Value 8.3143e+3;
+		Value @( R * 1.0e+3 );
 	}
 
 	Variable Variable( zNa )
 	{
-		Value 1.0;
+		Value @zNa;
 	}
 
 	Variable Variable( zK )
 	{
-		Value 1.0;
+		Value @zK;
 	}
 
 	Variable Variable( zCa )
 	{
-		Value 2.0;
+		Value @zCa;
 	}
 
 	Variable Variable( zCl )
 	{
-		Value -1.0;
+		Value @zCl;
 	}
 
 	@# 実験環境
@@ -609,26 +609,26 @@ System System( / )
 # 		FireMethod "";
 # 	}
 
-	Variable Variable( TotalIon )
+### ODE ### 	Variable Variable( TotalIon )
+### ODE ### 	{
+### ODE ### 		Name "Extracellular total ion";
+### ODE ### 		MolarConc 298.2e-3;
+### ODE ### 	}
+
+	Process TotalIonProcess( TotalIon ) 
 	{
 		Name "Extracellular total ion";
-		MolarConc 298.2e-3;
-	}
 
-	Process EnvironmentAssignmentProcess( TotalIon ) 
-	{
-		Name "Extracellular total ion";
-
-		StepperID	PSV;
 		Priority	5;
 
 		VariableReferenceList
-			[ TotalIon :.:TotalIon 1 ]
-			[ Na       :.:Na       0 ]
+			[ Na       :.:Na       1 ]
 			[ K        :.:K        0 ]
 			[ Cl       :.:Cl       0 ]
 			[ Ca       :.:Ca       0 ]
 			[ LA       :.:LA       0 ];
+			
+		TotalIon  298.2e-3; # (M)
 	}
 
 
@@ -903,8 +903,7 @@ System System( /CELL/CYTOPLASM )
 		Priority	3;
 
 		VariableReferenceList
-#			[ Vi           :.:SIZE                   0 ]
-			[ Vi           :.:SIZE                   1 ]
+			# ODE # [ Vi           :.:SIZE                   1 ]
 			[ Vt           :.:Vt                     1 ]
 			[ active_volume :.:active_volume          0 ]
 			[ Volume_ratio :.:Volume_ratio           1 ]
@@ -940,7 +939,7 @@ System System( /CELL/CYTOPLASM )
 			[ CaTotal      :.:CaTotal                0 ]
 			[ Ca           :.:Ca                     1 ]
 			[ LA           :.:LA                     0 ]
-			[ totalIonex   :/:TotalIon               0 ]
+			# ODE # [ totalIonex   :/:TotalIon               0 ]
 			[ Cm           :../MEMBRANE:Cm           0 ]
 			[ WaterFlux    :.:WaterFlux              1 ]
 			[ vAK          :.:vAK                    1 ]
@@ -967,6 +966,8 @@ System System( /CELL/CYTOPLASM )
 		kbCK              9.67e-3;         #  (1/mM/ms)
 		Km_calmodulin     2.38e-06;        # units="M"
 		calmodulin_total  5e-05;           # units="M"
+
+		# totalIonexFullPN  "Process:/:TotalIon:TotalIon";
 	}
 
 	@# <VolumeRatio name="Volume ratio">
@@ -1542,6 +1543,13 @@ System System( /CELL/MEMBRANE )
 	{
 		Name "membrane potential (mV)";
 		Value -86.72869394206137;
+		# Fixed 1;
+	}
+
+	Variable Variable( VmCm )
+	{
+		Name "membrane potential (mV) x membrane capacitance (pF)";
+		Value @( -86.72869394206137 * Cm[SimulationMode] );
 		# Fixed 1;
 	}
 

@@ -1,16 +1,16 @@
 #include "libecs.hpp"
-#include "SpyProcess.hpp"
+#include "SpyContinuousProcess.hpp"
 
 USE_LIBECS;
 
-LIBECS_DM_CLASS( CytoplasmAssignmentProcess, SpyProcess )
+LIBECS_DM_CLASS( CytoplasmAlgebraicProcess, SpyContinuousProcess )
 {
 
  public:
 
-	LIBECS_DM_OBJECT( CytoplasmAssignmentProcess, Process )
+	LIBECS_DM_OBJECT( CytoplasmAlgebraicProcess, Process )
 	{
-		INHERIT_PROPERTIES( SpyProcess ); 
+		INHERIT_PROPERTIES( SpyContinuousProcess ); 
 
 		PROPERTYSLOT_SET_GET( Real, Vn_L );
 		PROPERTYSLOT_SET_GET( Real, Vt0i );
@@ -27,10 +27,13 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, SpyProcess )
 		PROPERTYSLOT_SET_GET( Real, kbCK );
 		PROPERTYSLOT_SET_GET( Real, Km_calmodulin );
 		PROPERTYSLOT_SET_GET( Real, calmodulin_total );
+
 		PROPERTYSLOT_SET_GET( String, totalIonexFullPN );
+
+		PROPERTYSLOT_SET_GET( Real, Vi );
 	}
 	
-	CytoplasmAssignmentProcess()
+	CytoplasmAlgebraicProcess()
 		:
 		Vn_L( 3200.0e-15 ),        // Vn, the osmotically inactive cell volume (L, liter)
 		Vt0i( 53898653951.9 ),
@@ -68,6 +71,9 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, SpyProcess )
 	SIMPLE_SET_GET_METHOD( Real, Km_calmodulin );
 	SIMPLE_SET_GET_METHOD( Real, calmodulin_total );
 	SIMPLE_SET_GET_METHOD( String, totalIonexFullPN );
+
+	SIMPLE_SET_GET_METHOD( Real, Vi );
+
 
 	virtual void initialize()
 	{
@@ -128,10 +134,7 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, SpyProcess )
 
 	virtual void fire()
 	{
-	  //		printf(" Vi : %e\n", Vi->getValue());
-		
-		//Vi->setValue( Vt->getValue() * active_volume->getValue());
-		//		printf("->settedVi : %e\n", Vi->getValue());
+		// Vi = Vt->getValue() * active_volume->getValue();
 
 		_SizeN_A = getSuperSystem()->getSizeN_A();
 
@@ -181,11 +184,12 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, SpyProcess )
 		calmodulin->setValue( CaTotal->getValue() - _Ca );
 
 		T->setValue( Tt->getValue() - TCa->getValue() - TCaCB->getValue() - TCB->getValue() );
+
+		setFlux( 0.0 );
 	}
 
  protected:
 
-	Variable* Vi;
 	Variable* Vt;
 	Variable* active_volume;
 	Variable* Volume_ratio;
@@ -253,6 +257,8 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, SpyProcess )
 
 	String totalIonexFullPN;
 
+	Real Vi;
+
  private:
 
 	Real _SizeN_A;
@@ -277,5 +283,5 @@ LIBECS_DM_CLASS( CytoplasmAssignmentProcess, SpyProcess )
 	}
 };
 
-LIBECS_DM_INIT( CytoplasmAssignmentProcess, Process );
+LIBECS_DM_INIT( CytoplasmAlgebraicProcess, Process );
 
