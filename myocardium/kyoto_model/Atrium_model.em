@@ -947,8 +947,6 @@ System System( /CELL/CYTOPLASM )
 			[ cAMP         :.:cAMPtot                0 ]
 			[ AMP          :.:AMP                    1 ]
 			[ PCr          :.:PCr                    0 ]
-			[ NAD          :.:NAD                    0 ]
-			[ NADH         :.:NADH                   1 ]
 			[ Creatine     :.:Creatine               1 ]
 			[ Pi           :.:Pi                     1 ]
 			[ PiTotal      :.:PiTotal                0 ]
@@ -986,7 +984,6 @@ System System( /CELL/CYTOPLASM )
 		kD_ADP            0.347e-3;        # units="M"
 		TotalAdenosine    7.0e-3;          # (M)
 		TotalCreatine     25.0e-3;         # (M)
-		NAD_H_total       0.000594;         # ducky 121026
 		f                 1.3743e-17;      # hydraulic conductivity [L/pF/M/ms]
 		kfAK              783.0;           #  (1/M/ms)
 		kbAK              683.0;           #  (1/M/ms)
@@ -1083,21 +1080,6 @@ System System( /CELL/CYTOPLASM )
 	{
 		Name "AMP";
 		MolarConc 5.378613206818983e-8;
-	}
-
-#amano et al (2009)
-#<massconservation name="NAD" initial_value="2.075109324838782" units="mM">
-	Variable Variable( NAD )
-	{
-		MolarConc 0.0004150218649677564;
-		#2.075109324838782 / 5.0
-	}
-
-#<variable name="NADH" initial_value="0.8948906751612181" units="mM" />
-	Variable Variable( NADH )
-	{
-		MolarConc 0.00017897813503224363;
-		#0.8948906751612181 / 5.0
 	}
 
 
