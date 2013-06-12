@@ -18,37 +18,6 @@ System System( /CELL/CYTOPLASM/Contraction )
 		Value @IsotonicContraction_dXdt;    # units="um/ms" ?
 	}
 
-@{'''
-	Variable Variable( ForceEcomp  )
-	{
-		Name "elastic component of force (mN/mm^2)";
-		Value 0.0;
-	}
-
-	Variable Variable( ForceCB  )
-	{
-		Name "cross-bridge force  (mN/mm^2)";
-		Value 0.0;
-	}
-
-	Variable Variable( dF  )
-	{
-		Name "(mN/mm^2)";
-		Value 0.0;
-	}
-'''}
-	Variable Variable( vL  )
-	{
-		Name "Valocity of hSML";
-		Value 1.36e-5;
-	}
-
-	Variable Variable( aL )
-	{
-		Name "Acceleration of hSML";
-		Value 4.18e-6;
-	}
-
 	Variable Variable( qb )
 	{
 		Name  "Q1"
@@ -111,14 +80,10 @@ System System( /CELL/CYTOPLASM/Contraction )
 		VariableReferenceList
 			[ L         :..:halfSarcomereLength  1 ]
 			[ X         :.:X                     0 ]
-			[ CBL       :..:crossBridgeLength    0 ]
-			# [ h        :..:crossBridgeLength    0 ]
+			[ CBL       :..:crossBridgeLength    1 ]
+			#[ h        :..:crossBridgeLength    0 ]
 			[ dXdt      :.:dXdt                  1 ]
 			[ forceExt  :/:forceExt              0 ]
-			# [ ForceEcomp :.:ForceEcomp           1 ]
-			# [ ForceCB   :.:ForceCB               1 ]
-			[ aL        :.:aL                    1 ]
-			# [ dF        :.:dF                    1 ]
 			[ TCaCB     :..:TCaCB                0 ]
 			[ TCB       :..:TCB                  0 ]
 			[ qb        :.:qb                    1 ]    # Q1
@@ -166,28 +131,6 @@ System System( /CELL/CYTOPLASM/Contraction )
 		dXdtFactor 50.0;
 
 		Yd         8000.0;
-	}
-
-	Process ZeroVariableAsFluxProcess( d2Ldt2 ) 
-	{
-		Name "hSML Velocity Change";
-
-		Priority	17;
-
-		VariableReferenceList
-			[ aL :.:aL 0 ]
-			[ vL :.:vL 1 ];
-	}
-
-	Process ZeroVariableAsFluxProcess( dLdt ) 
-	{
-		Name " hSML Change";
-
-		Priority	15;
-
-		VariableReferenceList
-			[ vL :.:vL                    0 ]
-			[ L  :..:halfSarcomereLength  1 ];
 	}
 
 	Process ZeroVariableAsFluxProcess( crossBridgeLength_X ) 
