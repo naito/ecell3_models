@@ -144,8 +144,7 @@ LIBECS_DM_CLASS( IsotonicContractionAssignmentProcess, Process )
 		
 		// dF->setValue( _ForceEcomp - _ForceCB );
 
-		// Term exp( 20.0 * X->getValue() -25.0 ) for gradual decrease according to X
-		aL->setValue( exp( 20.0 * X->getValue() -25.0 ) * ( forceExt->getValue() + _ForceEcomp - _ForceCB ) );
+		aL->setValue( Ka * ( forceExt->getValue() + _ForceEcomp - _ForceCB ) );
 
 		// printf ( "Solver Answer: %.7f\n", _L );
 		// setActivity( _L );
