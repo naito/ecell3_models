@@ -289,17 +289,25 @@ diadicFactor = {
 	"SAN" : -150.0
 }
 SRtrans_permeabilityCa = {
-		       "V" : 5.0e+3,
-		       "EMB" : 5.0e+3,
-		       "LAT" : 5.0e+3,
-		       "NEO" : 5.0e+3,
-		       "SAN" : 0.99e+3,
+	"V"   : 5.0e+3,
+	"EMB" : 5.0e+3,
+	"LAT" : 5.0e+3,
+	"NEO" : 5.0e+3,
+	"SAN" : 0.99e+3,
 }
 
-CurrentClamp_amplitude = -8000.0
-CurrentClamp_onset     =  50.00
-CurrentClamp_offset    =  52.0
-CurrentClamp_interval  =  400.0
+CurrentClamp_setting = {        # [ amplitude, onset, offset, interval ]
+	"V"   : [ -8000.0, 50.0, 52.0, 400.0 ],
+	"EMB" : [     0.0, 50.0, 52.0, 400.0 ],
+	"LAT" : [ -8000.0, 50.0, 52.0, 400.0 ],
+	"NEO" : [ -8000.0, 50.0, 52.0, 400.0 ],
+	"SAN" : [     0.0, 50.0, 52.0, 400.0 ],
+}
+
+CurrentClamp_amplitude =  CurrentClamp_setting[ SimulationMode ][ 0 ]
+CurrentClamp_onset     =  CurrentClamp_setting[ SimulationMode ][ 1 ]
+CurrentClamp_offset    =  CurrentClamp_setting[ SimulationMode ][ 2 ]
+CurrentClamp_interval  =  CurrentClamp_setting[ SimulationMode ][ 3 ]
 
 
 ''' メソッド '''
