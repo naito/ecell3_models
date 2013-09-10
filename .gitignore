@@ -3,4 +3,5 @@
 *.ecd
 *.pyc
 *.zip
+tmp_code_*
 .DS_Store

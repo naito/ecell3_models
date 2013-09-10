@@ -1,3 +1,6 @@
+#include <gsl/gsl_errno.h> 
+#include <gsl/gsl_math.h> 
+
 #include "libecs.hpp"
 #include "Process.hpp"
 
@@ -56,6 +59,15 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		PROPERTYSLOT_SET_GET( Real, kDH );        // 未使用 kLK1 or kLK1_0 で十分？
 		PROPERTYSLOT_SET_GET( Real, KmN );
 		PROPERTYSLOT_SET_GET( Real, PD );
+		PROPERTYSLOT_SET_GET( Real, Km_NAD );
+		PROPERTYSLOT_SET_GET( Real, Km_UQ );
+		PROPERTYSLOT_SET_GET( Real, Km_Cytc3 );
+		PROPERTYSLOT_SET_GET( Real, Km_Pi );
+		PROPERTYSLOT_SET_GET( Real, Km_Proton );
+		PROPERTYSLOT_SET_GET( Real, Km_ATPcell );
+		PROPERTYSLOT_SET_GET( Real, Km_ADPcell );
+		PROPERTYSLOT_SET_GET( Real, Km_ATPmit );
+		PROPERTYSLOT_SET_GET( Real, Km_ADPmit );
 		PROPERTYSLOT_SET_GET( Real, StopgapStepInterval );
 		PROPERTYSLOT_SET_GET( Real, conc_epsilon );
 	}
@@ -106,6 +118,15 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		kDH( 4.679e-4 ),
 		KmN( 100.0 ),
 		PD( 0.8 ),
+		Km_NAD( 0.0 ),
+		Km_UQ( 0.0 ),
+		Km_Cytc3( 0.0 ),
+		Km_Pi( 0.0 ),
+		Km_Proton( 0.0 ),
+		Km_ATPcell( 0.0 ),
+		Km_ADPcell( 0.0 ),
+		Km_ATPmit( 0.0 ),
+		Km_ADPmit( 0.0 ),
 		StopgapStepInterval( 0.02 ),
 		conc_epsilon( 1.0e-12 )
 	{
@@ -156,6 +177,15 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	SIMPLE_SET_GET_METHOD( Real, kDH );
 	SIMPLE_SET_GET_METHOD( Real, KmN );
 	SIMPLE_SET_GET_METHOD( Real, PD );
+	SIMPLE_SET_GET_METHOD( Real, Km_NAD );
+	SIMPLE_SET_GET_METHOD( Real, Km_UQ );
+	SIMPLE_SET_GET_METHOD( Real, Km_Cytc3 );
+	SIMPLE_SET_GET_METHOD( Real, Km_Pi );
+	SIMPLE_SET_GET_METHOD( Real, Km_Proton );
+	SIMPLE_SET_GET_METHOD( Real, Km_ATPcell );
+	SIMPLE_SET_GET_METHOD( Real, Km_ADPcell );
+	SIMPLE_SET_GET_METHOD( Real, Km_ATPmit );
+	SIMPLE_SET_GET_METHOD( Real, Km_ADPmit );
 	SIMPLE_SET_GET_METHOD( Real, StopgapStepInterval );
 	SIMPLE_SET_GET_METHOD( Real, conc_epsilon );
 	
@@ -242,6 +272,16 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 
 		_vSN0 = dGp0 * 1000.0 / _F;           // (mJ/mmol)/(C/mmol) = (C mV/mmol)/(C/mmol) = mV
 
+		_Km_NAD_h     = gsl_pow_4( Km_NAD );
+		_Km_UQ_h      = gsl_pow_4( Km_UQ );
+		_Km_Cytc3_h   = gsl_pow_4( Km_Cytc3 );
+		_Km_Pi_h      = gsl_pow_4( Km_Pi );
+		_Km_Proton_h  = gsl_pow_4( Km_Proton );
+		_Km_ATPcell_h = gsl_pow_4( Km_ATPcell );
+		_Km_ADPcell_h = gsl_pow_4( Km_ADPcell );
+		_Km_ATPmit_h  = gsl_pow_4( Km_ATPmit );
+		_Km_ADPmit_h  = gsl_pow_4( Km_ADPmit );
+
 		// simBioでは体積の変動につれて、総濃度が維持されて、
 		// 総量が変化するモデルになっているが、それは不合理なので
 		// 総量一定とする。事実上、大きな差はないと思われる。
@@ -295,6 +335,11 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		//setMetalEquilibrium( kD_ATP, ATPtmit, Mg, ATPMg, ATPfmit );
 		//setMetalEquilibrium( kD_ADP, ADPtmit, Mg, ADPMg, ADPfmit );
 
+		NAD->setValue(   NAD_H_total   * _SizeN_A - NADH->getValue()  );
+		UQ->setValue(    UQ_H2_total   * _SizeN_A - UQH2->getValue()  );
+		Cytc3->setValue( Cytc_23_total * _SizeN_A - Cytc2->getValue() );
+
+		/*
 		if ( NAD_H_total <= NADH->getMolarConc() ) {
 			NAD->setValue( NAD_H_total * _SizeN_A * conc_epsilon );
 		} else {
@@ -310,6 +355,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		} else {
 			Cytc3->setValue( Cytc_23_total * _SizeN_A - Cytc2->getValue() );
 		}
+		*/
 
 		//setComponent( NAD_H_total,   NAD,     NADH    );
 		//setComponent( UQ_H2_total,   UQ,      UQH2    );
@@ -334,8 +380,20 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		// _vC3 = 0.0;
 		// _vC4 = 0.0;
 
+		_NADEffect     = _SubstrateEffect( _Km_NAD_h,     NAD->getMolarConc() );
+		_UQEffect      = _SubstrateEffect( _Km_UQ_h,      UQ->getMolarConc() );
+		_Cytc3Effect   = _SubstrateEffect( _Km_Cytc3_h,   Cytc3->getMolarConc() );
+		_PiEffect      = _SubstrateEffect( _Km_Pi_h,      Pimit->getMolarConc() );
+		_ProtonEffect  = _SubstrateEffect( _Km_Proton_h,  Proton->getMolarConc() );
+		_ATPcellEffect = _SubstrateEffect( _Km_ATPcell_h, ATPtcell->getMolarConc() );
+		_ADPcellEffect = _SubstrateEffect( _Km_ADPcell_h, ADPtcell->getMolarConc() );
+		_ATPmitEffect  = _SubstrateEffect( _Km_ATPmit_h,  ATPtmit->getMolarConc() );
+		_ADPmitEffect  = _SubstrateEffect( _Km_ADPmit_h,  ADPtmit->getMolarConc() );
+
+		_ANPtotalEffect = _ATPcellEffect * _ADPcellEffect * _ATPmitEffect * _ANPtotalEffect;
+
 		_kC4 = kC4_0 / (1.0 + pow( CN->getMolarConc() / 0.12e-3, 5.0 ));
-		_vC4 = Amp * ( _kC4 / ( 1.0 + pow( CN->getMolarConc() / KmC4, nC4 ))) * ( Cyta2->getMolarConc() * 1000.0 ) * ( Cytc2->getMolarConc() * 1000.0 ) * ( O2->getMolarConc() / ( O2->getMolarConc() + KmOC4 ));
+		_vC4 = Amp * ( _kC4 / ( 1.0 + pow( CN->getMolarConc() / KmC4, nC4 ))) * ( Cyta2->getMolarConc() * 1000.0 ) * ( Cytc2->getMolarConc() * 1000.0 ) * ( O2->getMolarConc() / ( O2->getMolarConc() + KmOC4 )) * _Cytc3Effect * _ProtonEffect;
 
 		if ( _vC4 < 0.0 ) {
 			_vC1 = 0.0;
@@ -343,7 +401,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 			_vC4 = 0.0;
 
 		} else {
-			_vC3 = Amp * kC3 * ( Emc->getValue() - EmU->getValue() - _dP * ( 4.0 - 2.0 * dP_myu ) / 2.0 );
+			_vC3 = Amp * kC3 * ( Emc->getValue() - EmU->getValue() - _dP * ( 4.0 - 2.0 * dP_myu ) / 2.0 ) * _Cytc3Effect * _UQEffect * _ProtonEffect;
 
 			if ( _vC3 < 0.0 ) {
 				_vC1 = 0.0;
@@ -351,7 +409,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 
 			} else {
 			
-				_vC1 = Amp * kC1 * ( EmU->getValue() - EmN->getValue() - _dP * 2.0 );
+				_vC1 = Amp * kC1 * ( EmU->getValue() - EmN->getValue() - _dP * 2.0 ) * _UQEffect * _NADEffect * _ProtonEffect;
 			
 				if ( _vC1 < 0.0 ) {
 					_vC1 = 0.0;
@@ -379,7 +437,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		*/
 
 		_vSN1 = pow( 10.0, ( nASN * _dP - ( _vSN0 + _z * log10( ATPtmit->getMolarConc() / ADPtmit->getMolarConc() / Pimit->getMolarConc() ))) / _z );
-		_vSN = Amp * kSN * ( _vSN1 - 1.0) / ( _vSN1 + 1.0);
+		_vSN = Amp * kSN * ( _vSN1 - 1.0) / ( _vSN1 + 1.0) * _PiEffect * _ProtonEffect * _ATPmitEffect * _ADPmitEffect;
 		// _vSN = 0.0;
 
 		/*
@@ -397,7 +455,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		//_ATPfcell_M = ATPfcell->getMolarConc();
 		//_ADPfmit_M  = ADPfmit->getMolarConc();
 		//_ATPfmit_M  = ATPfmit->getMolarConc();
-		_vANT = Amp * kEX * (( _ADPfcell / (_ADPfcell + pow( 10.0, ( -_dPsicell / _z )) * _ATPfcell )) - ( _ADPfmit / (_ADPfmit + pow( 10.0, ( -_dPsimit / _z )) * _ATPfmit ))) / ( 1.0 + KmADP / ADPfcell->getMolarConc() );
+		_vANT = Amp * kEX * (( _ADPfcell / (_ADPfcell + pow( 10.0, ( -_dPsicell / _z )) * _ATPfcell )) - ( _ADPfmit / (_ADPfmit + pow( 10.0, ( -_dPsimit / _z )) * _ATPfmit ))) / ( 1.0 + KmADP / ADPfcell->getMolarConc() ) * _ProtonEffect * _ANPtotalEffect;
 		// _vANT = 0.0;
 
 		// org.simBio.bio.matsuoka_et_al_2004.molecule.Transporter.PhosphateCarrier
@@ -405,11 +463,11 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 			(( Pi->getMolarConc() * 1000.0 / ( 1.0 + pow( 10.0, ( pHcell->getValue() - pKa )))) * \
 			Hcell->getMolarConc() * 1000.0 ) - \
 			(( Pimit->getMolarConc() * 1000.0 / ( 1.0 + pow( 10.0, ( pH->getValue() - pKa )))) * \
-			Proton->getMolarConc() * 1000.0 ));
+			Proton->getMolarConc() * 1000.0 )) * _PiEffect * _ProtonEffect;
 
-		_vLK = Amp * kLK1_0 * ( 1.0 + 1.0e+4 * FCCP->getMolarConc() / ( FCCP->getMolarConc() + 1.0e-7 )) * ( exp( kLK2 * _dP ) - 1.0 );
+		_vLK = Amp * kLK1_0 * ( 1.0 + 1.0e+4 * FCCP->getMolarConc() / ( FCCP->getMolarConc() + 1.0e-7 )) * ( exp( kLK2 * _dP ) - 1.0 ) * _ProtonEffect;
 
-		_vDH = Amp * kDH / pow( 1.0 + KmN * NADH->getValue() / NAD->getValue(), PD );
+		_vDH = Amp * kDH / pow( 1.0 + KmN * NADH->getValue() / NAD->getValue(), PD ) * _NADEffect;
 
 		_Rcm_SizeN_A = _Rcm / 1000.0 * _SizeN_A;
 
@@ -418,6 +476,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 		_jC4 = _vC4 * _Rcm_SizeN_A;
 		_jDH = _vDH * _Rcm_SizeN_A / 5.0;
 		
+		/*
 		if ( ( NADH->getValue() + (( _jC1 * ( -1.0 ) + _jDH * (  1.0 )) * StopgapStepInterval )) >= \
 			( NAD_H_total * _SizeN_A * ( 1.0 - conc_epsilon )))
 		{
@@ -442,6 +501,7 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 			_vC4 = 0.0;
 			_jC4 = 0.0;
 		}
+		*/
 
 		vC1->setValue( _vC1 );
 		vC3->setValue( _vC3 );
@@ -611,6 +671,22 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	Real PD;
 
 	/*
+	NAD, UQ, Cytc がマイナス濃度をとらないために
+	基質減少時にMichaeris-Menten式に基づく補正で
+	反応速度を抑制する。そのためのKm。
+	値は、初期値の 1e-5 倍とする。
+	*/
+	Real Km_NAD;
+	Real Km_UQ;
+	Real Km_Cytc3;
+	Real Km_Pi;
+	Real Km_Proton;
+	Real Km_ATPcell;
+	Real Km_ADPcell;
+	Real Km_ATPmit;
+	Real Km_ADPmit;
+
+	/*
 	NAD, UQ, Cytc がマイナス濃度をとらないための閾値
 	この値をStepIntervalと仮定して、最大値を超えるよう
 	なら速度ゼロとする。規定値は 0.01
@@ -670,6 +746,29 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	Real ATPratio_cell;
 	Real ADPFactor;
 	*/
+
+	Real _Km_NAD_h;
+	Real _Km_UQ_h;
+	Real _Km_Cytc3_h;
+	Real _Km_Pi_h;
+	Real _Km_Proton_h;
+	Real _Km_ATPcell_h;
+	Real _Km_ADPcell_h;
+	Real _Km_ATPmit_h;
+	Real _Km_ADPmit_h;
+
+	Real _NADEffect;
+	Real _UQEffect;
+	Real _Cytc3Effect;
+	Real _PiEffect;
+	Real _ProtonEffect;
+	Real _ATPcellEffect;
+	Real _ADPcellEffect;
+	Real _ATPmitEffect;
+	Real _ADPmitEffect;
+	Real _ANPtotalEffect;
+
+
 /*
 	void setComponent( Real total, VariableReference self, VariableReference other )
 	{
@@ -697,6 +796,11 @@ LIBECS_DM_CLASS( MitochondriaAssignmentProcess, Process )
 	Real _MetalEquilibrium( Real kD, Real total, Real ligand_M )
 	{
 		return total / ( 1.0 + ligand_M / kD );
+	}
+
+	Real _SubstrateEffect( Real Km, Real S ) // unit: MolarConc
+	{
+		return gsl_pow_4( S ) / ( Km + gsl_pow_4( S ) );
 	}
 
 };
