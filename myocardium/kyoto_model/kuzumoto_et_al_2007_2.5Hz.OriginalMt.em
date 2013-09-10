@@ -44,10 +44,6 @@ Vn_SIZE = 3200.0e-15
 SRREL_SIZE_init = Vi_SIZE[SimulationMode] * 0.02 * SRFactor[SimulationMode]
 SRUP_SIZE_init  = Vi_SIZE[SimulationMode] * 0.05 * SRFactor[SimulationMode]
 
-Mit_Model_File = "Mitochondria.em"
-# Mit_Model_File = "Mitochondria_Original.em"  # Faithful to SimBio implementation
-
-
 MITOCHONDRIA_SIZE_init = Vi_SIZE[SimulationMode] * 0.23 * MitFactor[SimulationMode]
 
 Mit_volumeRatio = 0.23 * MitFactor[SimulationMode]
@@ -1883,7 +1879,7 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 }
 
 @# ミトコンドリア｛ /CELL/CYTOPLASM/MITOCHONDRIA ｝
-@include( Mit_Model_File )
+@include( 'Mitochondria_Original.em' )
 
 @# 筋収縮
 @include( 'IsotonicContraction.em' )
