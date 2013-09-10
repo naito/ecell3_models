@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+<leml>
+<layout name="Layout">
+<property name="Rootsystem">
+<value>System1</value>
+</property>
+<property name="Zoom ratio">
+<value>1</value>
+</property>
+<property name="ScrollRegion">
+<value>
+<value>-1000</value>
+<value>-1000</value>
+<value>1000</value>
+<value>1000</value>
+</value>
+</property>
+<property name="DimensionX">
+<value>2000</value>
+</property>
+<property name="DimensionY">
+<value>2000</value>
+</property>
+<system id="System1">
+<property name="Outline">
+<value>3</value>
+</property>
+<property name="ShapeType">
+<value>Default</value>
+</property>
+<property name="InsideDimensionY">
+<value>1974.0</value>
+</property>
+<property name="Min Label Length">
+<value>29</value>
+</property>
+<property name="Label">
+<value>System::/</value>
+</property>
+<property name="DimensionX">
+<value>1999</value>
+</property>
+<property name="DimensionY">
+<value>1999</value>
+</property>
+<property name="InsideDimensionX">
+<value>1993</value>
+</property>
+<property name="HasFullID">
+<value>True</value>
+</property>
+<property name="FillColor">
+<value>
+<value>65535</value>
+<value>65535</value>
+<value>65535</value>
+</value>
+</property>
+<property name="FullID">
+<value>System::/</value>
+</property>
+<property name="y">
+<value>-1000</value>
+</property>
+<property name="x">
+<value>-1000</value>
+</property>
+<property name="TextColor">
+<value>
+<value>0</value>
+<value>0</value>
+<value>65535</value>
+</value>
+</property>
+<property name="Type">
+<value>System</value>
+</property>
+<property name="OutlineColor">
+<value>
+<value>0</value>
+<value>0</value>
+<value>0</value>
+</value>
+</property>
+</system>
+</layout>
+</leml>

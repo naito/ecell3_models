@@ -1,13 +1,13 @@
 @# Kuzumoto et al. 2007
 
-@{SimulationMode = 'SAN'}
+@{SimulationMode = 'V'}
 # EMB, LAT, NEO, V, SAN
 
 @include('SetOptions.em')
 
 @{
 MitFactor = {
-	"V"   : 1.0, #0.23
+	"V" : 1.0, #0.23
 	"EMB" : 0.1, #0.23/10
 	"LAT" : 0.5, #0.23/2
 	"NEO" : 0.5, #0.23/2
@@ -15,7 +15,7 @@ MitFactor = {
 }
 
 SRFactor = {
-	"V"   : 1.0,
+	"V" : 1.0,
 	"EMB" : 0.04,
 	"LAT" : 0.3,
 	"NEO" : 0.3,
@@ -23,8 +23,8 @@ SRFactor = {
 }
 
 Vi_SIZE = {
-#	"V"   : 12800.0e-15,
-	"V"   : 15353.339029443347e-15,
+#	"V" : 12800.0e-15,
+	"V" : 15353.339029443347e-15,
 #	"EMB" : 12800.0e-15,
 	"EMB" : 1697.0e-15,
 	"LAT" : 2121.2e-15,
@@ -44,17 +44,13 @@ Vn_SIZE = 3200.0e-15
 SRREL_SIZE_init = Vi_SIZE[SimulationMode] * 0.02 * SRFactor[SimulationMode]
 SRUP_SIZE_init  = Vi_SIZE[SimulationMode] * 0.05 * SRFactor[SimulationMode]
 
-Mit_Model_File = "Mitochondria.em"
-# Mit_Model_File = "Mitochondria_Original.em"  # Faithful to SimBio implementation
-
-
 MITOCHONDRIA_SIZE_init = Vi_SIZE[SimulationMode] * 0.23 * MitFactor[SimulationMode]
 
 Mit_volumeRatio = 0.23 * MitFactor[SimulationMode]
 Mit_Rcm_init = 1.0 / Mit_volumeRatio
 
 Cm = {
-	"V"   : 211.2,
+	"V" : 211.2,
 	"EMB" : 28.0,
 	"LAT" : 35.0,
 	"NEO" : 40.0,
@@ -62,7 +58,7 @@ Cm = {
 }
 
 Cm_V = {
-	"V"   : 211.2,
+	"V" : 211.2,
 	"EMB" : 211.2,
 	"LAT" : 211.2,
 	"NEO" : 211.2,
@@ -80,7 +76,7 @@ IsotonicContraction_dXdt = 1.1936490127522834E-5
 
 #INa
 Nav1_5 = {
-	"V"   : 1.0,
+	"V" : 1.0,
 	"EMB" : 0.07,
 #	"EMB" : 0.0769,
 	"LAT" : 1.0,
@@ -90,7 +86,7 @@ Nav1_5 = {
 
 #ICaL
 Cav1_2 = {
-	"V"   : 1.0,
+	"V" : 1.0,
 	"EMB" : 0.46,
 	"LAT" : 0.78,
 	"NEO" : 0.78,
@@ -99,7 +95,7 @@ Cav1_2 = {
 
 #ICaT
 Cav3_1 = {
-	"V"   : 1.0,
+	"V" : 1.0,
 	"EMB" : 4.5,
 	"LAT" : 4.5,
 	"NEO" : 1.0,
@@ -108,7 +104,7 @@ Cav3_1 = {
 
 ## Ist
 iStGene = {
-	"V"   : 0,
+	"V" : 0,
 	"EMB" : 1.0,
 	"LAT" : 0,
 	"NEO" : 0,
@@ -117,7 +113,7 @@ iStGene = {
 
 #Iha
 HCN = {
-	"V"   : 0,
+	"V" : 0,
 	"EMB" : 1.0,
 	"LAT" : 0,
 	"NEO" : 0,
@@ -126,7 +122,7 @@ HCN = {
 
 #IK1
 Kir2_1 = {
-	"V"   : 1.0,
+	"V" : 1.0,
 	"EMB" : 0.11,
 	"LAT" : 1.0,
 	"NEO" : 1.0,
@@ -135,44 +131,44 @@ Kir2_1 = {
 
 #IKr
 erg1 = {
-	"V"   : 1.0,
-	"EMB" : 2.0,
-	"LAT" : 2.0,
-	"NEO" : 1.5,
-	"SAN" : 1.0
+       "V" : 1.0,
+       "EMB" : 2.0,
+       "LAT" : 2.0,
+       "NEO" : 1.5,
+       "SAN" : 1.0
 }
 
 #IKs
 KCNQ1 = {
-	"V"   : 1.0,
-	"EMB" : 0.01,
-	"LAT" : 0.01,
-	"NEO" : 2.0,
-	"SAN" : 1.0
+       "V" : 1.0,
+       "EMB" : 0.01,
+       "LAT" : 0.01,
+       "NEO" : 2.0,
+       "SAN" : 1.0
 }
 
 #Ito
 Kv1_4 = {
-	"V"   : 1.0,
-	"EMB" : 0.01,
-	"LAT" : 0.27,
-	"NEO" : 1.0,
-	"SAN" : 1.0
+      "V" : 1.0,
+      "EMB" : 0.01,
+      "LAT" : 0.27,
+      "NEO" : 1.0,
+      "SAN" : 1.0
 }
 
 #IKACh
 Kir3_1 = {
-	"V"   : 0,
-	"EMB" : 0,
+      "V" : 0,
+      "EMB" : 0,
 #      "EMB" : 1.0,
-	"LAT" : 0,
-	"NEO" : 0,
-	"SAN" : 1.0
+      "LAT" : 0,
+      "NEO" : 0,
+      "SAN" : 1.0
 }
 
 #INaK
 NaK_ATPase = {
-	"V"   : 1.0,
+	"V" : 1.0,
 	"EMB" : 1.0,
 	"LAT" : 1.0,
 	"NEO" : 1.0,
@@ -181,7 +177,7 @@ NaK_ATPase = {
 
 #INaCa
 NCX1 = {
-	"V"   : 1.0,
+     	"V" : 1.0,
 	"EMB" : 4.95,
 	"LAT" : 1.74,
 	"NEO" : 1.0,
@@ -190,7 +186,7 @@ NCX1 = {
 
 #ILCCA
 LCCa_gene = {
-	"V"   : 1.0,
+	"V" : 1.0,
 	"EMB" : 1.0,
 	"LAT" : 1.0,
 	"NEO" : 1.0,
@@ -198,120 +194,112 @@ LCCa_gene = {
 }
 
 Kir6_2 = {
-	"V"   : 1.0,
-	"EMB" : 0.32,
-	"LAT" : 0.88,
-	"NEO" : 1.0,
-	"SAN" : 1.0
+       "V" : 1.0,
+       "EMB" : 0.32,
+       "LAT" : 0.88,
+       "NEO" : 1.0,
+       "SAN" : 1.0
 }
 
 Kpl_gene = {
-	"V"   : 1.0,
-	"EMB" : 1.0,
-	"LAT" : 1.0,
-	"NEO" : 1.0,
-	"SAN" : 1.0
+	 "V" : 1.0,
+	 "EMB" : 1.0,
+	 "LAT" : 1.0,
+	 "NEO" : 1.0,
+	 "SAN" : 1.0
 }
 
 #IbNSC 
 bNSC_gene = {
-	"V"   : 1.0,
-	"EMB" : 1.0,
-	"LAT" : 1.0,
-	"NEO" : 1.0,
-	"SAN" : 1.0	  
+	  "V" : 1.0,
+	  "EMB" : 1.0,
+	  "LAT" : 1.0,
+	  "NEO" : 1.0,
+	  "SAN" : 1.0	  
 }
 
 #ICab
 Cab_gene = {
-	"V"   : 1.0,
-	"EMB" : 1.0,
-	"LAT" : 1.0,
-	"NEO" : 1.0,
-	"SAN" : 1.0	  
+	  "V" : 1.0,
+	  "EMB" : 1.0,
+	  "LAT" : 1.0,
+	  "NEO" : 1.0,
+	  "SAN" : 1.0	  
 }
 
 #IClb
 Clb_gene = {
-	"V"   : 1.0,
-	"EMB" : 1.0,
-	"LAT" : 1.0,
-	"NEO" : 1.0,
-	"SAN" : 1.0	  
+	  "V" : 1.0,
+	  "EMB" : 1.0,
+	  "LAT" : 1.0,
+	  "NEO" : 1.0,
+	  "SAN" : 1.0	  
 }
 
 #NKCC
 NKCC_gene = {
-	"V"   : 1.0,
-	"EMB" : 1.0,
-	"LAT" : 1.0,
-	"NEO" : 1.0,
-	"SAN" : 1.0	  
+	  "V" : 1.0,
+	  "EMB" : 1.0,
+	  "LAT" : 1.0,
+	  "NEO" : 1.0,
+	  "SAN" : 1.0	  
 }
 
 #IRyR
 RyR1 = {
-	"V"   : 1.0,
-	"EMB" : 0.05,
-	"LAT" : 0.4,
-	"NEO" : 0.4,
-	"SAN" : 1.0	  
+	  "V" : 1.0,
+	  "EMB" : 0.05,
+	  "LAT" : 0.4,
+	  "NEO" : 0.4,
+	  "SAN" : 1.0	  
 }
 
 #ISRCa
 SERCA = {
-	"V"   : 1.0,
-	"EMB" : 0.03,
-	"LAT" : 0.21,
-	"NEO" : 0.21,
-	"SAN" : 1.0  
+	  "V" : 1.0,
+	  "EMB" : 0.03,
+	  "LAT" : 0.21,
+	  "NEO" : 0.21,
+	  "SAN" : 1.0  
 }
+
 
 #Ileak
 leak_act = {
-	"V"   : 1.0,
-	"EMB" : 0.04,
-	"LAT" : 0.3,
-	"NEO" : 0.3,
-	"SAN" : 1.0  
+	  "V" : 1.0,
+	  "EMB" : 0.04,
+	  "LAT" : 0.3,
+	  "NEO" : 0.3,
+	  "SAN" : 1.0  
 }
 
 transfer_act = {
-	"V"   : 1.0,
-	"EMB" : 0.04,
-	"LAT" : 0.3,
-	"NEO" : 0.3,
-	"SAN" : 1.0  
+	  "V" : 1.0,
+	  "EMB" : 0.04,
+	  "LAT" : 0.3,
+	  "NEO" : 0.3,
+	  "SAN" : 1.0  
 }
 
 diadicFactor = {
-	"V"   : -150.0,
+	"V" : -150.0,
 	"EMB" : -3.0,
 	"LAT" : -60.0,
 	"NEO" : -60.0,
 	"SAN" : -150.0
 }
-
 SRtrans_permeabilityCa = {
-	"V"   : 5.0e+3,
-	"EMB" : 5.0e+3,
-	"LAT" : 5.0e+3,
-	"NEO" : 5.0e+3,
-	"SAN" : 0.99e+3,
+		       "V" : 5.0e+3,
+		       "EMB" : 5.0e+3,
+		       "LAT" : 5.0e+3,
+		       "NEO" : 5.0e+3,
+		       "SAN" : 0.99e+3,
 }
 
-CurrentClamp_setting = {        # [ amplitude, onset, offset, interval ]
-	"V"   : [ -8000.0, 50.0, 52.0, 400.0 ],
-	"EMB" : [     0.0, 50.0, 52.0, 400.0 ],
-	"LAT" : [     0.0, 50.0, 52.0, 400.0 ],
-	"NEO" : [     0.0, 50.0, 52.0, 400.0 ],
-	"SAN" : [     0.0, 50.0, 52.0, 400.0 ],
-}
-
-CurrentClamp_amplitude =  CurrentClamp_setting[ SimulationMode ][ 0 ]
-CurrentClamp_onset     =  CurrentClamp_setting[ SimulationMode ][ 1 ]
-CurrentClamp_offset    =  CurrentClamp_setting[ SimulationMode ][ 2 ]
-CurrentClamp_interval  =  CurrentClamp_setting[ SimulationMode ][ 3 ]
+CurrentClamp_amplitude = -8000.0
+CurrentClamp_onset     =  50.00
+CurrentClamp_offset    =  52.0
+CurrentClamp_interval  =  400.0
 
 
 ''' メソッド '''
@@ -1707,6 +1695,8 @@ System System( /CELL/MEMBRANE )
 
 }
 
+
+                  
 System System( /CELL/CYTOPLASM/SRREL )
 {
 	StepperID	ODE;
@@ -1882,8 +1872,12 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 	}
 }
 
+@# TIME_SERIES
+@include( 'time_series.em' )
+                                   
+
 @# ミトコンドリア｛ /CELL/CYTOPLASM/MITOCHONDRIA ｝
-@include( Mit_Model_File )
+@include( 'Mitochondria.em' )
 
 @# 筋収縮
 @include( 'IsotonicContraction.em' )
@@ -1910,7 +1904,6 @@ System System( /CELL/CYTOPLASM/SEPARATOR )
 @include( 'NKCC.em' )    @# Na, K,     Cl
 @include( 'IVRCC.em' )   @#            Cl
 @include( 'ICFTR.em' )   @#            Cl
-
 @include( 'Iha.em' )     @# Na, K
 
 @# 筋小胞体
