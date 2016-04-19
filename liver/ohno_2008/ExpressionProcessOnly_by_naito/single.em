@@ -50,6 +50,7 @@ MetaNet_Yd_2x2iP0S1 = '( %(S_2x2iP0S1)s / ( 1.0 + %(TermS_2iP0S1)s * ( 1.0 + %(T
 }
 
 Stepper FixedODE1Stepper( ODE ){}
+#Stepper ODE45Stepper( ODE ){}
 #Stepper ODEStepper( ODE ){}
 
 # /SIN¢Í/CELL/CYT¢Í/CELL/MIT
